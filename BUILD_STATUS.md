@@ -1,3 +1,7 @@
+## Cloud continuation / Cloud devam durumu —2026-09-10
+
+M1–M4 are locally verified in the independent private sibling cloud repository: real PostgreSQL/auth/collector, analytics, exports/deletion recovery, members/operators and billing/mail contracts with EN/TR browser flows. The cloud's default test gate now runs this packed SDK with an official MCP client/server and proves the original result, private-canary exclusion and durable cloud count. SDK M0 support boundary and70-test/packed-consumer proof are unchanged. Owner authorized cloud deployment to pulse.reviseflow.io on ReviseFlow VPS; M5 Linux load and final deployment verification are active. SDK/npm/public repository publication and live payment charges remain unauthorized. The pinned SDK CI workflow is implemented but has not run on a remote repository. See the sibling cloud BUILD_STATUS for current full-product results and external gates.
+
 # Pulse build checkpoint / Geliştirme durumu
 
 Updated: 2026-09-10. **M0: FIXTURE_VERIFIED (local Node/Streamable HTTP scope).**
