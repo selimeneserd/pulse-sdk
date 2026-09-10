@@ -1,0 +1,28 @@
+{
+  "name": "@pulse-sdk/core",
+  "version": "0.0.0-m0",
+  "license": "MIT",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=24.20.0 <25"
+  },
+  "files": [
+    "dist",
+    "contracts",
+    "LICENSE",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./contracts/event-v1.schema.json": "./contracts/event-v1.schema.json",
+    "./contracts/batch-v1.schema.json": "./contracts/batch-v1.schema.json"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepublishOnly": "node -e \"throw new Error('OWNER_PUBLICATION_AUTHORIZATION_REQUIRED')\""
+  }
+}

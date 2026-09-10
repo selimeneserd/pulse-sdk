@@ -1,0 +1,553 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-09-10T12:30:15.174Z",
+  "declaredProjectDate": "2026-09-10",
+  "purpose": "M0 exact dependency selection and upstream evidence; runtime compatibility requires executed fixture results.",
+  "packages": [
+    {
+      "name": "@modelcontextprotocol/server",
+      "selectedVersion": "2.0.0",
+      "source": "https://registry.npmjs.org/%40modelcontextprotocol%2Fserver",
+      "versionSource": "https://registry.npmjs.org/%40modelcontextprotocol%2Fserver/2.0.0",
+      "distTags": {
+        "latest": "2.0.0"
+      },
+      "publishedAt": "2026-07-27T23:55:22.239Z",
+      "registryLicense": "MIT",
+      "engines": {
+        "node": ">=20"
+      },
+      "peerDependencies": null,
+      "peerDependenciesMeta": null,
+      "dependencies": {
+        "zod": "^4.2.0",
+        "@modelcontextprotocol/core": "2.0.0"
+      },
+      "dist": {
+        "tarball": "https://registry.npmjs.org/@modelcontextprotocol/server/-/server-2.0.0.tgz",
+        "integrity": "sha512-YhHWdHfpFMQfd0prsEnxKeS3Qz3ytIGmsS0sth4KDjnacIT7hxk6hXHkJ9KysxlkvTM+WZAtQbbcUhdoP4Hvtw==",
+        "shasum": "4fae5ccb8f7925ed9a6bf6595bb3b58617063ffd"
+      },
+      "gitHead": null,
+      "archiveInspection": {
+        "integrityVerified": true,
+        "licensePath": "package/LICENSE",
+        "licenseSha256": "0382b0057770ca05e9c350a50aa3b1c1fea84da0bc81d723bf00b9aa841be58a",
+        "containsApache2": true,
+        "containsMit": true,
+        "containsCcBy4Documentation": true,
+        "note": "Archive LICENSE describes an Apache-2.0 / MIT contribution transition and CC-BY-4.0 documentation, despite registry metadata license MIT. Preserve the actual upstream license and applicable notices if copying or bundling dependency material."
+      }
+    },
+    {
+      "name": "@modelcontextprotocol/client",
+      "selectedVersion": "2.0.0",
+      "source": "https://registry.npmjs.org/%40modelcontextprotocol%2Fclient",
+      "versionSource": "https://registry.npmjs.org/%40modelcontextprotocol%2Fclient/2.0.0",
+      "distTags": {
+        "latest": "2.0.0"
+      },
+      "publishedAt": "2026-07-27T23:55:22.113Z",
+      "registryLicense": "MIT",
+      "engines": {
+        "node": ">=20"
+      },
+      "peerDependencies": null,
+      "peerDependenciesMeta": null,
+      "dependencies": {
+        "zod": "^4.2.0",
+        "jose": "^6.1.3",
+        "cross-spawn": "^7.0.5",
+        "eventsource": "^3.0.2",
+        "pkce-challenge": "^5.0.0",
+        "eventsource-parser": "^3.0.0",
+        "@modelcontextprotocol/core": "2.0.0"
+      },
+      "dist": {
+        "tarball": "https://registry.npmjs.org/@modelcontextprotocol/client/-/client-2.0.0.tgz",
+        "integrity": "sha512-8f1OghQ2rjzIOfqgUCP+8GiUWqRs89njoWLNqAe8kWmDePv3s1fZXseej+QXemssEuuOvLLmLO/kqM3IQHtISw==",
+        "shasum": "4dc18c983c7acb40040f08442123e3c5b88d6074"
+      },
+      "gitHead": null,
+      "archiveInspection": {
+        "integrityVerified": true,
+        "licensePath": "package/LICENSE",
+        "licenseSha256": "0382b0057770ca05e9c350a50aa3b1c1fea84da0bc81d723bf00b9aa841be58a",
+        "containsApache2": true,
+        "containsMit": true,
+        "containsCcBy4Documentation": true,
+        "note": "Archive LICENSE describes an Apache-2.0 / MIT contribution transition and CC-BY-4.0 documentation, despite registry metadata license MIT. Preserve the actual upstream license and applicable notices if copying or bundling dependency material."
+      }
+    },
+    {
+      "name": "@modelcontextprotocol/node",
+      "selectedVersion": "2.0.0",
+      "source": "https://registry.npmjs.org/%40modelcontextprotocol%2Fnode",
+      "versionSource": "https://registry.npmjs.org/%40modelcontextprotocol%2Fnode/2.0.0",
+      "distTags": {
+        "latest": "2.0.0"
+      },
+      "publishedAt": "2026-07-27T23:55:17.622Z",
+      "registryLicense": "MIT",
+      "engines": {
+        "node": ">=20"
+      },
+      "peerDependencies": {
+        "hono": "^4.11.4",
+        "@modelcontextprotocol/server": "^2.0.0"
+      },
+      "peerDependenciesMeta": {
+        "hono": {
+          "optional": true
+        }
+      },
+      "dependencies": {
+        "@hono/node-server": "^1.19.9"
+      },
+      "dist": {
+        "tarball": "https://registry.npmjs.org/@modelcontextprotocol/node/-/node-2.0.0.tgz",
+        "integrity": "sha512-Y4hAC2XdGDUdDOCbLDOCA4+aL3NUldjsOWlDL/YwpAxrPhRm1xHd7lZ+mLacvZ9t3PaH28wgNoaLQGrIk1P2pg==",
+        "shasum": "3851275cb1c08aeb113d5b7cbe6dbe7adab37c65"
+      },
+      "gitHead": null,
+      "archiveInspection": {
+        "integrityVerified": true,
+        "licensePath": "package/LICENSE",
+        "licenseSha256": "0382b0057770ca05e9c350a50aa3b1c1fea84da0bc81d723bf00b9aa841be58a",
+        "containsApache2": true,
+        "containsMit": true,
+        "containsCcBy4Documentation": true,
+        "note": "Archive LICENSE describes an Apache-2.0 / MIT contribution transition and CC-BY-4.0 documentation, despite registry metadata license MIT. Preserve the actual upstream license and applicable notices if copying or bundling dependency material."
+      }
+    },
+    {
+      "name": "pnpm",
+      "selectedVersion": "11.22.0",
+      "source": "https://registry.npmjs.org/pnpm",
+      "versionSource": "https://registry.npmjs.org/pnpm/11.22.0",
+      "distTags": {
+        "latest-1": "1.43.1",
+        "latest-2": "2.25.7",
+        "latest-3": "3.8.1",
+        "latest-4": "4.14.4",
+        "latest-5": "5.18.10",
+        "dev": "6.23.7-202112041634",
+        "pr4475": "0.0.0-pr4475.1",
+        "next-6": "6.35.1",
+        "latest-6": "6.35.1",
+        "latest-7": "7.33.5",
+        "next-7": "7.33.7",
+        "latest-8": "8.15.9",
+        "next-8": "8.15.9",
+        "latest-9": "9.15.9",
+        "next-9": "9.15.9",
+        "latest-10": "10.34.5",
+        "next-10": "10.34.5",
+        "latest-12": "12.3.4",
+        "latest": "12.3.4",
+        "next-12": "12.4.0",
+        "next-11": "11.26.0",
+        "latest-11": "11.26.0"
+      },
+      "publishedAt": "2026-08-15T17:15:57.450Z",
+      "registryLicense": "MIT",
+      "engines": {
+        "node": ">=22.13"
+      },
+      "peerDependencies": null,
+      "peerDependenciesMeta": null,
+      "dependencies": null,
+      "dist": {
+        "tarball": "https://registry.npmjs.org/pnpm/-/pnpm-11.22.0.tgz",
+        "integrity": "sha512-H/hwxMYTPf2I+yr8Rt0T1H8JyXlLQ4xv20fKmMrzvBY4HuC+k6CRuOOCTPAfiJ9G19niCRD7C+GrD7W6qA3WIQ==",
+        "shasum": "c824bce7ddda0454998313c86fcb3d613d3f18bc"
+      },
+      "gitHead": null
+    },
+    {
+      "name": "typescript",
+      "selectedVersion": "7.0.2",
+      "source": "https://registry.npmjs.org/typescript",
+      "versionSource": "https://registry.npmjs.org/typescript/7.0.2",
+      "distTags": {
+        "dev": "3.9.4",
+        "tag-for-publishing-older-releases": "4.1.6",
+        "insiders": "4.6.2-insiders.20220225",
+        "beta": "6.0.0-beta",
+        "rc": "7.0.1-rc",
+        "latest": "7.0.2",
+        "next": "7.1.0-dev.20260910.1"
+      },
+      "publishedAt": "2026-07-08T15:55:18.431Z",
+      "registryLicense": "Apache-2.0",
+      "engines": {
+        "node": ">=16.20.0"
+      },
+      "peerDependencies": null,
+      "peerDependenciesMeta": null,
+      "dependencies": {
+        "@typescript/typescript-aix-ppc64": "7.0.2",
+        "@typescript/typescript-linux-arm": "7.0.2",
+        "@typescript/typescript-linux-x64": "7.0.2",
+        "@typescript/typescript-sunos-x64": "7.0.2",
+        "@typescript/typescript-win32-x64": "7.0.2",
+        "@typescript/typescript-darwin-x64": "7.0.2",
+        "@typescript/typescript-netbsd-x64": "7.0.2",
+        "@typescript/typescript-freebsd-x64": "7.0.2",
+        "@typescript/typescript-linux-arm64": "7.0.2",
+        "@typescript/typescript-linux-ppc64": "7.0.2",
+        "@typescript/typescript-linux-s390x": "7.0.2",
+        "@typescript/typescript-openbsd-x64": "7.0.2",
+        "@typescript/typescript-win32-arm64": "7.0.2",
+        "@typescript/typescript-darwin-arm64": "7.0.2",
+        "@typescript/typescript-netbsd-arm64": "7.0.2",
+        "@typescript/typescript-freebsd-arm64": "7.0.2",
+        "@typescript/typescript-linux-loong64": "7.0.2",
+        "@typescript/typescript-linux-riscv64": "7.0.2",
+        "@typescript/typescript-openbsd-arm64": "7.0.2",
+        "@typescript/typescript-linux-mips64el": "7.0.2"
+      },
+      "dist": {
+        "tarball": "https://registry.npmjs.org/typescript/-/typescript-7.0.2.tgz",
+        "integrity": "sha512-8FYau96o3NKOhbjKi/qNvG/W5jhzxkbdm5sj9AbZ/5T5sWqn3hJgLfGx27sRKZWTvyzCP8dLRBTf5tBTSRVUNA==",
+        "shasum": "9ec773d7954a8c182c17cc5bbd575aa28bc51582"
+      },
+      "gitHead": "2bd066d87f5bafd315be9f40889d0a60b9e58e0b"
+    },
+    {
+      "name": "vitest",
+      "selectedVersion": "5.0.0",
+      "source": "https://registry.npmjs.org/vitest",
+      "versionSource": "https://registry.npmjs.org/vitest/5.0.0",
+      "distTags": {
+        "V3": "3.2.7",
+        "beta": "5.0.0-beta.7",
+        "rc": "5.0.0-rc.4",
+        "latest": "5.0.0",
+        "V4": "4.1.11"
+      },
+      "publishedAt": "2026-09-03T12:24:30.312Z",
+      "registryLicense": "MIT",
+      "engines": {
+        "node": "^22.12.0 || ^24.0.0 || >=26.0.0"
+      },
+      "peerDependencies": {
+        "vite": "^6.4.0 || ^7.0.0 || ^8.0.0",
+        "jsdom": "*",
+        "happy-dom": "*",
+        "@vitest/ui": "5.0.0",
+        "@types/node": "^22.0.0 || >=24.0.0",
+        "@edge-runtime/vm": "*",
+        "@opentelemetry/api": "^1.9.0",
+        "@vitest/coverage-v8": "5.0.0",
+        "@vitest/browser-preview": "5.0.0",
+        "@vitest/coverage-istanbul": "5.0.0",
+        "@vitest/browser-playwright": "5.0.0",
+        "@vitest/browser-webdriverio": "^5.0.0-beta.5 || >=5.0.0"
+      },
+      "peerDependenciesMeta": {
+        "vite": {
+          "optional": false
+        },
+        "jsdom": {
+          "optional": true
+        },
+        "happy-dom": {
+          "optional": true
+        },
+        "@vitest/ui": {
+          "optional": true
+        },
+        "@types/node": {
+          "optional": true
+        },
+        "@edge-runtime/vm": {
+          "optional": true
+        },
+        "@opentelemetry/api": {
+          "optional": true
+        },
+        "@vitest/coverage-v8": {
+          "optional": true
+        },
+        "@vitest/browser-preview": {
+          "optional": true
+        },
+        "@vitest/coverage-istanbul": {
+          "optional": true
+        },
+        "@vitest/browser-playwright": {
+          "optional": true
+        },
+        "@vitest/browser-webdriverio": {
+          "optional": true
+        }
+      },
+      "dependencies": {
+        "chai": "^6.2.2",
+        "obug": "^2.1.4",
+        "std-env": "^4.2.0",
+        "tinyexec": "1.3.0",
+        "picomatch": "^4.0.7",
+        "tinybench": "6.1.4",
+        "tinyglobby": "^0.2.17",
+        "@types/chai": "^5.2.2",
+        "expect-type": "^1.4.0",
+        "magic-string": "^1.2.3",
+        "@vitest/mocker": "5.0.0",
+        "es-module-lexer": "^2.3.2",
+        "why-is-node-running": "^2.3.0"
+      },
+      "dist": {
+        "tarball": "https://registry.npmjs.org/vitest/-/vitest-5.0.0.tgz",
+        "integrity": "sha512-gpsMNoRhMjMktVxPtstOH4/PJuPyovVaMDr4oDilXaGH1EcqM2OE96SoHT2VIQ6fTGtTjqmHDrEu2X9RQiXf8Q==",
+        "shasum": "a85f075e65bc7c87cce4df2f9114214fbd92f245"
+      },
+      "gitHead": null
+    },
+    {
+      "name": "zod",
+      "selectedVersion": "4.6.1",
+      "source": "https://registry.npmjs.org/zod",
+      "versionSource": "https://registry.npmjs.org/zod/4.6.1",
+      "distTags": {
+        "next": "3.25.0-beta.20250519T094321",
+        "alpha": "3.25.68-alpha.11",
+        "beta": "4.1.13-beta.0",
+        "canary": "4.5.0-canary.20260828T171753",
+        "latest": "4.6.1"
+      },
+      "publishedAt": "2026-09-09T21:50:12.924Z",
+      "registryLicense": "MIT",
+      "engines": null,
+      "peerDependencies": null,
+      "peerDependenciesMeta": null,
+      "dependencies": null,
+      "dist": {
+        "tarball": "https://registry.npmjs.org/zod/-/zod-4.6.1.tgz",
+        "integrity": "sha512-341aRWQsve0rvronKNTqZpjmzdbUDlFuzHaI/XLg/Ej82qffDJRRfBTCuv7+9q/rMjB6LSLyEBnW4InJeMtt/Q==",
+        "shasum": "08a340def8104c8381a7796af3806e4633025390"
+      },
+      "gitHead": null
+    },
+    {
+      "name": "ajv",
+      "selectedVersion": "8.20.0",
+      "source": "https://registry.npmjs.org/ajv",
+      "versionSource": "https://registry.npmjs.org/ajv/8.20.0",
+      "distTags": {
+        "4.x": "4.11.8",
+        "beta": "8.11.1",
+        "latest": "8.20.0",
+        "legacy": "6.15.0"
+      },
+      "publishedAt": "2026-04-24T15:22:16.529Z",
+      "registryLicense": "MIT",
+      "engines": null,
+      "peerDependencies": null,
+      "peerDependenciesMeta": null,
+      "dependencies": {
+        "fast-deep-equal": "^3.1.3",
+        "fast-uri": "^3.0.1",
+        "json-schema-traverse": "^1.0.0",
+        "require-from-string": "^2.0.2"
+      },
+      "dist": {
+        "tarball": "https://registry.npmjs.org/ajv/-/ajv-8.20.0.tgz",
+        "integrity": "sha512-Thbli+OlOj+iMPYFBVBfJ3OmCAnaSyNn4M1vz9T6Gka5Jt9ba/HIR56joy65tY6kx/FCF5VXNB819Y7/GUrBGA==",
+        "shasum": "304b3636add88ba7d936760dd50ece006dea95f9"
+      },
+      "gitHead": "0fba0b8e649909613cfce0999b149cd08f4a4987"
+    },
+    {
+      "name": "ajv-formats",
+      "selectedVersion": "3.0.1",
+      "source": "https://registry.npmjs.org/ajv-formats",
+      "versionSource": "https://registry.npmjs.org/ajv-formats/3.0.1",
+      "distTags": {
+        "latest": "3.0.1",
+        "beta": "3.0.0-rc.0"
+      },
+      "publishedAt": "2024-03-30T11:30:26.728Z",
+      "registryLicense": "MIT",
+      "engines": null,
+      "peerDependencies": {
+        "ajv": "^8.0.0"
+      },
+      "peerDependenciesMeta": {
+        "ajv": {
+          "optional": true
+        }
+      },
+      "dependencies": {
+        "ajv": "^8.0.0"
+      },
+      "dist": {
+        "tarball": "https://registry.npmjs.org/ajv-formats/-/ajv-formats-3.0.1.tgz",
+        "integrity": "sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==",
+        "shasum": "3d5dc762bca17679c3c2ea7e90ad6b7532309578"
+      },
+      "gitHead": "1fb3fa7d967f919ff924bb34aef73a2f39ab0de3"
+    },
+    {
+      "name": "@types/node",
+      "selectedVersion": "24.13.4",
+      "source": "https://registry.npmjs.org/%40types%2Fnode",
+      "versionSource": "https://registry.npmjs.org/%40types%2Fnode/24.13.4",
+      "distTags": {
+        "ts2.4": "12.12.6",
+        "ts2.6": "12.12.6",
+        "ts2.0": "12.12.6",
+        "ts2.1": "12.12.6",
+        "ts2.5": "12.12.6",
+        "ts2.7": "12.12.6",
+        "ts2.3": "12.12.6",
+        "ts2.2": "12.12.6",
+        "ts2.8": "13.13.4",
+        "ts2.9": "14.0.1",
+        "ts3.0": "14.6.0",
+        "ts3.1": "14.10.1",
+        "ts3.2": "14.14.9",
+        "ts3.3": "14.14.20",
+        "ts3.4": "14.14.31",
+        "ts3.5": "15.6.1",
+        "ts3.6": "16.6.2",
+        "ts3.7": "16.11.7",
+        "ts3.8": "17.0.21",
+        "ts3.9": "17.0.41",
+        "ts4.0": "18.7.14",
+        "ts4.1": "18.11.9",
+        "ts4.2": "18.15.3",
+        "ts4.3": "20.6.0",
+        "ts4.4": "20.6.0",
+        "ts4.5": "20.10.0",
+        "ts4.6": "20.11.25",
+        "ts4.7": "20.14.8",
+        "ts4.8": "22.9.0",
+        "ts4.9": "22.9.3",
+        "ts5.0": "22.13.14",
+        "ts5.1": "24.1.0",
+        "ts5.2": "25.5.0",
+        "ts5.4": "25.9.3",
+        "ts5.3": "25.9.3",
+        "ts5.5": "25.9.3",
+        "latest": "22.20.2",
+        "ts5.6": "26.5.1",
+        "ts5.8": "26.5.1",
+        "ts6.0": "26.5.1",
+        "ts5.7": "26.5.1",
+        "ts5.9": "26.5.1"
+      },
+      "publishedAt": "2026-09-09T18:10:47.240Z",
+      "registryLicense": "MIT",
+      "engines": null,
+      "peerDependencies": {},
+      "peerDependenciesMeta": null,
+      "dependencies": {
+        "undici-types": "~7.18.0"
+      },
+      "dist": {
+        "tarball": "https://registry.npmjs.org/@types/node/-/node-24.13.4.tgz",
+        "integrity": "sha512-YJ7EqCstVTzIr0fMr7qul/977en+pQHrfmuKIo6Zr9i75Be21dr3MovcfvGtyvi2HAUrRerWps5sMO9I7WaxDw==",
+        "shasum": "e54f74ceae6838bff57a814b7d31f5042a0f9074"
+      },
+      "gitHead": null
+    }
+  ],
+  "node": {
+    "selectedVersion": "24.20.0",
+    "releaseSource": "https://nodejs.org/dist/index.json",
+    "selectedRelease": {
+      "version": "v24.20.0",
+      "date": "2026-08-26",
+      "files": [
+        "aix-ppc64",
+        "headers",
+        "linux-arm64",
+        "linux-ppc64le",
+        "linux-s390x",
+        "linux-x64",
+        "linux-x64-musl",
+        "osx-arm64-tar",
+        "osx-x64-pkg",
+        "osx-x64-tar",
+        "src",
+        "win-arm64-7z",
+        "win-arm64-zip",
+        "win-x64-7z",
+        "win-x64-exe",
+        "win-x64-msi",
+        "win-x64-zip"
+      ],
+      "npm": "11.19.0",
+      "v8": "13.6.233.17",
+      "uv": "1.52.1",
+      "zlib": "1.3.2.1-motley",
+      "openssl": "3.5.7",
+      "modules": "137",
+      "lts": "Krypton",
+      "security": false
+    },
+    "newerLtsPatchAvailable": {
+      "version": "v24.21.0",
+      "date": "2026-09-07",
+      "files": [
+        "aix-ppc64",
+        "headers",
+        "linux-arm64",
+        "linux-ppc64le",
+        "linux-s390x",
+        "linux-x64",
+        "linux-x64-musl",
+        "osx-arm64-tar",
+        "osx-x64-pkg",
+        "osx-x64-tar",
+        "src",
+        "win-arm64-7z",
+        "win-arm64-zip",
+        "win-x64-7z",
+        "win-x64-exe",
+        "win-x64-msi",
+        "win-x64-zip"
+      ],
+      "npm": "11.19.0",
+      "v8": "13.6.233.17",
+      "uv": "1.52.1",
+      "zlib": "1.3.2.1-motley",
+      "openssl": "3.5.8",
+      "modules": "137",
+      "lts": "Krypton",
+      "security": false
+    },
+    "scheduleSource": "https://raw.githubusercontent.com/nodejs/Release/main/schedule.json",
+    "schedule": {
+      "start": "2025-05-06",
+      "lts": "2025-10-28",
+      "maintenance": "2026-10-20",
+      "end": "2028-04-30",
+      "codename": "Krypton"
+    },
+    "checksumSource": "https://nodejs.org/dist/v24.20.0/SHASUMS256.txt",
+    "darwinArm64TarGzSha256": "40e5607e5ecb3db9192723776da2d75d966260fc74a7a9e731c1bd67dda96bc8",
+    "note": "Official checksum recorded; no downloaded Node binary was checked in this evidence step."
+  },
+  "legacyMcp": {
+    "source": "https://registry.npmjs.org/@modelcontextprotocol%2Fsdk",
+    "distTags": {
+      "latest": "1.30.0"
+    },
+    "latestPublishedAt": "2026-07-27T17:56:01.640Z",
+    "selected": false
+  },
+  "officialSources": [
+    "https://github.com/modelcontextprotocol/typescript-sdk",
+    "https://github.com/modelcontextprotocol/typescript-sdk/releases",
+    "https://github.com/modelcontextprotocol/typescript-sdk/blob/main/ROADMAP.md",
+    "https://ts.sdk.modelcontextprotocol.io/v2/",
+    "https://nodejs.org/en/about/previous-releases",
+    "https://pnpm.io/installation",
+    "https://www.typescriptlang.org/download/",
+    "https://vitest.dev/guide/"
+  ],
+  "dateDiscrepancy": "None observed: current upstream docs and registry agree that MCP v2.0.0 is stable. Source-notes alpha-release concern is superseded by this live registry and archive check."
+}

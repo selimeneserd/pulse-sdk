@@ -1,0 +1,680 @@
+{
+  "gate": "M0_LOCAL_PACKED_CONSUMER",
+  "status": "PASSED",
+  "started_at": "2026-09-10T12:48:57.596Z",
+  "node": "v24.20.0",
+  "package_manager": "11.22.0",
+  "npm": "11.19.0",
+  "publication_performed": false,
+  "production_deployment_performed": false,
+  "collector_boundary": "Ephemeral in-memory local test sink; no durable cloud ingestion claim.",
+  "packages": [
+    {
+      "name": "@pulse-sdk/core",
+      "version": "0.0.0-m0",
+      "archive": "artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+      "sha256": "d453bd86d80b0f5746c4a47fc4f7896d591b5802e5cdd5d13a04c4a672675cb3",
+      "dry_run_matches_archive": true,
+      "allowlist_passed": true,
+      "scoped_secret_and_private_source_scan_passed": true,
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "e9afb37bf5172658ca7888703d0037a091efcc1aed8030083886d16f9a177754"
+        },
+        {
+          "path": "README.md",
+          "sha256": "96aab5e425a1626e10a403761705ba84395a27af253802dd9af2c500bf118070"
+        },
+        {
+          "path": "contracts/batch-v1.schema.json",
+          "sha256": "fe224e627594de9afdffa5c4ade3c60756b75524456d7a802c35c5b508163af7"
+        },
+        {
+          "path": "contracts/event-v1.schema.json",
+          "sha256": "573efd0b1ad609cd7b6ce2aabb7e961865561befe78da1e1537e0ac157ef5d2e"
+        },
+        {
+          "path": "dist/config.d.ts",
+          "sha256": "e4823da61efded878968e379414a29d1c77edc530a3ecf7b2d7cb8e0fe63ad41"
+        },
+        {
+          "path": "dist/config.js",
+          "sha256": "085f39dfc3f55574356ed1e432bc286d03c3e38a6406097d59a8d380e4a2b8d1"
+        },
+        {
+          "path": "dist/config.js.map",
+          "sha256": "8b0e8c150c75c900ac620997b415b65a00096cf43cec5de2d6bcaaa63960bcb7"
+        },
+        {
+          "path": "dist/event.d.ts",
+          "sha256": "2c313c0bbc2184ff6a1de371dbe2197029ef7d7385dc8247388eefed44f9d4c0"
+        },
+        {
+          "path": "dist/event.js",
+          "sha256": "6f7b074241f829cc18c3e86a624d6f812ef3acf04922f00a61ec94ea68c7abf7"
+        },
+        {
+          "path": "dist/event.js.map",
+          "sha256": "c598e93235f6171b347cf605c746c77186f2da78a95b30cb3d4041dd6dcfac73"
+        },
+        {
+          "path": "dist/exporter.d.ts",
+          "sha256": "3342e1fa062da49927f51bf4dd8e7910b27565f6f54355085772c1b5763d654b"
+        },
+        {
+          "path": "dist/exporter.js",
+          "sha256": "e73ce721b85f7bce4ee358e80929e18aa1a6ab59e46f6bdd32272e3a1070c94e"
+        },
+        {
+          "path": "dist/exporter.js.map",
+          "sha256": "bba64a9de9be5b2eb416b28914240519566b4ad313f514cc74ec4268f00d6c5d"
+        },
+        {
+          "path": "dist/index.d.ts",
+          "sha256": "7e037600eed4bf150ecb28815f62617110f062e3664a10796686f4f7907c816a"
+        },
+        {
+          "path": "dist/index.js",
+          "sha256": "3d8fcb3a8f7d8fd9a078fcfbb1a3b567493295371860287d536dbbf82968bbef"
+        },
+        {
+          "path": "dist/index.js.map",
+          "sha256": "044945c45275613e9e31dbc6d111a787dd9aaf1f2346fc5dae87de4bf1a45580"
+        },
+        {
+          "path": "dist/types.d.ts",
+          "sha256": "1e2ca3757dabd4b12cd7fdc1ead3246ef9dab496ecc365502e9be4e676cd9975"
+        },
+        {
+          "path": "dist/types.js",
+          "sha256": "01ae2a5b120382f9a648ced7ee8507493a134f216d100fc61600c6c9738235d2"
+        },
+        {
+          "path": "dist/types.js.map",
+          "sha256": "a7de897b48fe57bf54d6f84169135ff2e89e2fc95ea0a0a815761cc29a41efee"
+        },
+        {
+          "path": "package.json",
+          "sha256": "f2b7a2d3f5fa54309593d5d790ca6511fc338a7fb2674a421aaee02d4d40530c"
+        }
+      ]
+    },
+    {
+      "name": "@pulse-sdk/mcp",
+      "version": "0.0.0-m0",
+      "archive": "artifacts/packed-i4y9NA/pulse-sdk-mcp-0.0.0-m0.tgz",
+      "sha256": "56946d1f34260db77295ba0f25b8d4dfbdb35e24269667ed3766333c3a6d0176",
+      "dry_run_matches_archive": true,
+      "allowlist_passed": true,
+      "scoped_secret_and_private_source_scan_passed": true,
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "e9afb37bf5172658ca7888703d0037a091efcc1aed8030083886d16f9a177754"
+        },
+        {
+          "path": "README.md",
+          "sha256": "c25bb0493ebd717e64874cb716639e90c2432ae00dc112556c50b7a4b58228d6"
+        },
+        {
+          "path": "dist/index.d.ts",
+          "sha256": "bcedb0f178e1dceb7c9a286ca31cbd43f97b18845f33a6e04d26ad6506e3241e"
+        },
+        {
+          "path": "dist/index.js",
+          "sha256": "84b26e3932f9ac99a792e0d44aeb33a8bbd194aaa2015ee7a5ac48f8bc1fe1c2"
+        },
+        {
+          "path": "dist/index.js.map",
+          "sha256": "2558fa21c704d429c03794725bb8731494b235387a9bf05f62c3c8f2cd25b09e"
+        },
+        {
+          "path": "package.json",
+          "sha256": "380eedfff31ee7ed4259d2a1b2117a6032de20c0d699e6b4d698c543476b43af"
+        }
+      ]
+    }
+  ],
+  "consumer": {
+    "dependencies": {
+      "@modelcontextprotocol/client": "2.0.0",
+      "@modelcontextprotocol/node": "2.0.0",
+      "@modelcontextprotocol/server": "2.0.0",
+      "@pulse-sdk/core": "0.0.0-m0",
+      "@pulse-sdk/mcp": "0.0.0-m0",
+      "@types/node": "24.13.4",
+      "typescript": "7.0.2",
+      "zod": "4.6.1"
+    },
+    "unrelated_temporary_directory": true,
+    "workspace_source_links_absent": true,
+    "typed_registration_compilation_passed": true,
+    "runtime": {
+      "passed": true,
+      "observed": 1,
+      "accepted": 1,
+      "emitted_events": 1,
+      "schema_exports_verified": true,
+      "export_is_separate_from_handler_return": true
+    },
+    "unsupported_version_guard": {
+      "passed": true,
+      "kind": "simulated-package-metadata-drift",
+      "actual_installed_code": "2.0.0",
+      "simulated_metadata_version": "2.0.1",
+      "expected_error": "UNSUPPORTED_MCP_VERSION",
+      "metadata_restored": true,
+      "real_2_0_1_compatibility_claimed": false
+    },
+    "fixture_source_sha256": "ea87571338dae8da480e895f5796f3528cf204383695679a411a006f558ed59a",
+    "locales": [
+      {
+        "locale": "en",
+        "passed": true,
+        "caller_result": {
+          "_meta": {
+            "io.modelcontextprotocol/serverInfo": {
+              "name": "pulse-local-fixture",
+              "version": "0.0.0"
+            }
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "5"
+            }
+          ],
+          "structuredContent": {
+            "sum": 5
+          }
+        },
+        "sanitized_event": {
+          "schema_version": 1,
+          "event_id": "8150afb4-8fa0-4924-a8a5-0e471409c409",
+          "kind": "tool_handler.completed",
+          "occurred_at": "2026-09-10T12:49:05.260Z",
+          "tool_name": "sum",
+          "duration_ms": 0.04704199999997627,
+          "outcome": "tool_success",
+          "identity_source": "none",
+          "identity_epoch": null,
+          "actor_id": null,
+          "conversation_id": null,
+          "client_name": null,
+          "client_version": null,
+          "client_source": "unknown",
+          "environment": "test",
+          "release": null,
+          "error_code": null,
+          "sdk_name": "@pulse-sdk/core",
+          "sdk_version": "0.0.0-m0",
+          "adapter": "mcp-typescript-2"
+        }
+      },
+      {
+        "locale": "tr",
+        "passed": true,
+        "caller_result": {
+          "_meta": {
+            "io.modelcontextprotocol/serverInfo": {
+              "name": "pulse-local-fixture",
+              "version": "0.0.0"
+            }
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "5"
+            }
+          ],
+          "structuredContent": {
+            "sum": 5
+          }
+        },
+        "sanitized_event": {
+          "schema_version": 1,
+          "event_id": "016a2291-5eb2-46af-9208-46fc79d6930f",
+          "kind": "tool_handler.completed",
+          "occurred_at": "2026-09-10T12:49:05.604Z",
+          "tool_name": "sum",
+          "duration_ms": 0.14183399999996027,
+          "outcome": "tool_success",
+          "identity_source": "none",
+          "identity_epoch": null,
+          "actor_id": null,
+          "conversation_id": null,
+          "client_name": null,
+          "client_version": null,
+          "client_source": "unknown",
+          "environment": "test",
+          "release": null,
+          "error_code": null,
+          "sdk_name": "@pulse-sdk/core",
+          "sdk_version": "0.0.0-m0",
+          "adapter": "mcp-typescript-2"
+        }
+      }
+    ]
+  },
+  "commands": [
+    {
+      "command": [
+        "pnpm",
+        "--version"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "npm",
+        "--version"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "pnpm",
+        "build"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "npm",
+        "pack",
+        "--dry-run",
+        "--json",
+        "--ignore-scripts"
+      ],
+      "cwd": "<sdk>/packages/core",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@pulse-sdk/core",
+        "pack",
+        "--pack-destination",
+        "<sdk>/artifacts/packed-i4y9NA"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-tzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "package/LICENSE"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "package/README.md"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "package/contracts/batch-v1.schema.json"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "package/contracts/event-v1.schema.json"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "package/dist/config.d.ts"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "package/dist/config.js"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "package/dist/config.js.map"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "package/dist/event.d.ts"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "package/dist/event.js"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "package/dist/event.js.map"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "package/dist/exporter.d.ts"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "package/dist/exporter.js"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "package/dist/exporter.js.map"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "package/dist/index.d.ts"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "package/dist/index.js"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "package/dist/index.js.map"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "package/dist/types.d.ts"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "package/dist/types.js"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "package/dist/types.js.map"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "package/package.json"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "npm",
+        "pack",
+        "--dry-run",
+        "--json",
+        "--ignore-scripts"
+      ],
+      "cwd": "<sdk>/packages/mcp",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@pulse-sdk/mcp",
+        "pack",
+        "--pack-destination",
+        "<sdk>/artifacts/packed-i4y9NA"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-tzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-mcp-0.0.0-m0.tgz"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-mcp-0.0.0-m0.tgz",
+        "package/LICENSE"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-mcp-0.0.0-m0.tgz",
+        "package/README.md"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-mcp-0.0.0-m0.tgz",
+        "package/dist/index.d.ts"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-mcp-0.0.0-m0.tgz",
+        "package/dist/index.js"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-mcp-0.0.0-m0.tgz",
+        "package/dist/index.js.map"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-mcp-0.0.0-m0.tgz",
+        "package/package.json"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "npm",
+        "install",
+        "--ignore-scripts",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "cwd": "<temporary-consumer>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "npm",
+        "ls",
+        "--json",
+        "--depth=0"
+      ],
+      "cwd": "<temporary-consumer>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "node",
+        "./node_modules/typescript/bin/tsc",
+        "-p",
+        "tsconfig.json"
+      ],
+      "cwd": "<temporary-consumer>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "node",
+        "consumer-runtime.mjs"
+      ],
+      "cwd": "<temporary-consumer>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "node",
+        "fixture.ts"
+      ],
+      "cwd": "<temporary-consumer>",
+      "exit_code": 0,
+      "environment": {
+        "PULSE_LOCALE": "en"
+      }
+    },
+    {
+      "command": [
+        "node",
+        "fixture.ts"
+      ],
+      "cwd": "<temporary-consumer>",
+      "exit_code": 0,
+      "environment": {
+        "PULSE_LOCALE": "tr"
+      }
+    },
+    {
+      "command": [
+        "node",
+        "unsupported-version.mjs"
+      ],
+      "cwd": "<temporary-consumer>",
+      "exit_code": 0
+    }
+  ],
+  "finished_at": "2026-09-10T12:49:05.820Z"
+}

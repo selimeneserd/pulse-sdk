@@ -1,0 +1,32 @@
+{
+  "name": "pulse-sdk-workspace",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "packageManager": "pnpm@11.22.0",
+  "engines": {
+    "node": ">=24.20.0 <25"
+  },
+  "scripts": {
+    "build": "pnpm -r build",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "check": "pnpm build && pnpm typecheck && pnpm test",
+    "fixture": "pnpm build && node examples/fixture.ts",
+    "verify:pack": "node scripts/verify-packed.mjs"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/server": "2.0.0",
+    "@modelcontextprotocol/client": "2.0.0",
+    "@modelcontextprotocol/node": "2.0.0",
+    "@modelcontextprotocol/core": "2.0.0",
+    "typescript": "7.0.2",
+    "vitest": "5.0.0",
+    "zod": "4.6.1",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "@types/node": "24.13.4",
+    "@pulse-sdk/core": "workspace:*",
+    "@pulse-sdk/mcp": "workspace:*"
+  }
+}

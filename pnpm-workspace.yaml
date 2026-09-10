@@ -1,0 +1,8 @@
+packages:
+  - 'packages/*'
+  - 'apps/*'
+minimumReleaseAgeExclude:
+  - '@types/node@24.13.4'
+  - zod@4.6.1
+overrides:
+  zod: '4.6.1'

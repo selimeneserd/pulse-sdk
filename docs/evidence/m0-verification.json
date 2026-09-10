@@ -1,0 +1,100 @@
+{
+  "milestone": "M0",
+  "capability_state": "FIXTURE_VERIFIED",
+  "recorded_at": "2026-09-10T12:48:11.134917+00:00",
+  "environment": {
+    "node": "24.20.0",
+    "pnpm": "11.22.0",
+    "typescript": "7.0.2",
+    "vitest": "5.0.0",
+    "platform": "darwin",
+    "architecture": "arm64",
+    "official_mcp_server": "2.0.0",
+    "official_mcp_client": "2.0.0",
+    "official_mcp_node": "2.0.0",
+    "protocol": "2026-07-28",
+    "zod": "4.6.1"
+  },
+  "commands": [
+    {
+      "cwd": "pulse-sdk",
+      "command": "fnm exec --using 24.20.0 pnpm install --frozen-lockfile",
+      "exit_code": 0,
+      "result": "All 3 workspace projects already up to date."
+    },
+    {
+      "cwd": "pulse-sdk",
+      "command": "fnm exec --using 24.20.0 pnpm check",
+      "exit_code": 0,
+      "result": "Both package builds passed; strict typecheck passed; 4 test files, 70 tests passed.",
+      "tests": {
+        "total": 70,
+        "passed": 70,
+        "failed": 0,
+        "duration_ms": 976,
+        "suites": {
+          "core.test.ts": 44,
+          "adapter.test.ts": 11,
+          "mcp-http.test.ts": 11,
+          "contracts.test.ts": 4
+        }
+      }
+    },
+    {
+      "cwd": "pulse-sdk",
+      "command": "fnm exec --using 24.20.0 node scripts/verify-packed.mjs",
+      "exit_code": 0,
+      "result": "Independent npm consumer from two tarballs, typecheck, real HTTP one-event proof, EN/TR, schema exports and simulated metadata drift rejection passed.",
+      "evidence": "packed-consumer.json"
+    },
+    {
+      "cwd": "pulse-cloud",
+      "command": "python3 contracts/verify_golden.py",
+      "exit_code": 0,
+      "result": "PASS: count, identity, outcomes, exact quantiles, breakdowns and duplicate IDs"
+    },
+    {
+      "cwd": "pulse-sdk",
+      "command": "fnm exec --using 24.20.0 pnpm verify:pack",
+      "exit_code": 0,
+      "result": "Final package README/source hashes rebuilt and independent tar consumer PASSED; current evidence in packed-consumer.json."
+    },
+    {
+      "cwd": "pulse-cloud",
+      "command": "fnm exec --using 24.20.0 pnpm install --frozen-lockfile && fnm exec --using 24.20.0 pnpm test:contracts",
+      "exit_code": 0,
+      "result": "Frozen-lockfile install and golden arithmetic fixtures passed."
+    },
+    {
+      "cwd": "pulse-cloud",
+      "command": "cmp contracts/event-v1.schema.json ../pulse-sdk/contracts/event-v1.schema.json && cmp contracts/batch-v1.schema.json ../pulse-sdk/contracts/batch-v1.schema.json",
+      "exit_code": 0,
+      "result": "Cloud and public SDK wire contracts are identical."
+    }
+  ],
+  "scope": {
+    "real_loopback_http": true,
+    "test_collector_only": true,
+    "durable_database_collector": false,
+    "real_chatgpt_or_claude_host": false,
+    "nextjs_serverless": false,
+    "production_deployment": false,
+    "package_publication": false
+  },
+  "observed_failures_fixed": [
+    "TS7 required explicit Node ambient types.",
+    "Zod4.5.4 transitive type identity differed from4.6.1; pinned a single4.6.1 version in the fixture lockfile.",
+    "Cancellation after the public request signal abort was initially classified as exception; now tested as cancelled.",
+    "Foreign-realm Promise settlement and subclass registration helper bypass fixed.",
+    "Shutdown/concurrent-flush cutoff loss and413 retry-budget reset fixed.",
+    "Changing completion getters now snapshotted before validation.",
+    "Missing test closing delimiter fixed; final full typecheck/tests pass."
+  ],
+  "unimplemented_milestones": [
+    "M1",
+    "M2",
+    "M3",
+    "M4",
+    "M5"
+  ]
+}

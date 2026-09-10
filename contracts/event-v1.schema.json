@@ -1,0 +1,248 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pulse.example/contracts/event-v1.schema.json",
+  "title": "Pulse proposed event v1 (design contract, not a deployed endpoint)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "event_id",
+    "kind",
+    "occurred_at",
+    "tool_name",
+    "duration_ms",
+    "outcome",
+    "identity_source",
+    "actor_id",
+    "client_name",
+    "client_source",
+    "environment",
+    "release"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "event_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "kind": {
+      "const": "tool_handler.completed"
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "tool_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9_.:/-]+$"
+    },
+    "duration_ms": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 86400000
+    },
+    "outcome": {
+      "enum": [
+        "tool_success",
+        "tool_error",
+        "handler_exception",
+        "input_required",
+        "cancelled",
+        "unknown"
+      ]
+    },
+    "identity_source": {
+      "enum": [
+        "none",
+        "app_account",
+        "host_subject"
+      ]
+    },
+    "identity_epoch": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "actor_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^h1_[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "conversation_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^h1_[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "client_name": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "client_version": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "client_source": {
+      "enum": [
+        "unknown",
+        "handshake",
+        "reported_metadata",
+        "configured"
+      ]
+    },
+    "environment": {
+      "enum": [
+        "production",
+        "staging",
+        "development",
+        "test"
+      ]
+    },
+    "release": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "error_code": {
+      "anyOf": [
+        {
+          "enum": [
+            "TOOL_ERROR",
+            "HANDLER_EXCEPTION",
+            "CANCELLED",
+            "UNSUPPORTED_RESULT"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "sdk_name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "sdk_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40
+    },
+    "adapter": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "identity_source": {
+            "const": "none"
+          }
+        },
+        "required": [
+          "identity_source"
+        ]
+      },
+      "then": {
+        "properties": {
+          "actor_id": {
+            "type": "null"
+          },
+          "identity_epoch": {
+            "type": "null"
+          },
+          "conversation_id": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "required": [
+          "identity_epoch"
+        ],
+        "properties": {
+          "actor_id": {
+            "type": "string",
+            "pattern": "^h1_[0-9a-f]{64}$"
+          },
+          "identity_epoch": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "client_source": {
+            "const": "unknown"
+          }
+        },
+        "required": [
+          "client_source"
+        ]
+      },
+      "then": {
+        "properties": {
+          "client_name": {
+            "type": "null"
+          },
+          "client_version": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}
