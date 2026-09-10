@@ -1,8 +1,16 @@
-## Cloud continuation / Cloud devam durumu —2026-09-10
+# Current SDK and cloud status / Güncel SDK ve cloud durumu
 
-M1–M4 are locally verified in the independent private sibling cloud repository: real PostgreSQL/auth/collector, analytics, exports/deletion recovery, members/operators and billing/mail contracts with EN/TR browser flows. The cloud's default test gate now runs this packed SDK with an official MCP client/server and proves the original result, private-canary exclusion and durable cloud count. SDK M0 support boundary and70-test/packed-consumer proof are unchanged. Owner authorized cloud deployment to pulse.reviseflow.io on ReviseFlow VPS; M5 Linux load and final deployment verification are active. SDK/npm/public repository publication and live payment charges remain unauthorized. The pinned SDK CI workflow is implemented but has not run on a remote repository. See the sibling cloud BUILD_STATUS for current full-product results and external gates.
+Updated **2026-09-10**. SDK M0 is verified: **70 tests plus independent packed consumer proof**; implementation commit `e45c0bdcb2f9ec5e72ad7ef28553b505209ddee2`. Its exact MCP2.0.0/Node24.20.0 support boundary remains unchanged. Later SDK commits contain CI and status documentation only; no packages or public repositories were published. The pinned CI workflow exists but has not run remotely.
 
-# Pulse build checkpoint / Geliştirme durumu
+The independent private cloud sibling is now actually deployed at **https://pulse.reviseflow.io**. Runtime commit `338c249070f6d6b06678b3f28071dc066ea098e5` passed239 application tests,108 ops tests,20 public HTTP probes and3 real public Chrome security cases. An authenticated official MCP fixture exported through public HTTPS into real PostgreSQL and read the correct EN/TR count; private canaries were absent and the disposable account was removed. The final-schema R2 backup was retrieved, decrypted only on the owner's Mac and restored into a new isolated PostgreSQL database. This is a remote collector acceptance proof, not ChatGPT/Claude-host certification or a new SDK adapter/runtime promise.
+
+**TR:** MIT SDK'nın70 testlik ve bağımsız paket tüketicisiyle doğrulanmış M0 kapsamı korunuyor. Ayrı özel cloud deposu https://pulse.reviseflow.io adresine dağıtıldı; gerçek MCP çağrısı genel HTTPS üzerinden kalıcı veritabanına ulaştı ve EN/TR sayaç doğrulandı. Üretim yedeğinin R2'den alınarak ayrı veritabanına kurtarılması da geçti. Ücretli checkout kapalı; merchant, gerçek alıcıya e-posta teslimi, dış istemci/pilot ve ikinci çevrimdışı kurtarma anahtarı kopyası açık kapılardır. Milyon olayda1,5 saniyelik önerilen analitik hedefi henüz karşılanmıyor; doğrulanmış100k trial kapsamı korunuyor.
+
+Next SDK work requires a concrete new compatibility target or external host fixture. Do not infer stdio, Python, Edge, serverless, arbitrary SDK versions or genuine host support from this Node HTTP proof. The cloud BUILD_STATUS.md contains full current product evidence and next external/engineering tasks. Public npm publication and live payments require separate authorization.
+
+The remainder is the **historical M0 checkpoint**. Statements below about unimplemented M1–M5 describe that earlier checkpoint and have been superseded by the current status above.
+
+# Historical M0 checkpoint / Tarihli M0 kaydı
 
 Updated: 2026-09-10. **M0: FIXTURE_VERIFIED (local Node/Streamable HTTP scope).**
 M1–M5 remain PLANNED. The product as a whole is not complete or production-ready.
@@ -99,7 +107,7 @@ and live payments, production deployment, real external host/pilot access. No pa
 published, public repository created, live payment charged or production deployment made.
 These gates do not prevent local M1 database/auth development.
 
-## Exact next task / Sıradaki görev
+## Historical next task (completed) / Tarihli sonraki görev (tamamlandı)
 
 **M1: one genuine database-backed vertical slice.** Begin in pulse-cloud by reading its
 AGENTS/master/docs and the PostgreSQL skill, then verify/install exact database/server/auth
@@ -119,6 +127,6 @@ advertising that adapter.
 yazma anahtarı ve transaction ile kalıcı olay kabulü. Sonuç gerçek veritabanından okunan
 EN/TR sayaçta gösterilmeli; iki kiracılı yetki testleri geçmeden M1 tamamlanmış sayılmaz.
 
-Resume: Read both AGENTS.md files, pulse-cloud CODEX_MASTER_PROMPT.md, all referenced
+Historical resume text: Read both AGENTS.md files, pulse-cloud CODEX_MASTER_PROMPT.md, all referenced
 contracts and this checkpoint. Reuse M0 evidence, inspect actual Git/test state, and start
 M1's first durable database/auth task. Do not re-create the reference UI first.
