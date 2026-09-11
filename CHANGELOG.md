@@ -1,6 +1,6 @@
 # Changelog / Değişiklik günlüğü
 
-## 0.2.0 — Unreleased / Yayımlanmadı
+## 0.2.0 — 2026-09-11
 
 Breaking: inject a `PulseExporter`; remove endpoint/writeKey from core/adapter options. Explicit exporter enables development/test. Preserve eventv1 handler meaning; add optional adapter_version, deterministic package metadata and canonical generated types. Core root has no HTTP/fs/OTel exporter imports. Optional memory/noop, bounded rotating JSONL, explicit generic HTTP and separate OTel handoff.
 
@@ -8,7 +8,7 @@ Dispatcher: immediate count/byte threshold, one bounded active attempt, validate
 
 Adapter: public hooks, structural compatibility, default fail-open/strict option, inert disabled mode, duplicate-copy protection, handler semantics and external patch ownership. CLI: safe init preview/idempotency, honest doctor, bounded JSONL dev with dedup and per-observation percentiles. Installed/offline/real HTTP/bundle/duplicate tests, public conformance/HMAC vectors, real OTel pipeline and repeatable benchmark.
 
-TR: Kırıcı API geçişi, açık exporter, v1 anlamının korunması, sınırlı kuyruk/toparlanma, fail-open adaptör, güvenli CLI ve gerçek paket testleri. Ayrıntılar migration-release.md. Cloud zorunlu değildir; yayın yapılmadı.
+TR: Kırıcı API geçişi, açık exporter, v1 anlamının korunması, sınırlı kuyruk/toparlanma, fail-open adaptör, güvenli CLI ve gerçek paket testleri. Ayrıntılar migration-release.md. Cloud zorunlu değildir; üç paket npm üzerinde yayımlandı.
 
 ## 0.1.0 —2026-09-11
 

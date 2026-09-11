@@ -1,0 +1,690 @@
+{
+  "gate": "NPM_REGISTRY_CONSUMER",
+  "status": "PASSED",
+  "started_at": "2026-09-11T08:57:30.529Z",
+  "node": "v24.20.0",
+  "package_manager": "11.22.0",
+  "npm": "11.19.0",
+  "publication_performed": false,
+  "production_deployment_performed": false,
+  "collector_boundary": "Ephemeral in-memory local test sink; no durable cloud ingestion claim.",
+  "packages": [
+    {
+      "name": "@reviseflow/pulse-core",
+      "version": "0.1.0",
+      "archive": "artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
+      "sha256": "296bd92b1faf24e3c0b42f146555376e196f52ff5c938eea1e358d1a07951b44",
+      "dry_run_matches_archive": true,
+      "allowlist_passed": true,
+      "scoped_secret_and_private_source_scan_passed": true,
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "e9afb37bf5172658ca7888703d0037a091efcc1aed8030083886d16f9a177754"
+        },
+        {
+          "path": "README.md",
+          "sha256": "e0817752ec6bebf84dc5d717005479c14b2bef2e54b075dce3669009df772d46"
+        },
+        {
+          "path": "contracts/batch-v1.schema.json",
+          "sha256": "fe224e627594de9afdffa5c4ade3c60756b75524456d7a802c35c5b508163af7"
+        },
+        {
+          "path": "contracts/event-v1.schema.json",
+          "sha256": "573efd0b1ad609cd7b6ce2aabb7e961865561befe78da1e1537e0ac157ef5d2e"
+        },
+        {
+          "path": "dist/config.d.ts",
+          "sha256": "e4823da61efded878968e379414a29d1c77edc530a3ecf7b2d7cb8e0fe63ad41"
+        },
+        {
+          "path": "dist/config.js",
+          "sha256": "085f39dfc3f55574356ed1e432bc286d03c3e38a6406097d59a8d380e4a2b8d1"
+        },
+        {
+          "path": "dist/config.js.map",
+          "sha256": "8b0e8c150c75c900ac620997b415b65a00096cf43cec5de2d6bcaaa63960bcb7"
+        },
+        {
+          "path": "dist/event.d.ts",
+          "sha256": "2c313c0bbc2184ff6a1de371dbe2197029ef7d7385dc8247388eefed44f9d4c0"
+        },
+        {
+          "path": "dist/event.js",
+          "sha256": "9b81f9ae25c09a8f0965673d774f7238b0fb350372f6ce9cde9134045357a613"
+        },
+        {
+          "path": "dist/event.js.map",
+          "sha256": "550ce26ea7c3a28c64f95fb78213720b676355039b2372271e99eb8dc9181848"
+        },
+        {
+          "path": "dist/exporter.d.ts",
+          "sha256": "3342e1fa062da49927f51bf4dd8e7910b27565f6f54355085772c1b5763d654b"
+        },
+        {
+          "path": "dist/exporter.js",
+          "sha256": "e73ce721b85f7bce4ee358e80929e18aa1a6ab59e46f6bdd32272e3a1070c94e"
+        },
+        {
+          "path": "dist/exporter.js.map",
+          "sha256": "bba64a9de9be5b2eb416b28914240519566b4ad313f514cc74ec4268f00d6c5d"
+        },
+        {
+          "path": "dist/index.d.ts",
+          "sha256": "7e037600eed4bf150ecb28815f62617110f062e3664a10796686f4f7907c816a"
+        },
+        {
+          "path": "dist/index.js",
+          "sha256": "3d8fcb3a8f7d8fd9a078fcfbb1a3b567493295371860287d536dbbf82968bbef"
+        },
+        {
+          "path": "dist/index.js.map",
+          "sha256": "044945c45275613e9e31dbc6d111a787dd9aaf1f2346fc5dae87de4bf1a45580"
+        },
+        {
+          "path": "dist/types.d.ts",
+          "sha256": "39c55f8a5adc3c61f374d68e9d91fa8ff5fa8c502122e55e94ff0775dd9b5e9f"
+        },
+        {
+          "path": "dist/types.js",
+          "sha256": "01ae2a5b120382f9a648ced7ee8507493a134f216d100fc61600c6c9738235d2"
+        },
+        {
+          "path": "dist/types.js.map",
+          "sha256": "a7de897b48fe57bf54d6f84169135ff2e89e2fc95ea0a0a815761cc29a41efee"
+        },
+        {
+          "path": "package.json",
+          "sha256": "abaf152137495ebcd5cc51fd2c0c00ee55c3efcd09edc6fa260df50c072544de"
+        }
+      ],
+      "registry": {
+        "version": "0.1.0",
+        "integrity": "sha512-Wa9ghlrFTygzAXcUT1THCUAvey+UOcJ0KhmpoSlJLGkZOv0b6tOP7OpWemRPNEnWKbiG7NSfkudDXWTQjQUJow==",
+        "tarball": "https://registry.npmjs.org/@reviseflow/pulse-core/-/pulse-core-0.1.0.tgz"
+      }
+    },
+    {
+      "name": "@reviseflow/pulse",
+      "version": "0.1.0",
+      "archive": "artifacts/packed-AuYWRG/reviseflow-pulse-0.1.0.tgz",
+      "sha256": "9cb6f7149e6364603467ae13e73d9cf730a02e56d688c0cd8c76bccffc4759fd",
+      "dry_run_matches_archive": true,
+      "allowlist_passed": true,
+      "scoped_secret_and_private_source_scan_passed": true,
+      "files": [
+        {
+          "path": "LICENSE",
+          "sha256": "e9afb37bf5172658ca7888703d0037a091efcc1aed8030083886d16f9a177754"
+        },
+        {
+          "path": "README.md",
+          "sha256": "3a64a25c6b2e3b23ef808c4e1bbb8c94aa3d33156fdf80e822214f01e2c053a4"
+        },
+        {
+          "path": "dist/index.d.ts",
+          "sha256": "14d1bf4378590d659ada9015db79a5a856f61c55dbcb2c02c565c9246e0cc559"
+        },
+        {
+          "path": "dist/index.js",
+          "sha256": "5b0b549c03cc375b6b840c12900753f7dcdd2b06c606e8f7f8192411c1b43669"
+        },
+        {
+          "path": "dist/index.js.map",
+          "sha256": "7a4f4df9c0ed105f70eca8311cb6d3f1715564d93ea3bc5f82e8b8637e1e68d1"
+        },
+        {
+          "path": "package.json",
+          "sha256": "9ba0b153db5d62220ba48ee3dc36382e3eefbc1f381e15de56832f3c1850ae19"
+        }
+      ],
+      "registry": {
+        "version": "0.1.0",
+        "integrity": "sha512-SyQ/mRkA3T9Jh1Mxdc8XEX+btwPthZwO1ILbkzsPZSGMLQJTex3LynQgrpxPMcvCgbksiQjn8PUuMNoh/Ba+Qg==",
+        "tarball": "https://registry.npmjs.org/@reviseflow/pulse/-/pulse-0.1.0.tgz"
+      }
+    }
+  ],
+  "consumer": {
+    "dependencies": {
+      "@modelcontextprotocol/client": "2.0.0",
+      "@modelcontextprotocol/node": "2.0.0",
+      "@modelcontextprotocol/server": "2.0.0",
+      "@reviseflow/pulse-core": "0.1.0",
+      "@reviseflow/pulse": "0.1.0",
+      "@types/node": "24.13.4",
+      "typescript": "7.0.2",
+      "zod": "4.6.1"
+    },
+    "unrelated_temporary_directory": true,
+    "workspace_source_links_absent": true,
+    "typed_registration_compilation_passed": true,
+    "runtime": {
+      "passed": true,
+      "observed": 1,
+      "accepted": 1,
+      "emitted_events": 1,
+      "schema_exports_verified": true,
+      "export_is_separate_from_handler_return": true
+    },
+    "unsupported_version_guard": {
+      "passed": true,
+      "kind": "simulated-package-metadata-drift",
+      "actual_installed_code": "2.0.0",
+      "simulated_metadata_version": "2.0.1",
+      "expected_error": "UNSUPPORTED_MCP_VERSION",
+      "metadata_restored": true,
+      "real_2_0_1_compatibility_claimed": false
+    },
+    "fixture_source_sha256": "116c8f9b910faf60c981b6c3f18af011cb4d5de9b3cc25d3c9fa2b7f2b089b34",
+    "locales": [
+      {
+        "locale": "en",
+        "passed": true,
+        "caller_result": {
+          "_meta": {
+            "io.modelcontextprotocol/serverInfo": {
+              "name": "pulse-local-fixture",
+              "version": "0.0.0"
+            }
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "5"
+            }
+          ],
+          "structuredContent": {
+            "sum": 5
+          }
+        },
+        "sanitized_event": {
+          "schema_version": 1,
+          "event_id": "22f20865-ebe3-4e12-bca2-c47fd52d47f2",
+          "kind": "tool_handler.completed",
+          "occurred_at": "2026-09-11T08:57:40.734Z",
+          "tool_name": "sum",
+          "duration_ms": 0.14195800000001668,
+          "outcome": "tool_success",
+          "identity_source": "none",
+          "identity_epoch": null,
+          "actor_id": null,
+          "conversation_id": null,
+          "client_name": null,
+          "client_version": null,
+          "client_source": "unknown",
+          "environment": "test",
+          "release": null,
+          "error_code": null,
+          "sdk_name": "@reviseflow/pulse-core",
+          "sdk_version": "0.1.0",
+          "adapter": "mcp-typescript-2"
+        }
+      },
+      {
+        "locale": "tr",
+        "passed": true,
+        "caller_result": {
+          "_meta": {
+            "io.modelcontextprotocol/serverInfo": {
+              "name": "pulse-local-fixture",
+              "version": "0.0.0"
+            }
+          },
+          "content": [
+            {
+              "type": "text",
+              "text": "5"
+            }
+          ],
+          "structuredContent": {
+            "sum": 5
+          }
+        },
+        "sanitized_event": {
+          "schema_version": 1,
+          "event_id": "2bb270cb-fdd6-4b1e-a8cf-c6aa89ffcfaf",
+          "kind": "tool_handler.completed",
+          "occurred_at": "2026-09-11T08:57:41.112Z",
+          "tool_name": "sum",
+          "duration_ms": 0.061666999999999916,
+          "outcome": "tool_success",
+          "identity_source": "none",
+          "identity_epoch": null,
+          "actor_id": null,
+          "conversation_id": null,
+          "client_name": null,
+          "client_version": null,
+          "client_source": "unknown",
+          "environment": "test",
+          "release": null,
+          "error_code": null,
+          "sdk_name": "@reviseflow/pulse-core",
+          "sdk_version": "0.1.0",
+          "adapter": "mcp-typescript-2"
+        }
+      }
+    ]
+  },
+  "commands": [
+    {
+      "command": [
+        "pnpm",
+        "--version"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "npm",
+        "--version"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "pnpm",
+        "build"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "npm",
+        "pack",
+        "--dry-run",
+        "--json",
+        "--ignore-scripts"
+      ],
+      "cwd": "<sdk>/packages/core",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@reviseflow/pulse-core",
+        "pack",
+        "--pack-destination",
+        "<sdk>/artifacts/packed-AuYWRG"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-tzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
+        "package/LICENSE"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
+        "package/README.md"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
+        "package/contracts/batch-v1.schema.json"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
+        "package/contracts/event-v1.schema.json"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
+        "package/dist/config.d.ts"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
+        "package/dist/config.js"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
+        "package/dist/config.js.map"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
+        "package/dist/event.d.ts"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
+        "package/dist/event.js"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
+        "package/dist/event.js.map"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
+        "package/dist/exporter.d.ts"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
+        "package/dist/exporter.js"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
+        "package/dist/exporter.js.map"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
+        "package/dist/index.d.ts"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
+        "package/dist/index.js"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
+        "package/dist/index.js.map"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
+        "package/dist/types.d.ts"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
+        "package/dist/types.js"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
+        "package/dist/types.js.map"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
+        "package/package.json"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "npm",
+        "pack",
+        "--dry-run",
+        "--json",
+        "--ignore-scripts"
+      ],
+      "cwd": "<sdk>/packages/mcp",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "pnpm",
+        "--filter",
+        "@reviseflow/pulse",
+        "pack",
+        "--pack-destination",
+        "<sdk>/artifacts/packed-AuYWRG"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-tzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-0.1.0.tgz"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-0.1.0.tgz",
+        "package/LICENSE"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-0.1.0.tgz",
+        "package/README.md"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-0.1.0.tgz",
+        "package/dist/index.d.ts"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-0.1.0.tgz",
+        "package/dist/index.js"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-0.1.0.tgz",
+        "package/dist/index.js.map"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "tar",
+        "-xOzf",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-0.1.0.tgz",
+        "package/package.json"
+      ],
+      "cwd": "<sdk>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "npm",
+        "install",
+        "--ignore-scripts",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "cwd": "<temporary-consumer>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "npm",
+        "ls",
+        "--json",
+        "--depth=0"
+      ],
+      "cwd": "<temporary-consumer>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "node",
+        "./node_modules/typescript/bin/tsc",
+        "-p",
+        "tsconfig.json"
+      ],
+      "cwd": "<temporary-consumer>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "node",
+        "consumer-runtime.mjs"
+      ],
+      "cwd": "<temporary-consumer>",
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "node",
+        "fixture.ts"
+      ],
+      "cwd": "<temporary-consumer>",
+      "exit_code": 0,
+      "environment": {
+        "PULSE_LOCALE": "en"
+      }
+    },
+    {
+      "command": [
+        "node",
+        "fixture.ts"
+      ],
+      "cwd": "<temporary-consumer>",
+      "exit_code": 0,
+      "environment": {
+        "PULSE_LOCALE": "tr"
+      }
+    },
+    {
+      "command": [
+        "node",
+        "unsupported-version.mjs"
+      ],
+      "cwd": "<temporary-consumer>",
+      "exit_code": 0
+    }
+  ],
+  "finished_at": "2026-09-11T08:57:41.318Z"
+}

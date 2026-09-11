@@ -6,7 +6,7 @@ TR: Bu kayıt0.1 geçmişidir; güncel0.2 için compatibility.md belirleyicidir.
 
 # SDK compatibility / SDK uyumluluğu
 
-**2026-09-11 release:** `@reviseflow/pulse@0.1.0` and `@reviseflow/pulse-core@0.1.0` are published on npm. The exact baseline below was retained and reverified with 70 tests and a real, unrelated npm-installed consumer. See [registry evidence](evidence/registry-consumer.json).
+**2026-09-11 release:** `@reviseflow/pulse@0.1.0` and `@reviseflow/pulse-core@0.1.0` are published on npm. The exact baseline below was retained and reverified with 70 tests and a real, unrelated npm-installed consumer. See [registry evidence](evidence/registry-consumer-0.1.0.json).
 
 **TR:** 0.1.0 paketleri npm üzerinde yayımlandı. Aşağıdaki sürümler korundu;70 test ve npm’den kurulan bağımsız gerçek MCP istemcisiyle yeniden doğrulandı.
 

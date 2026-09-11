@@ -1,0 +1,39 @@
+{
+  "date": "2026-09-11",
+  "status": "PUBLISHED_AND_REGISTRY_VERIFIED",
+  "artifactSourceCommit": "435502e",
+  "authorization": "Owner explicitly requested npm publication.",
+  "packages": [
+    {
+      "name": "@reviseflow/pulse-core",
+      "version": "0.2.0",
+      "tag": "latest",
+      "publishedAt": "2026-09-11T17:48:07.863Z",
+      "sha256": "6dd933b2c3537a185fdcdd986f86120cd684204c4049db1b67c81fbe438de91d",
+      "integrity": "sha512-QQFUC9QNMlSv80YicnYym2bqQjN+zXjCsElh4bI0pWNrJFXlEUNKy1rGDO34E1R+wu5rI6/Icel4bj6apRtQ0g==",
+      "tarball": "https://registry.npmjs.org/@reviseflow/pulse-core/-/pulse-core-0.2.0.tgz"
+    },
+    {
+      "name": "@reviseflow/pulse",
+      "version": "0.2.0",
+      "tag": "latest",
+      "publishedAt": "2026-09-11T17:51:05.372Z",
+      "sha256": "6521789c04859c48d7f06fd6f9623aebce5097f3dd5fc5f2eef1702a00f91321",
+      "integrity": "sha512-DH7OuVeWsMgZxEYGXT+XG/vc/34p0S9gDeowXBoDkLoSIAKp87irvOakXZtkZwrLP8JzNS4xQdhKhX3TbXcnjw==",
+      "tarball": "https://registry.npmjs.org/@reviseflow/pulse/-/pulse-0.2.0.tgz"
+    },
+    {
+      "name": "@reviseflow/pulse-otel",
+      "version": "0.2.0",
+      "tag": "latest",
+      "publishedAt": "2026-09-11T17:49:50.944Z",
+      "sha256": "01efff72de8d8d864f289b4d0285f8336d4c5d6cae7a829ce481f520d37aba1f",
+      "integrity": "sha512-qJ7yRvpoo8elUfptpj1hTK12f0ZCqnnS7fkgAX2DU1AIoZQ5Y1F6WkZ3ty0kRZCFnwevNTJIQUdL2OWxUzxEmw==",
+      "tarball": "https://registry.npmjs.org/@reviseflow/pulse-otel/-/pulse-otel-0.2.0.tgz"
+    }
+  ],
+  "registryConsumerEvidence": "registry-consumer.json",
+  "registryConsumerFinishedAt": "2026-09-11T17:55:14.476Z",
+  "node": "v24.20.0",
+  "credentialsOrSecuritySettingsChanged": false
+}

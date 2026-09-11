@@ -10,7 +10,7 @@ If the private form is unavailable, open only a non-sensitive [request for a pri
 
 ## Scope and boundaries
 
-The SDK is public and MIT licensed; Pulse Cloud is a separate proprietary product. This repository contains the 0.2.0 source API, while the current published core and MCP packages are 0.1.0. Include the actual installed version in a report.
+The SDK is public and MIT licensed; Pulse Cloud is a separate proprietary product. The current published core, MCP and optional OpenTelemetry packages are 0.2.0. Include the actual installed version in a report.
 
 Use local synthetic fixtures and systems you are authorized to test. Do not probe another tenant or production system without permission. SDK telemetry is best effort, not a tamper-proof audit ledger. Optional HMAC identities are pseudonymous and linkable; tool and release names may expose business information. Exporters are application-trusted code, and write credentials belong only on the server.
 
@@ -26,7 +26,7 @@ Etkilenen paket/sürümü, beklenen ve gözlenen davranışı, sentetik verilerl
 
 ## Kapsam ve sınırlar
 
-SDK herkese açık ve MIT lisanslıdır; Pulse Cloud ayrı, özel kaynak kodlu bir üründür. Bu depo 0.2.0 kaynak API'sini içerir; yayımlanmış core ve MCP paketlerinin sürümü 0.1.0'dır. Bildiriminizde gerçekten kurulu sürümü belirtin.
+SDK herkese açık ve MIT lisanslıdır; Pulse Cloud ayrı, özel kaynak kodlu bir üründür. Yayımlanmış core, MCP ve isteğe bağlı OpenTelemetry paketlerinin güncel sürümü 0.2.0'dır. Bildiriminizde gerçekten kurulu sürümü belirtin.
 
 Yerel sentetik fixture'lar ve test yetkiniz olan sistemlerle çalışın. Başka tenant'ları veya production sistemlerini izinsiz test etmeyin. Telemetri best-effort'tur; değiştirilemez audit ledger değildir. İsteğe bağlı HMAC kimlikleri ilişkilendirilebilir; araç ve sürüm adları iş bilgisi taşıyabilir. Exporter uygulamanın güvendiği koddur; write credential'lar yalnızca sunucuda tutulmalıdır.
 

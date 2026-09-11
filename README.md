@@ -51,7 +51,7 @@ server.registerTool('health', {}, () => ({
 
 Connect `server` through your application's existing transport. Call `await pulse.shutdown({ timeoutMs: 2_000 })` from its shutdown hook. For a lifecycle boundary that keeps the application running, use `await pulse.flush({ timeoutMs: 2_000 })`. Neither operation guarantees delivery after a process is frozen or terminated.
 
-After installing the locally packed candidate in another project, `pulse init --dry-run` previews a thin integration file. `pulse doctor` distinguishes static configuration from observed runtime facts. These commands do not install dependencies, upgrade MCP or invoke business tools. See the [CLI guide](docs/tooling.md).
+After installing the npm package in another project, `pulse init --dry-run` previews a thin integration file. `pulse doctor` distinguishes static configuration from observed runtime facts. These commands do not install dependencies, upgrade MCP or invoke business tools. See the [CLI guide](docs/tooling.md).
 
 ## Choose where events go
 

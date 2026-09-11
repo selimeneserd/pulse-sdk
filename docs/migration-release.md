@@ -1,6 +1,6 @@
 # Migration and release preparation / Geçiş ve yayın hazırlığı
 
-0.1.0 is published on npm; 0.2.0 in this checkout is **not yet published on npm**. GitHub source delivery and the separate Cloud rollout are recorded in [BUILD_STATUS.md](../BUILD_STATUS.md). Pre1.0 minor version is intentionally breaking. Keep package names. No Cloud code/assets/credentials belong in MIT packages.
+**Core, MCP and optional OpenTelemetry 0.2.0 were published on npm on 2026-09-11 with owner authorization.** 0.1.0 remains available for rollback. GitHub source delivery and the separate Cloud rollout are recorded in [BUILD_STATUS.md](../BUILD_STATUS.md). Pre1.0 minor version is intentionally breaking. Keep package names. No Cloud code/assets/credentials belong in MIT packages.
 
 ## API change / API değişikliği
 
@@ -36,8 +36,8 @@ pnpm --filter @reviseflow/pulse pack --pack-destination ./artifacts
 pnpm --filter @reviseflow/pulse-otel pack --pack-destination ./artifacts
 ```
 
-Pack is a local archive operation, not publish. `verify:pack` performs npm pack dry-run vs actual member parity, allowlisted files, licenses/metadata/source-boundary scan, isolated actual installation, types, real MCP offline/HTTP, duplicated packages and ESM bundle checks. It retains hashes/evidence. This checkout's examples use candidate archives/source; do not advertise `npm install ...@0.2.0` as available until registry verification passes. `verify:registry` is a read-only post-publication comparison and **must not pass before the release exists**.
+Pack is a local archive operation, not publish. `verify:pack` performs npm pack dry-run vs actual member parity, allowlisted files, licenses/metadata/source-boundary scan, isolated actual installation, types, real MCP offline/HTTP, duplicated packages and ESM bundle checks. It retains hashes/evidence. The published 0.2.0 packages can be installed from npm; the checkout examples also run from source. `verify:registry` is a read-only post-publication comparison and **must not pass before the release exists**.
 
-GitHub private vulnerability reporting is enabled and was verified through the repository API on 2026-09-11; see SECURITY.md. Before owner-authorized npm publication, verify registry access and ownership without exposing tokens, record changelog/tag/source hashes and retain rollback package pins. No publishing credentials were changed or inspected here. No pricing/plan/domain/pilot success claims were changed.
+GitHub private vulnerability reporting is enabled and was verified through the repository API on 2026-09-11; see SECURITY.md. Before owner-authorized npm publication, verify registry access and ownership without exposing tokens, record changelog/tag/source hashes and retain rollback package pins. Publication used the existing npm owner account and interactive passkey verification; no credentials or security settings were changed. No pricing/plan/domain/pilot success claims were changed.
 
-TR: Pack yalnız yerel arşivdir. Registry doğrulaması yayın sonrası yapılır;0.2 mevcut değilken başarılı sayılmaz. Güvenlik kanalını ve sahip yetkisini insan doğrular. Gerçek publish/deploy bu görevde yapılmaz.
+TR: Pack yalnız yerel arşivdir. Registry doğrulaması yayın sonrası yapılır;0.2 mevcut değilken başarılı sayılmaz. Sahip yetkisiyle üç npm paketi yayımlandı; Cloud daha önce dağıtıldı. Yeni yayınlar ayrıca sahip yetkisi gerektirir.

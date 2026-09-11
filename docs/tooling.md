@@ -1,6 +1,6 @@
 # Local workflow / Yerel kullanım
 
-The release candidate examples run from this checkout after `pnpm build`. They do not require a Cloud account, write key, internet connection or Cloud repository at runtime. Installing the initial dependencies can require network access; the packed gate installs first and forbids runtime network APIs separately.
+The 0.2.0 examples run from this checkout after `pnpm build`. They do not require a Cloud account, write key, internet connection or Cloud repository at runtime. Installing the initial dependencies can require network access; the packed gate installs first and forbids runtime network APIs separately.
 
 Sürüm adayı örnekleri `pnpm build` sonrasında bu depodan çalışır. Çalışma zamanında Cloud hesabı, write key, internet veya Cloud deposu gerekmez. İlk bağımlılık kurulumu ağ gerektirebilir; paket testi kurulumu ve ağsız çalıştırmayı ayrı doğrular.
 
@@ -15,7 +15,7 @@ node packages/mcp/dist/cli.js dev --file pulse-events.jsonl --locale tr
 
 Örnek, resmi MCP 2.0.0 istemci/sunucusunu public `InMemoryTransport` ile bağlar, kayıtlı `sum` aracını çağırır ve gözlemlenen tamamlanmayı JSONL dosyasına aktarır. Bu transport eski oturum protokolünü müzakere eder; ayrı Streamable HTTP testi 2026-07-28 protokolünü doğrular. Yerel örnek soket açmaz. Örnekte etkin dosya sınırı 1 MiB, etkin dosya dahil tutulan toplam dosya sayısı ikidir. Dosya kabulü fsync/kalıcılık garantisi değildir. İzinli araç adları da hassas iş terimleri içerebilir; toplama öncesinde eşleyin veya hariç bırakın.
 
-After installing the candidate archives, `pulse` is the package's CLI executable:
+After installing `@reviseflow/pulse@0.2.0` from npm, `pulse` is the package's CLI executable:
 
 Aday paket arşivleri kurulduktan sonra `pulse`, paketin CLI komutudur:
 

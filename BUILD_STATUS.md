@@ -1,6 +1,6 @@
 # SDK delivery status / SDK teslim durumu
 
-Updated 2026-09-11. **0.2.0 is a source release candidate; npm still provides 0.1.0.** Source commit [`f10a9c3`](https://github.com/selimeneserd/pulse-sdk/commit/f10a9c3c455ed505e8ce2d6b39bafd2b0ecf3de5) is pushed. [GitHub CI](https://github.com/selimeneserd/pulse-sdk/actions/runs/34625143572) passed on Ubuntu 24.04 with Node 24.11.1 and 24.20.0, including clean packed consumers. The optional Cloud collector accepted both SDK versions through real public HTTPS, with durable storage and preserved original MCP results.
+Updated 2026-09-11. **All three MIT packages are published on npm as 0.2.0 (`latest`).** See the [registry consumer evidence](docs/evidence/registry-consumer.json). Source commit [`f10a9c3`](https://github.com/selimeneserd/pulse-sdk/commit/f10a9c3c455ed505e8ce2d6b39bafd2b0ecf3de5) is pushed. [GitHub CI](https://github.com/selimeneserd/pulse-sdk/actions/runs/34625143572) passed on Ubuntu 24.04 with Node 24.11.1 and 24.20.0, including clean packed consumers. The optional Cloud collector accepted both SDK versions through real public HTTPS, with durable storage and preserved original MCP results.
 
 ## Verified implementation
 
@@ -16,10 +16,10 @@ Detailed scope and original/final test logs: [implementation status](docs/implem
 
 GitHub source and npm publication are separate. The 0.2.0 constructor requires an explicit exporter and is a breaking change from npm 0.1.0. Follow the [migration guide](docs/migration-release.md). The SDK requires no Cloud account, key or subscription for local collection. Cloud is an optional independent consumer and remains proprietary.
 
-No Python SDK, browser/Edge/CJS support, arbitrary MCP versions, external host certification or successful human pilots are claimed. GitHub private vulnerability reporting is enabled and verified; see [SECURITY.md](SECURITY.md). npm 0.2.0 publication and real customer pilots remain pending.
+No Python SDK, browser/Edge/CJS support, arbitrary MCP versions, external host certification or successful human pilots are claimed. GitHub private vulnerability reporting is enabled and verified; see [SECURITY.md](SECURITY.md). Real customer pilots remain pending.
 
 ## Türkçe
 
-**0.2.0 kaynak kodu yayın adayıdır; npm üzerinde 0.1.0 vardır.** SDK kaynakları GitHub’a gönderildi; Ubuntu üzerinde iki Node sürümünün CI kontrolleri geçti. Ayrı Cloud servisi dağıtıldı; iki SDK sürümüyle gerçek genel HTTPS akışı, kalıcı kayıt ve özgün MCP sonucu doğrulandı.
+**Üç MIT paketi npm üzerinde 0.2.0 (`latest`) olarak yayımlandı.** SDK kaynakları GitHub’a gönderildi; Ubuntu üzerinde iki Node sürümünün CI kontrolleri geçti. Ayrı Cloud servisi dağıtıldı; iki SDK sürümüyle gerçek genel HTTPS akışı, kalıcı kayıt ve özgün MCP sonucu doğrulandı.
 
-İki Node sürümünde 133 test, tip/build kontrolleri, üç gerçek paket tüketicisi, çevrimdışı MCP, HTTP, CLI ve kimlik vektörleri geçti. Yerel kullanım Cloud hesabı veya anahtarı istemez. Yeni kurucu açık exporter gerektirir; npm yayını, daha geniş runtime desteği ve kullanıcı pilotları doğrulanmış sayılmaz.
+İki Node sürümünde 133 test, tip/build kontrolleri, üç gerçek paket tüketicisi, çevrimdışı MCP, HTTP, CLI ve kimlik vektörleri geçti. Yerel kullanım Cloud hesabı veya anahtarı istemez. Yeni kurucu açık exporter gerektirir; Daha geniş runtime desteği ve kullanıcı pilotları doğrulanmış sayılmaz.
