@@ -1,0 +1,36 @@
+{
+  "verifiedAt": "2026-09-11",
+  "sourceCommit": "f10a9c3c455ed505e8ce2d6b39bafd2b0ecf3de5",
+  "repository": "https://github.com/selimeneserd/pulse-sdk",
+  "visibility": "PUBLIC",
+  "license": "MIT",
+  "ci": {
+    "runId": 34625143572,
+    "url": "https://github.com/selimeneserd/pulse-sdk/actions/runs/34625143572",
+    "conclusion": "success",
+    "runner": "ubuntu-24.04",
+    "node": [
+      "24.11.1",
+      "24.20.0"
+    ]
+  },
+  "npm": {
+    "published": "0.1.0",
+    "sourceCandidate": "0.2.0",
+    "publishedDuringDelivery": false
+  },
+  "privateVulnerabilityReporting": true,
+  "optionalCloudPublicInterop": {
+    "origin": "https://pulse.reviseflow.io",
+    "sdkVersions": [
+      "0.1.0",
+      "0.2.0"
+    ],
+    "realMcp": true,
+    "originalResultPreserved": true,
+    "durableEventVerified": true,
+    "privateCanariesAbsent": true,
+    "disposableFixturesRemoved": true,
+    "externalHostCertification": false
+  }
+}

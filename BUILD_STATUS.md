@@ -1,6 +1,6 @@
 # SDK delivery status / SDK teslim durumu
 
-Updated 2026-09-11. **0.2.0 is a source release candidate; npm still provides 0.1.0.** The owner authorized committing and pushing this SDK and deploying the separate private Cloud service. GitHub CI and production receipts will be recorded after verification.
+Updated 2026-09-11. **0.2.0 is a source release candidate; npm still provides 0.1.0.** Source commit [`f10a9c3`](https://github.com/selimeneserd/pulse-sdk/commit/f10a9c3c455ed505e8ce2d6b39bafd2b0ecf3de5) is pushed. [GitHub CI](https://github.com/selimeneserd/pulse-sdk/actions/runs/34625143572) passed on Ubuntu 24.04 with Node 24.11.1 and 24.20.0, including clean packed consumers. The optional Cloud collector accepted both SDK versions through real public HTTPS, with durable storage and preserved original MCP results.
 
 ## Verified implementation
 
@@ -20,6 +20,6 @@ No Python SDK, browser/Edge/CJS support, arbitrary MCP versions, external host c
 
 ## Türkçe
 
-**0.2.0 kaynak kodu yayın adayıdır; npm üzerinde 0.1.0 vardır.** Sahip SDK'nın commit/push işlemini ve ayrı Cloud servisinin dağıtımını yetkilendirdi. CI ve canlı doğrulama sonuçları tamamlandıktan sonra burada kaydedilir.
+**0.2.0 kaynak kodu yayın adayıdır; npm üzerinde 0.1.0 vardır.** SDK kaynakları GitHub’a gönderildi; Ubuntu üzerinde iki Node sürümünün CI kontrolleri geçti. Ayrı Cloud servisi dağıtıldı; iki SDK sürümüyle gerçek genel HTTPS akışı, kalıcı kayıt ve özgün MCP sonucu doğrulandı.
 
 İki Node sürümünde 133 test, tip/build kontrolleri, üç gerçek paket tüketicisi, çevrimdışı MCP, HTTP, CLI ve kimlik vektörleri geçti. Yerel kullanım Cloud hesabı veya anahtarı istemez. Yeni kurucu açık exporter gerektirir; npm yayını, daha geniş runtime desteği ve kullanıcı pilotları doğrulanmış sayılmaz.
