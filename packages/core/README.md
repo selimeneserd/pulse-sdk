@@ -1,21 +1,21 @@
-# @pulse-sdk/core — M0 / M0 aşaması
+# @reviseflow/pulse-core
 
-MIT. Public-intended source; unpublished package. Node **24.20.0** is the tested
-runtime. This package is the bounded event exporter used by `@pulse-sdk/mcp`.
-Use that adapter to instrument ordinary MCP registration without manual
-per-tool event calls.
+MIT-licensed, bounded metadata exporter for Pulse **0.1.0**. Verified on Node **24.20.0**.
+For MCP server instrumentation, install `@reviseflow/pulse@0.1.0`; it includes this core automatically.
+Direct consumers can use `npm install --save-exact @reviseflow/pulse-core@0.1.0`.
 
-MIT. Kaynak kodun herkese açık sunulması amaçlanmaktadır; paket yayımlanmamıştır.
-Test edilen çalışma ortamı Node **24.20.0** sürümüdür. Bu paket `@pulse-sdk/mcp`
-tarafından kullanılan sınırlı olay göndericisidir. Normal MCP kaydını her araç
-için elle olay göndermeden ölçmek için adaptörü kullanın.
+**TR:** Pulse **0.1.0** için MIT lisanslı, sınırlı metadata göndericisi. Node **24.20.0** ile doğrulandı.
+MCP sunucusunu ölçmek için `@reviseflow/pulse@0.1.0` kurun; core otomatik gelir.
+Doğrudan kullanım için `npm install --save-exact @reviseflow/pulse-core@0.1.0` komutunu kullanın.
+
+[English documentation](https://pulse.reviseflow.io/en/docs) · [Türkçe belgeler](https://pulse.reviseflow.io/tr/docs)
 
 ```ts
-import { createPulseCore } from '@pulse-sdk/core';
+import { createPulseCore } from '@reviseflow/pulse-core';
 
 const pulse = createPulseCore({
   writeKey: process.env.PULSE_WRITE_KEY!,
-  endpoint: process.env.PULSE_BATCH_ENDPOINT!,
+  endpoint: process.env.PULSE_COLLECTOR_URL!,
   environment: 'production',
 });
 
@@ -83,7 +83,7 @@ için ayrı, kalıcı, kriptografik rastgele ve en az 32 baytlık bir sırla yap
 const pulse = createPulseCore({
   environment: 'production',
   writeKey: process.env.PULSE_WRITE_KEY!,
-  endpoint: process.env.PULSE_BATCH_ENDPOINT!,
+  endpoint: process.env.PULSE_COLLECTOR_URL!,
   identity: {
     secret: process.env.PULSE_IDENTITY_SECRET!,
     projectNamespace: 'stable-project-namespace',

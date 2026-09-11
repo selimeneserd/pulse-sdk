@@ -1,5 +1,5 @@
 import { McpServer, type RegisteredTool, type ServerContext } from '@modelcontextprotocol/server';
-import { createPulse } from '@pulse-sdk/mcp';
+import { createPulse } from '@reviseflow/pulse';
 import { z } from 'zod';
 
 // Compile-only acceptance. Type errors below must stay errors; never executed.

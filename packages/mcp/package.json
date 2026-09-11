@@ -1,9 +1,8 @@
 {
-  "name": "@pulse-sdk/mcp",
-  "version": "0.0.0-m0",
+  "name": "@reviseflow/pulse",
+  "version": "0.1.0",
   "license": "MIT",
   "type": "module",
-  "private": true,
   "engines": {
     "node": ">=24.20.0 <25"
   },
@@ -20,12 +19,25 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "prepublishOnly": "node -e \"throw new Error('OWNER_PUBLICATION_AUTHORIZATION_REQUIRED')\""
+    "prepack": "pnpm run build"
   },
   "dependencies": {
-    "@pulse-sdk/core": "workspace:*"
+    "@reviseflow/pulse-core": "workspace:*"
   },
   "peerDependencies": {
     "@modelcontextprotocol/server": "2.0.0"
+  },
+  "description": "Google Analytics, but for your MCP. Metadata-only tool analytics for MCP server 2.0.0.",
+  "homepage": "https://pulse.reviseflow.io/en/docs",
+  "keywords": [
+    "mcp",
+    "analytics",
+    "model-context-protocol",
+    "pulse",
+    "telemetry"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   }
 }

@@ -1,7 +1,7 @@
 {
-  "gate": "LOCAL_PACKED_CONSUMER",
+  "gate": "NPM_REGISTRY_CONSUMER",
   "status": "PASSED",
-  "started_at": "2026-09-11T08:51:34.280Z",
+  "started_at": "2026-09-11T08:57:30.529Z",
   "node": "v24.20.0",
   "package_manager": "11.22.0",
   "npm": "11.19.0",
@@ -12,7 +12,7 @@
     {
       "name": "@reviseflow/pulse-core",
       "version": "0.1.0",
-      "archive": "artifacts/packed-nk8o1g/reviseflow-pulse-core-0.1.0.tgz",
+      "archive": "artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
       "sha256": "296bd92b1faf24e3c0b42f146555376e196f52ff5c938eea1e358d1a07951b44",
       "dry_run_matches_archive": true,
       "allowlist_passed": true,
@@ -98,12 +98,17 @@
           "path": "package.json",
           "sha256": "abaf152137495ebcd5cc51fd2c0c00ee55c3efcd09edc6fa260df50c072544de"
         }
-      ]
+      ],
+      "registry": {
+        "version": "0.1.0",
+        "integrity": "sha512-Wa9ghlrFTygzAXcUT1THCUAvey+UOcJ0KhmpoSlJLGkZOv0b6tOP7OpWemRPNEnWKbiG7NSfkudDXWTQjQUJow==",
+        "tarball": "https://registry.npmjs.org/@reviseflow/pulse-core/-/pulse-core-0.1.0.tgz"
+      }
     },
     {
       "name": "@reviseflow/pulse",
       "version": "0.1.0",
-      "archive": "artifacts/packed-nk8o1g/reviseflow-pulse-0.1.0.tgz",
+      "archive": "artifacts/packed-AuYWRG/reviseflow-pulse-0.1.0.tgz",
       "sha256": "9cb6f7149e6364603467ae13e73d9cf730a02e56d688c0cd8c76bccffc4759fd",
       "dry_run_matches_archive": true,
       "allowlist_passed": true,
@@ -133,7 +138,12 @@
           "path": "package.json",
           "sha256": "9ba0b153db5d62220ba48ee3dc36382e3eefbc1f381e15de56832f3c1850ae19"
         }
-      ]
+      ],
+      "registry": {
+        "version": "0.1.0",
+        "integrity": "sha512-SyQ/mRkA3T9Jh1Mxdc8XEX+btwPthZwO1ILbkzsPZSGMLQJTex3LynQgrpxPMcvCgbksiQjn8PUuMNoh/Ba+Qg==",
+        "tarball": "https://registry.npmjs.org/@reviseflow/pulse/-/pulse-0.1.0.tgz"
+      }
     }
   ],
   "consumer": {
@@ -191,11 +201,11 @@
         },
         "sanitized_event": {
           "schema_version": 1,
-          "event_id": "5eee75b9-048b-4c5f-98fe-8028e0ed61da",
+          "event_id": "22f20865-ebe3-4e12-bca2-c47fd52d47f2",
           "kind": "tool_handler.completed",
-          "occurred_at": "2026-09-11T08:51:41.912Z",
+          "occurred_at": "2026-09-11T08:57:40.734Z",
           "tool_name": "sum",
-          "duration_ms": 0.0488330000000019,
+          "duration_ms": 0.14195800000001668,
           "outcome": "tool_success",
           "identity_source": "none",
           "identity_epoch": null,
@@ -234,11 +244,11 @@
         },
         "sanitized_event": {
           "schema_version": 1,
-          "event_id": "11236cb2-54d8-4d27-98ee-d18fd0e9972a",
+          "event_id": "2bb270cb-fdd6-4b1e-a8cf-c6aa89ffcfaf",
           "kind": "tool_handler.completed",
-          "occurred_at": "2026-09-11T08:51:42.143Z",
+          "occurred_at": "2026-09-11T08:57:41.112Z",
           "tool_name": "sum",
-          "duration_ms": 0.04916599999998539,
+          "duration_ms": 0.061666999999999916,
           "outcome": "tool_success",
           "identity_source": "none",
           "identity_epoch": null,
@@ -300,7 +310,7 @@
         "@reviseflow/pulse-core",
         "pack",
         "--pack-destination",
-        "<sdk>/artifacts/packed-nk8o1g"
+        "<sdk>/artifacts/packed-AuYWRG"
       ],
       "cwd": "<sdk>",
       "exit_code": 0
@@ -309,7 +319,7 @@
       "command": [
         "tar",
         "-tzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-core-0.1.0.tgz"
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz"
       ],
       "cwd": "<sdk>",
       "exit_code": 0
@@ -318,7 +328,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-core-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
         "package/LICENSE"
       ],
       "cwd": "<sdk>",
@@ -328,7 +338,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-core-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
         "package/README.md"
       ],
       "cwd": "<sdk>",
@@ -338,7 +348,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-core-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
         "package/contracts/batch-v1.schema.json"
       ],
       "cwd": "<sdk>",
@@ -348,7 +358,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-core-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
         "package/contracts/event-v1.schema.json"
       ],
       "cwd": "<sdk>",
@@ -358,7 +368,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-core-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
         "package/dist/config.d.ts"
       ],
       "cwd": "<sdk>",
@@ -368,7 +378,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-core-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
         "package/dist/config.js"
       ],
       "cwd": "<sdk>",
@@ -378,7 +388,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-core-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
         "package/dist/config.js.map"
       ],
       "cwd": "<sdk>",
@@ -388,7 +398,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-core-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
         "package/dist/event.d.ts"
       ],
       "cwd": "<sdk>",
@@ -398,7 +408,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-core-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
         "package/dist/event.js"
       ],
       "cwd": "<sdk>",
@@ -408,7 +418,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-core-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
         "package/dist/event.js.map"
       ],
       "cwd": "<sdk>",
@@ -418,7 +428,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-core-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
         "package/dist/exporter.d.ts"
       ],
       "cwd": "<sdk>",
@@ -428,7 +438,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-core-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
         "package/dist/exporter.js"
       ],
       "cwd": "<sdk>",
@@ -438,7 +448,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-core-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
         "package/dist/exporter.js.map"
       ],
       "cwd": "<sdk>",
@@ -448,7 +458,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-core-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
         "package/dist/index.d.ts"
       ],
       "cwd": "<sdk>",
@@ -458,7 +468,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-core-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
         "package/dist/index.js"
       ],
       "cwd": "<sdk>",
@@ -468,7 +478,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-core-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
         "package/dist/index.js.map"
       ],
       "cwd": "<sdk>",
@@ -478,7 +488,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-core-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
         "package/dist/types.d.ts"
       ],
       "cwd": "<sdk>",
@@ -488,7 +498,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-core-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
         "package/dist/types.js"
       ],
       "cwd": "<sdk>",
@@ -498,7 +508,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-core-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
         "package/dist/types.js.map"
       ],
       "cwd": "<sdk>",
@@ -508,7 +518,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-core-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-core-0.1.0.tgz",
         "package/package.json"
       ],
       "cwd": "<sdk>",
@@ -532,7 +542,7 @@
         "@reviseflow/pulse",
         "pack",
         "--pack-destination",
-        "<sdk>/artifacts/packed-nk8o1g"
+        "<sdk>/artifacts/packed-AuYWRG"
       ],
       "cwd": "<sdk>",
       "exit_code": 0
@@ -541,7 +551,7 @@
       "command": [
         "tar",
         "-tzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-0.1.0.tgz"
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-0.1.0.tgz"
       ],
       "cwd": "<sdk>",
       "exit_code": 0
@@ -550,7 +560,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-0.1.0.tgz",
         "package/LICENSE"
       ],
       "cwd": "<sdk>",
@@ -560,7 +570,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-0.1.0.tgz",
         "package/README.md"
       ],
       "cwd": "<sdk>",
@@ -570,7 +580,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-0.1.0.tgz",
         "package/dist/index.d.ts"
       ],
       "cwd": "<sdk>",
@@ -580,7 +590,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-0.1.0.tgz",
         "package/dist/index.js"
       ],
       "cwd": "<sdk>",
@@ -590,7 +600,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-0.1.0.tgz",
         "package/dist/index.js.map"
       ],
       "cwd": "<sdk>",
@@ -600,7 +610,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-nk8o1g/reviseflow-pulse-0.1.0.tgz",
+        "<sdk>/artifacts/packed-AuYWRG/reviseflow-pulse-0.1.0.tgz",
         "package/package.json"
       ],
       "cwd": "<sdk>",
@@ -676,5 +686,5 @@
       "exit_code": 0
     }
   ],
-  "finished_at": "2026-09-11T08:51:42.274Z"
+  "finished_at": "2026-09-11T08:57:41.318Z"
 }

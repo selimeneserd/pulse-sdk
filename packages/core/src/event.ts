@@ -85,8 +85,8 @@ export function createEventFactory(options: ResolvedOptions) {
         environment: options.environment,
         release: options.release,
         error_code: errors[outcome],
-        sdk_name: '@pulse-sdk/core',
-        sdk_version: '0.0.0-m0',
+        sdk_name: '@reviseflow/pulse-core',
+        sdk_version: '0.1.0',
         adapter: 'mcp-typescript-2',
       });
     },

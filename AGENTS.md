@@ -14,4 +14,4 @@
 
 ## This repository
 
-SDK: MIT; public-intended, unpublished. Owner attribution/scope require review before publishing.
+SDK: MIT. Public npm packages: @reviseflow/pulse and @reviseflow/pulse-core, first release 0.1.0. Owner-authorized initial publication completed on 2026-09-11. Future publication still requires owner authorization. Cloud remains separate and proprietary.

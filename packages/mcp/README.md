@@ -1,16 +1,42 @@
-# @pulse-sdk/mcp — local M0 package / yerel M0 paketi
+# @reviseflow/pulse
 
-MIT, unpublished. Exact peer: `@modelcontextprotocol/server@2.0.0`.
-Node 24.20.0, Streamable HTTP, protocol 2026-07-28 tested by the repository
-fixture. Install with the locally packed `@pulse-sdk/core` tarball. No hosted
-collector or production package publication is implied.
+Google Analytics, but for your MCP. MIT-licensed analytics for **observed tool-handler calls**, with bounded, best-effort delivery and no raw tool payload capture.
+
+**TR:** MCP sunucunuz için analitik. Gözlenen araç işleyicisi çağrılarını ölçer; ham araç içeriği toplamaz. Gönderim sınırlıdır ve en iyi çaba esasına dayanır. MIT lisanslıdır.
+
+## Install / Kurulum
+
+```sh
+npm install --save-exact @reviseflow/pulse@0.1.0 @modelcontextprotocol/server@2.0.0
+```
+
+The adapter installs `@reviseflow/pulse-core@0.1.0` automatically. Verified baseline:
+Node **24.20.0**, official MCP server **2.0.0**, Streamable HTTP, protocol **2026-07-28**.
+The exact peer is intentional; other MCP versions and runtimes are not verified.
+
+**TR:** Adaptör `@reviseflow/pulse-core@0.1.0` paketini otomatik kurar. Doğrulanmış temel:
+Node **24.20.0**, resmî MCP sunucusu **2.0.0**, Streamable HTTP ve **2026-07-28** protokolü.
+Diğer MCP sürümleri ve çalışma ortamları doğrulanmış değildir.
+
+[English setup guide](https://pulse.reviseflow.io/en/docs) · [Türkçe kurulum rehberi](https://pulse.reviseflow.io/tr/docs)
+
+## Connect / Bağlantı
+
+Create a project and a Test write key in Pulse. Set `PULSE_COLLECTOR_URL` to
+`https://pulse.reviseflow.io/v1/batch` and store `PULSE_WRITE_KEY` only in your server environment.
+Never commit the key or put it in browser code. Write keys cannot read analytics.
+
+**TR:** Pulse içinde proje ve Test yazma anahtarı oluşturun. `PULSE_COLLECTOR_URL` değerini
+`https://pulse.reviseflow.io/v1/batch` olarak ayarlayın. `PULSE_WRITE_KEY` yalnızca sunucu
+ortamında saklanmalıdır; Git'e veya tarayıcı koduna koymayın. Yazma anahtarı analitik okuyamaz.
 
 ```ts
 import { McpServer } from '@modelcontextprotocol/server';
-import { createPulse } from '@pulse-sdk/mcp';
+import { createPulse } from '@reviseflow/pulse';
 const pulse = createPulse({
-  environment: 'production',
-  endpoint: process.env.PULSE_BATCH_ENDPOINT!,
+  environment: 'test',
+  enabled: true,
+  endpoint: process.env.PULSE_COLLECTOR_URL!,
   writeKey: process.env.PULSE_WRITE_KEY!,
 });
 const server = pulse.wrapServer(new McpServer({ name: 'my-server', version: '1.0.0' }));
@@ -30,7 +56,7 @@ execution; results and exceptions preserve the original handler behavior.
 Input rejection before the handler and output validation after it are outside
 this boundary. Original tool content is never exported.
 
-**TR:** Henüz yayımlanmamış MIT paketi. Sunucuyu araç kaydından ve bağlantıdan
+**TR:** MIT lisanslı MCP adaptörü. Sunucuyu araç kaydından ve bağlantıdan
 önce sarmalayın. Yalnızca bu nesnenin açık kayıt metodu değiştirilir; özel
 SDK kayıtları okunmaz, global/prototip yaması yapılmaz. Kayıt güncelleme,
 yeniden adlandırma, etkinleştirme ve kaldırma korunur. Ölçüm handler sınırıdır;
@@ -41,3 +67,20 @@ dışarı aktarılmaz. Next.js/serverless ve diğer platformlar henüz doğrulan
 All failures originating in telemetry delivery remain isolated from tool
 execution. Diagnostic/compatibility errors provide English/Turkish messages;
 machine identifiers stay locale-independent.
+
+## Verify and shut down / Doğrulama ve kapanış
+
+Call a real tool through your MCP client, then at a controlled verification point:
+
+**TR:** MCP istemcisinden gerçek bir araç çağırın; ardından kontrollü bir doğrulama noktasında:
+
+```ts
+await pulse.flush({ timeoutMs: 2000 });
+const diagnostics = pulse.getDiagnostics();
+```
+
+Diagnostics are local counters. Confirm the accepted event in your project's **Test → Live events** dashboard; local counters do not prove database storage.
+After stopping new requests and waiting for active handlers, call `await pulse.shutdown()` during graceful shutdown. No process listeners are installed automatically. See the setup guide for optional account identity, client labels and delivery limits.
+
+**TR:** Tanılama yerel sayaçlardan oluşur. Kabul edilen olayı projenizin **Test → Canlı olaylar** panelinde doğrulayın; yerel sayaçlar veritabanı kaydını kanıtlamaz.
+Yeni istekleri durdurup etkin işleyicileri bekledikten sonra kontrollü kapanışta `await pulse.shutdown()` çağırın. Otomatik süreç dinleyicisi kurulmaz. İsteğe bağlı hesap kimliği, istemci etiketleri ve gönderim sınırları için kurulum rehberine bakın.

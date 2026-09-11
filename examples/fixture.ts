@@ -13,7 +13,7 @@ import {
 } from '@modelcontextprotocol/client';
 import { McpServer, createMcpHandler, type Implementation } from '@modelcontextprotocol/server';
 import { localhostHostValidation, localhostOriginValidation, toNodeHandler } from '@modelcontextprotocol/node';
-import { createPulse } from '@pulse-sdk/mcp';
+import { createPulse } from '@reviseflow/pulse';
 import { z } from 'zod';
 
 type FixturePulse = Pick<ReturnType<typeof createPulse>, 'wrapServer' | 'withContext'>;

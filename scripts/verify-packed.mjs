@@ -11,14 +11,15 @@ import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const registryMode = process.argv.includes('--registry');
 const evidenceDirectory = join(root, 'docs', 'evidence');
-const evidencePath = join(evidenceDirectory, 'packed-consumer.json');
+const evidencePath = join(evidenceDirectory, registryMode ? 'registry-consumer.json' : 'packed-consumer.json');
 const commands = [];
 const startedAt = new Date().toISOString();
 let consumerDirectory;
 let archiveDirectory;
 const report = {
-  gate: 'M0_LOCAL_PACKED_CONSUMER',
+  gate: registryMode ? 'NPM_REGISTRY_CONSUMER' : 'LOCAL_PACKED_CONSUMER',
   status: 'RUNNING',
   started_at: startedAt,
   node: process.version,
@@ -70,7 +71,7 @@ function allowedFile(path, core) {
 }
 
 async function auditPackage(name) {
-  const core = name === '@pulse-sdk/core';
+  const core = name === '@reviseflow/pulse-core';
   const directory = join(root, 'packages', core ? 'core' : 'mcp');
   const sourceManifest = JSON.parse(await readFile(join(directory, 'package.json'), 'utf8'));
   const dryRun = JSON.parse(run('npm', ['pack', '--dry-run', '--json', '--ignore-scripts'], directory));
@@ -110,7 +111,9 @@ async function auditPackage(name) {
     if (member === 'package.json') {
       const packedManifest = JSON.parse(content);
       assert.equal(packedManifest.name, name);
-      assert.equal(packedManifest.private, true, 'OWNER_AUTHORIZATION_GUARD_REQUIRED');
+      assert.notEqual(packedManifest.private, true, 'PUBLIC_SDK_REQUIRED');
+      assert.equal(packedManifest.publishConfig.access, 'public');
+      assert.equal(packedManifest.publishConfig.registry, 'https://registry.npmjs.org/');
       assert.equal(packedManifest.license, 'MIT');
       for (const field of ['dependencies', 'peerDependencies', 'optionalDependencies']) {
         for (const [dependency, range] of Object.entries(packedManifest[field] ?? {})) {
@@ -118,7 +121,7 @@ async function auditPackage(name) {
           assert.ok(!dependency.startsWith('@pulse-cloud/'), 'PRIVATE_DEPENDENCY_IN_PACKED_MANIFEST');
         }
       }
-      if (!core) assert.equal(packedManifest.dependencies['@pulse-sdk/core'], sourceManifest.version);
+      if (!core) assert.equal(packedManifest.dependencies['@reviseflow/pulse-core'], sourceManifest.version);
     }
     memberHashes.push({ path: member, sha256: sha256(content) });
   }
@@ -132,13 +135,22 @@ async function auditPackage(name) {
     scoped_secret_and_private_source_scan_passed: true,
     files: memberHashes,
   };
+  if (registryMode) {
+    const response = await fetch(`https://registry.npmjs.org/${encodeURIComponent(name)}/${sourceManifest.version}`);
+    assert.equal(response.status, 200, 'PUBLISHED_PACKAGE_REQUIRED');
+    const metadata = await response.json();
+    const archiveBytes = await readFile(path);
+    const integrity = `sha512-${createHash('sha512').update(archiveBytes).digest('base64')}`;
+    assert.equal(metadata.dist.integrity, integrity, 'PUBLISHED_ARCHIVE_MUST_MATCH_REVIEWED_BYTES');
+    packageEvidence.registry = { version: metadata.version, integrity, tarball: metadata.dist.tarball };
+  }
   report.packages.push(packageEvidence);
   return { filename, path };
 }
 
 const typeConsumer = `import { McpServer } from '@modelcontextprotocol/server';
-import { createPulse } from '@pulse-sdk/mcp';
-import { createPulseCore, type PulseEvent } from '@pulse-sdk/core';
+import { createPulse } from '@reviseflow/pulse';
+import { createPulseCore, type PulseEvent } from '@reviseflow/pulse-core';
 import { z } from 'zod';
 
 const pulse = createPulse({ environment: 'test', enabled: false });
@@ -167,10 +179,10 @@ void sameType; void prohibited;
 `;
 
 const runtimeConsumer = `import assert from 'node:assert/strict';
-import { createPulse } from '@pulse-sdk/mcp';
+import { createPulse } from '@reviseflow/pulse';
 import { z } from 'zod';
-import eventSchema from '@pulse-sdk/core/contracts/event-v1.schema.json' with { type: 'json' };
-import batchSchema from '@pulse-sdk/core/contracts/batch-v1.schema.json' with { type: 'json' };
+import eventSchema from '@reviseflow/pulse-core/contracts/event-v1.schema.json' with { type: 'json' };
+import batchSchema from '@reviseflow/pulse-core/contracts/batch-v1.schema.json' with { type: 'json' };
 import { startFixtureCollector, startMcpFixture } from './fixture.ts';
 assert.equal(eventSchema.additionalProperties, false);
 assert.equal(batchSchema.additionalProperties, false);
@@ -193,6 +205,7 @@ try {
   for (const required of eventSchema.required) assert.ok(Object.hasOwn(event, required));
   for (const key of Object.keys(event)) assert.ok(Object.hasOwn(eventSchema.properties, key));
   assert.equal(event.outcome, 'tool_success');
+  assert.equal(event.sdk_version, '0.1.0');
   assert.equal(event.actor_id, null);
   assert.equal(event.client_name, null);
   assert.equal(pulse.getDiagnostics().observed, 1);
@@ -217,8 +230,8 @@ async function verifyConsumer(archives) {
     license: 'UNLICENSED',
     type: 'module',
     dependencies: {
-      '@pulse-sdk/core': `file:./artifacts/${archives[0].filename}`,
-      '@pulse-sdk/mcp': `file:./artifacts/${archives[1].filename}`,
+      '@reviseflow/pulse-core': registryMode ? report.packages[0].version : `file:./artifacts/${archives[0].filename}`,
+      '@reviseflow/pulse': registryMode ? report.packages[1].version : `file:./artifacts/${archives[1].filename}`,
       '@modelcontextprotocol/server': '2.0.0',
       '@modelcontextprotocol/client': '2.0.0',
       '@modelcontextprotocol/node': '2.0.0',
@@ -235,8 +248,8 @@ async function verifyConsumer(archives) {
   for (const [name, version] of Object.entries(manifest.dependencies)) {
     if (!version.startsWith('file:')) assert.equal(report.consumer.dependencies[name], version);
   }
-  for (const name of ['core', 'mcp']) {
-    const installed = await realpath(join(consumerDirectory, 'node_modules', '@pulse-sdk', name));
+  for (const name of ['pulse-core', 'pulse']) {
+    const installed = await realpath(join(consumerDirectory, 'node_modules', '@reviseflow', name));
     assert.ok(installed.startsWith(await realpath(consumerDirectory)), 'PACKED_PACKAGE_LINKS_TO_WORKSPACE');
     assert.ok(!installed.startsWith(await realpath(root)), 'PACKED_PACKAGE_LINKS_TO_WORKSPACE');
   }
@@ -265,6 +278,7 @@ async function verifyConsumer(archives) {
     assert.deepEqual(result.structuredContent, { sum: 5 });
     assert.equal(event.tool_name, 'sum');
     assert.equal(event.outcome, 'tool_success');
+  assert.equal(event.sdk_version, '0.1.0');
     assert.equal(event.kind, 'tool_handler.completed');
     assert.equal(event.actor_id, null);
     assert.equal(event.client_name, null);
@@ -280,7 +294,7 @@ async function verifyConsumer(archives) {
   const simulatedManifest = JSON.parse(originalServerManifest);
   assert.equal(simulatedManifest.version, '2.0.0');
   simulatedManifest.version = '2.0.1';
-  await writeFile(join(consumerDirectory, 'unsupported-version.mjs'), `import assert from 'node:assert/strict';\nimport { createPulse } from '@pulse-sdk/mcp';\nassert.throws(() => createPulse({ environment: 'test', enabled: false }), { code: 'UNSUPPORTED_MCP_VERSION' });\n`);
+  await writeFile(join(consumerDirectory, 'unsupported-version.mjs'), `import assert from 'node:assert/strict';\nimport { createPulse } from '@reviseflow/pulse';\nassert.throws(() => createPulse({ environment: 'test', enabled: false }), { code: 'UNSUPPORTED_MCP_VERSION' });\n`);
   try {
     // Mutate only this disposable consumer's installed package metadata. This
     // exercises rejection of drift; it is not a real MCP 2.0.1 compatibility run.
@@ -321,8 +335,8 @@ try {
   await mkdir(join(root, 'artifacts'), { recursive: true });
   archiveDirectory = await mkdtemp(join(root, 'artifacts', 'packed-'));
   run('pnpm', ['build']);
-  const core = await auditPackage('@pulse-sdk/core');
-  const mcp = await auditPackage('@pulse-sdk/mcp');
+  const core = await auditPackage('@reviseflow/pulse-core');
+  const mcp = await auditPackage('@reviseflow/pulse');
   await verifyConsumer([core, mcp]);
   report.status = 'PASSED';
   console.log('Packed SDK consumer verification passed. / Paketlenmiş SDK tüketici doğrulaması başarılı.');

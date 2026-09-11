@@ -1,5 +1,9 @@
 # M0 dependency baseline / M0 bağımlılık başlangıç noktası
 
+**2026-09-11 release:** `@reviseflow/pulse@0.1.0` and `@reviseflow/pulse-core@0.1.0` are published on npm. The exact baseline below was retained and reverified with 70 tests and a real, unrelated npm-installed consumer. See [registry evidence](evidence/registry-consumer.json).
+
+**TR:** 0.1.0 paketleri npm üzerinde yayımlandı. Aşağıdaki sürümler korundu;70 test ve npm’den kurulan bağımsız gerçek MCP istemcisiyle yeniden doğrulandı.
+
 Verified on **2026-09-10 at 12:30 UTC** against official documentation, the npm registry and the downloaded MCP package archives. Exact registry metadata, publication timestamps, tarball URLs and integrity values are recorded in [`evidence/dependency-registry.json`](./evidence/dependency-registry.json). This is dependency evidence; executed compatibility results belong in `SDK_COMPATIBILITY.md` and `BUILD_STATUS.md`.
 
 **TR:** Resmî dokümanlar, npm kayıt sistemi ve indirilen MCP paket arşivleri **10 Eylül 2026, 12:30 UTC** tarihinde doğrulandı. Kesin sürümler, yayın zamanları, arşiv adresleri ve bütünlük değerleri bağlantılı JSON dosyasındadır. Bu kayıt bağımlılık kanıtıdır; çalıştırılmış uyumluluk sonuçları `SDK_COMPATIBILITY.md` ve `BUILD_STATUS.md` dosyalarında tutulur.

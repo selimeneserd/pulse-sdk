@@ -13,7 +13,8 @@
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "check": "pnpm build && pnpm typecheck && pnpm test",
     "fixture": "pnpm build && node examples/fixture.ts",
-    "verify:pack": "node scripts/verify-packed.mjs"
+    "verify:pack": "node scripts/verify-packed.mjs",
+    "verify:registry": "node scripts/verify-packed.mjs --registry"
   },
   "devDependencies": {
     "@modelcontextprotocol/server": "2.0.0",
@@ -26,7 +27,7 @@
     "ajv": "8.20.0",
     "ajv-formats": "3.0.1",
     "@types/node": "24.13.4",
-    "@pulse-sdk/core": "workspace:*",
-    "@pulse-sdk/mcp": "workspace:*"
+    "@reviseflow/pulse-core": "workspace:*",
+    "@reviseflow/pulse": "workspace:*"
   }
 }

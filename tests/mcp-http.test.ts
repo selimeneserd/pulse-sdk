@@ -4,7 +4,7 @@ import { Ajv2020 } from 'ajv/dist/2020.js';
 import addFormats from 'ajv-formats';
 import { z } from 'zod';
 import { CLIENT_INFO_META_KEY, inputRequired, type McpServer, type CallToolResult } from '@modelcontextprotocol/server';
-import { createPulse } from '@pulse-sdk/mcp';
+import { createPulse } from '@reviseflow/pulse';
 import { startFixtureCollector, startMcpFixture } from '../examples/fixture.js';
 
 const cleanups: Array<() => Promise<void>> = [];

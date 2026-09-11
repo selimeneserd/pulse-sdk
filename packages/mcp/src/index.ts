@@ -3,9 +3,9 @@ import { createRequire } from 'node:module';
 import { dirname, resolve } from 'node:path';
 import { performance } from 'node:perf_hooks';
 import { CLIENT_INFO_META_KEY, McpServer, type RegisteredTool, type ServerContext } from '@modelcontextprotocol/server';
-import { createPulseCore, type PulseCoreOptions, type Outcome } from '@pulse-sdk/core';
+import { createPulseCore, type PulseCoreOptions, type Outcome } from '@reviseflow/pulse-core';
 
-export type { PulseCoreOptions, Outcome } from '@pulse-sdk/core';
+export type { PulseCoreOptions, Outcome } from '@reviseflow/pulse-core';
 export const SUPPORTED_MCP_VERSION = '2.0.0';
 
 const messages = {

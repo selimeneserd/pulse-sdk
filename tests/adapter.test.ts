@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { McpServer, type RegisteredTool, type ServerContext } from '@modelcontextprotocol/server';
-import { createPulse, PulseCompatibilityError } from '@pulse-sdk/mcp';
+import { createPulse, PulseCompatibilityError } from '@reviseflow/pulse';
 import { startFixtureCollector, startMcpFixture } from '../examples/fixture.js';
 import { z } from 'zod';
 import { runInNewContext } from 'node:vm';

@@ -1,3 +1,15 @@
+# Current release / Güncel sürüm
+
+**2026-09-11: npm 0.1.0 published.** Owner-authorized publication completed under the verified `reviseflow` npm organization (account `selimenes`, owner). `pulse-sdk` was unavailable as an organization name; the final packages are **@reviseflow/pulse** and **@reviseflow/pulse-core**, both public and MIT. Existing `Pulse contributors` copyright notices were reviewed and retained. GitHub repositories remain private; cloud source is excluded from the npm allowlist.
+
+Validation: **70/70 SDK tests**, strict typechecking, both package builds, independent archive installation, actual EN/TR MCP HTTP calls, schema exports, and simulated incompatible-version rejection passed. Production dependency audit and Gitleaks package-source/dist scan returned zero findings. **The npm registry consumer gate passed**: a fresh external project installed exact registry versions, preserved original tool results, emitted exactly one sanitized event, and matched both published SHA-512 integrities to the reviewed archive bytes. The first immediately-after-publication consumer install exited1; a separate clean npm install and the repeated complete registry gate passed. No compatibility claim is inferred from publication itself.
+
+Evidence: [registry-consumer.json](docs/evidence/registry-consumer.json), [packed-consumer.json](docs/evidence/packed-consumer.json). Tested baseline remains Node24.20.0, pnpm11.22.0, MCP2.0.0, protocol2026-07-28, TypeScript7.0.2, Zod4.6.1. The adapter includes core0.1.0 automatically and requires exact MCP server2.0.0. Historical M0 records below describe their original date; the old unpublished/package-scope gates are superseded by this release.
+
+**TR:** `@reviseflow/pulse` ve `@reviseflow/pulse-core`0.1.0, sahibinin talebiyle MIT lisanslı ve herkese açık olarak npm üzerinde yayımlandı. `pulse-sdk` ad alanı alınmış olduğundan sahipliği doğrulanan `reviseflow` kullanıldı.70 SDK testi ve npm’den temiz kurulumla gerçek MCP çağrısı geçti; arşiv hashleri yayımlanan paketlerle eşleşti. Cloud kodu npm paketlerine eklenmedi, GitHub depoları özel kaldı. İlk kayıt sistemi kurulumu başarısız oldu; bağımsız kurulum ve tüm doğrulama yeniden başarıyla tamamlandı.
+
+---
+
 # Current SDK and cloud status / Güncel SDK ve cloud durumu
 
 Updated **2026-09-10**. SDK M0 is verified: **70 tests plus independent packed consumer proof**; implementation commit `e45c0bdcb2f9ec5e72ad7ef28553b505209ddee2`. Its exact MCP2.0.0/Node24.20.0 support boundary remains unchanged. Later SDK commits contain CI and status documentation only; no packages or public repositories were published. The pinned CI workflow exists but has not run remotely.

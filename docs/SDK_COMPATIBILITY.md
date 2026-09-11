@@ -1,5 +1,9 @@
 # SDK compatibility / SDK uyumluluğu
 
+**2026-09-11 release:** `@reviseflow/pulse@0.1.0` and `@reviseflow/pulse-core@0.1.0` are published on npm. The exact baseline below was retained and reverified with 70 tests and a real, unrelated npm-installed consumer. See [registry evidence](evidence/registry-consumer.json).
+
+**TR:** 0.1.0 paketleri npm üzerinde yayımlandı. Aşağıdaki sürümler korundu;70 test ve npm’den kurulan bağımsız gerçek MCP istemcisiyle yeniden doğrulandı.
+
 **M0 FIXTURE_VERIFIED — 2026-09-10.** The exact local target below passed 70 tests, strict compilation and independent tarball consumption. This is local SDK evidence; no production collector or live host certification is implied.
 
 **TR:** **M0 yerel düzenekle doğrulandı — 10 Eylül 2026.** Aşağıdaki kesin hedefte 70 test, sıkı derleme ve repo dışı paket kurulumu geçti. Bu SDK kanıtı üretim toplayıcısı veya gerçek istemci platformu onayı değildir.

@@ -1,16 +1,16 @@
-# Pulse SDK — M0, unpublished / yayımlanmamış
+# Pulse SDK
 
-MIT SDK and MCP adapter for metadata-only **observed tool-handler executions**.
-This is a local compatibility milestone. The package names are provisional;
-no npm publication, public repository, hosted collector or customer dashboard
-is available from this repository. License attribution and package scope still
-need owner review before publication. Packages remain `private: true` as an
-additional publication guard; local packing is supported.
+Google Analytics, but for your MCP. MIT SDK and MCP adapter for metadata-only **observed tool-handler executions**.
+The first npm release is **0.1.0**, with an exact MCP server **2.0.0** peer and verified Node **24.20.0** baseline.
 
-**TR:** Yalnızca gözlenen araç işleyicilerinin metadata bilgisini üreten MIT SDK.
-Bu aşama yerel uyumluluk kanıtıdır. Paketler henüz yayımlanmadı; barındırılan
-toplayıcı, kayıt/ödeme veya çalışan müşteri paneli iddiası yoktur. Paket adları ve
-lisans sahipliği yayımdan önce sahibi tarafından onaylanmalıdır.
+```sh
+npm install --save-exact @reviseflow/pulse@0.1.0 @modelcontextprotocol/server@2.0.0
+```
+
+`@reviseflow/pulse-core@0.1.0` is installed automatically. See the [English setup guide](https://pulse.reviseflow.io/en/docs) or [Türkçe rehber](https://pulse.reviseflow.io/tr/docs).
+The hosted dashboard and collector are at **https://pulse.reviseflow.io**. Cloud implementation remains in a separate proprietary repository and is never included in SDK packages.
+
+**TR:** Yalnızca gözlenen araç işleyicilerinin metadatasını üreten MIT SDK. İlk npm sürümü **0.1.0**; doğrulanmış temel Node **24.20.0** ve resmî MCP **2.0.0** paketidir. Core otomatik kurulur. Panel ve toplayıcı **https://pulse.reviseflow.io** adresindedir. Özel cloud kodu SDK paketlerine dahil edilmez.
 
 ## Run the real fixture / Gerçek düzeneği çalıştır
 
@@ -29,24 +29,23 @@ If this Mac's shell selects a different Node version, prefix commands with
 and server over real loopback Streamable HTTP, protocol **2026-07-28**. It
 prints the caller's original `sum: 5` result and the sanitized emitted event.
 Its clearly labelled collector is an **ephemeral test sink**, never production
-storage. The private cloud repository will own durable admission in M1.
+storage. The separate cloud service owns durable admission.
 
 **TR:** Düzenek resmî MCP istemci ve sunucusunu gerçek yerel HTTP üzerinden
 çalıştırır. Özgün `sum: 5` sonucu ve arındırılmış olay gösterilir. Test
 toplayıcısı yalnızca bellekte çalışır; üretimde kalıcı veri kabulünün yerine
-geçmez. Kalıcı kabul, özel cloud reposunda M1 kapsamında geliştirilecektir.
+geçmez. Kalıcı kabul, ayrı cloud servisinde gerçekleşir.
 
 ## Integration surface / Entegrasyon yüzeyi
 
-After locally packing/installing the two SDK packages (the independent
-consumer test demonstrates this), instrument **before any registration**:
+After installation, instrument **before any registration**:
 
 ```ts
 import { McpServer } from '@modelcontextprotocol/server'; // exactly 2.0.0
-import { createPulse } from '@pulse-sdk/mcp'; // local tarball, not published
+import { createPulse } from '@reviseflow/pulse';
 
 const pulse = createPulse({
-  endpoint: process.env.PULSE_BATCH_ENDPOINT!, // full /v1/batch URL
+  endpoint: process.env.PULSE_COLLECTOR_URL!, // full /v1/batch URL
   writeKey: process.env.PULSE_WRITE_KEY!,      // server only
   environment: 'production',
 });

@@ -23,12 +23,12 @@ importers:
       '@modelcontextprotocol/server':
         specifier: 2.0.0
         version: 2.0.0
-      '@pulse-sdk/core':
-        specifier: workspace:*
-        version: link:packages/core
-      '@pulse-sdk/mcp':
+      '@reviseflow/pulse':
         specifier: workspace:*
         version: link:packages/mcp
+      '@reviseflow/pulse-core':
+        specifier: workspace:*
+        version: link:packages/core
       '@types/node':
         specifier: 24.13.4
         version: 24.13.4
@@ -55,7 +55,7 @@ importers:
       '@modelcontextprotocol/server':
         specifier: 2.0.0
         version: 2.0.0
-      '@pulse-sdk/core':
+      '@reviseflow/pulse-core':
         specifier: workspace:*
         version: link:../core
 

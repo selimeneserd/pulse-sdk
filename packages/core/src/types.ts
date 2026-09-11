@@ -54,8 +54,8 @@ export interface PulseEvent {
   readonly environment: Environment;
   readonly release: string | null;
   readonly error_code: 'TOOL_ERROR' | 'HANDLER_EXCEPTION' | 'CANCELLED' | 'UNSUPPORTED_RESULT' | null;
-  readonly sdk_name: '@pulse-sdk/core';
-  readonly sdk_version: '0.0.0-m0';
+  readonly sdk_name: '@reviseflow/pulse-core';
+  readonly sdk_version: '0.1.0';
   readonly adapter: 'mcp-typescript-2';
 }
 
