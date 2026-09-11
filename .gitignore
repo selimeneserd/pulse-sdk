@@ -7,3 +7,6 @@ artifacts/
 !.env.example
 .DS_Store
 *.tgz
+
+# Local optional exporter output; never commit developer observations.
+pulse-events.jsonl*

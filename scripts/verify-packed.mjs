@@ -23,6 +23,8 @@ const report = {
   status: 'RUNNING',
   started_at: startedAt,
   node: process.version,
+  platform: process.platform,
+  arch: process.arch,
   package_manager: null,
   npm: null,
   publication_performed: false,
@@ -63,16 +65,16 @@ function run(command, args, cwd = root, options = {}) {
 }
 
 const sha256 = value => createHash('sha256').update(value).digest('hex');
-const allowedDist = /^dist\/(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_-]+\.(?:js|d\.ts|js\.map|d\.ts\.map)$/;
+const allowedDist = /^dist\/(?:[A-Za-z0-9_-]+\/)*[A-Za-z0-9_][A-Za-z0-9_.-]*\.(?:js|d\.ts|js\.map|d\.ts\.map)$/;
 function allowedFile(path, core) {
   return ['package.json', 'LICENSE', 'README.md'].includes(path)
     || allowedDist.test(path)
-    || (core && ['contracts/event-v1.schema.json', 'contracts/batch-v1.schema.json', 'contracts/LICENSE', 'contracts/NOTICE'].includes(path));
+    || (core && ['contracts/event-v1.schema.json', 'contracts/batch-v1.schema.json', 'contracts/ack-v1.schema.json', 'contracts/LICENSE', 'contracts/NOTICE'].includes(path));
 }
 
 async function auditPackage(name) {
   const core = name === '@reviseflow/pulse-core';
-  const directory = join(root, 'packages', core ? 'core' : 'mcp');
+  const directory = join(root, 'packages', core ? 'core' : name === '@reviseflow/pulse-otel' ? 'otel' : 'mcp');
   const sourceManifest = JSON.parse(await readFile(join(directory, 'package.json'), 'utf8'));
   const dryRun = JSON.parse(run('npm', ['pack', '--dry-run', '--json', '--ignore-scripts'], directory));
   assert.equal(dryRun.length, 1, 'EXPECTED_ONE_DRY_RUN_PACKAGE');
@@ -180,42 +182,48 @@ void sameType; void prohibited;
 
 const runtimeConsumer = `import assert from 'node:assert/strict';
 import { createPulse } from '@reviseflow/pulse';
-import { z } from 'zod';
+import { createMemoryExporter } from '@reviseflow/pulse-core/memory';
 import eventSchema from '@reviseflow/pulse-core/contracts/event-v1.schema.json' with { type: 'json' };
-import batchSchema from '@reviseflow/pulse-core/contracts/batch-v1.schema.json' with { type: 'json' };
-import { startFixtureCollector, startMcpFixture } from './fixture.ts';
-assert.equal(eventSchema.additionalProperties, false);
-assert.equal(batchSchema.additionalProperties, false);
-assert.equal(batchSchema.properties.events.maxItems, 100);
-const collector = await startFixtureCollector();
-const pulse = createPulse({ endpoint: collector.endpoint, writeKey: collector.writeKey, environment: 'test', enabled: true, queue: { flushIntervalMs: 60000 } });
-const fixture = await startMcpFixture(server => {
-  server.registerTool('sum', { inputSchema: z.object({ a: z.number(), b: z.number() }) }, ({ a, b }) => ({ content: [{ type: 'text', text: String(a + b) }], structuredContent: { sum: a + b } }));
-}, { pulse });
-try {
-  const client = await fixture.connect();
-  const result = await client.callTool({ name: 'sum', arguments: { a: 2, b: 3 } });
-  assert.deepEqual(result.content, [{ type: 'text', text: '5' }]);
-  assert.deepEqual(result.structuredContent, { sum: 5 });
-  assert.equal(collector.requests.length, 0);
-  await pulse.flush();
-  assert.equal(collector.events.length, 1);
-  assert.equal(collector.requests.length, 1);
-  const event = collector.events[0];
-  for (const required of eventSchema.required) assert.ok(Object.hasOwn(event, required));
-  for (const key of Object.keys(event)) assert.ok(Object.hasOwn(eventSchema.properties, key));
-  assert.equal(event.outcome, 'tool_success');
-  assert.equal(event.sdk_version, '0.1.0');
-  assert.equal(event.actor_id, null);
-  assert.equal(event.client_name, null);
-  assert.equal(pulse.getDiagnostics().observed, 1);
-  assert.equal(pulse.getDiagnostics().accepted, 1);
-  console.log(JSON.stringify({ passed: true, observed: 1, accepted: 1, emitted_events: 1, schema_exports_verified: true, export_is_separate_from_handler_return: true }));
-} finally {
-  await fixture.close();
-  await pulse.shutdown();
-  await collector.close();
-}
+import { runLocalExample } from './local.ts';
+const memory = createMemoryExporter();
+const { result, diagnostics } = await runLocalExample(memory);
+assert.deepEqual(result.structuredContent, { sum: 5 });
+assert.equal(diagnostics.observed, 1);
+assert.equal(diagnostics.accepted, 1);
+const event = memory.getEvents()[0];
+for (const required of eventSchema.required) assert.ok(Object.hasOwn(event, required));
+for (const key of Object.keys(event)) assert.ok(Object.hasOwn(eventSchema.properties, key));
+assert.equal(event.outcome, 'tool_success');
+assert.equal(event.actor_id, null);
+assert.equal(event.client_name, null);
+assert.equal(event.adapter, 'mcp-typescript-2');
+const disabled = createPulse({ environment: 'test', enabled: false });
+const hostile = new Proxy({}, { get() { throw Error('UNEXPECTED_PROBE'); } });
+assert.equal(disabled.wrapServer(hostile), hostile);
+await disabled.shutdown();
+console.log(JSON.stringify({ passed: true, observed: 1, accepted: 1, emitted_events: 1, schema_exports_verified: true, real_mcp_in_memory_transport: true, cloud_key_absent: true, network_guard: globalThis.__pulseNetworkDenied === true }));
+`;
+
+const networkGuard = `import net from 'node:net';
+import tls from 'node:tls';
+import http from 'node:http';
+import https from 'node:https';
+import dgram from 'node:dgram';
+import dns from 'node:dns';
+import { syncBuiltinESMExports } from 'node:module';
+const deny = () => { throw Object.assign(new Error('RUNTIME_NETWORK_FORBIDDEN'), { code: 'RUNTIME_NETWORK_FORBIDDEN' }); };
+net.Socket.prototype.connect = deny;
+net.Server.prototype.listen = deny;
+net.createConnection = deny; net.connect = deny;
+tls.connect = deny; http.request = deny; http.get = deny;
+https.request = deny; https.get = deny;
+dgram.createSocket = deny;
+for (const key of Object.keys(dns)) if (/^(lookup|resolve|reverse)/.test(key) && typeof dns[key] === 'function') dns[key] = deny;
+for (const key of Object.keys(dns.promises)) if (/^(lookup|resolve|reverse)/.test(key) && typeof dns.promises[key] === 'function') dns.promises[key] = deny;
+globalThis.fetch = deny;
+globalThis.WebSocket = class { constructor() { deny(); } };
+globalThis.__pulseNetworkDenied = true;
+syncBuiltinESMExports();
 `;
 
 async function verifyConsumer(archives) {
@@ -232,6 +240,9 @@ async function verifyConsumer(archives) {
     dependencies: {
       '@reviseflow/pulse-core': registryMode ? report.packages[0].version : `file:./artifacts/${archives[0].filename}`,
       '@reviseflow/pulse': registryMode ? report.packages[1].version : `file:./artifacts/${archives[1].filename}`,
+      '@reviseflow/pulse-otel': registryMode ? report.packages[2].version : `file:./artifacts/${archives[2].filename}`,
+      '@opentelemetry/api': '1.9.1',
+      esbuild: '0.28.2',
       '@modelcontextprotocol/server': '2.0.0',
       '@modelcontextprotocol/client': '2.0.0',
       '@modelcontextprotocol/node': '2.0.0',
@@ -248,12 +259,15 @@ async function verifyConsumer(archives) {
   for (const [name, version] of Object.entries(manifest.dependencies)) {
     if (!version.startsWith('file:')) assert.equal(report.consumer.dependencies[name], version);
   }
-  for (const name of ['pulse-core', 'pulse']) {
+  for (const name of ['pulse-core', 'pulse', 'pulse-otel']) {
     const installed = await realpath(join(consumerDirectory, 'node_modules', '@reviseflow', name));
     assert.ok(installed.startsWith(await realpath(consumerDirectory)), 'PACKED_PACKAGE_LINKS_TO_WORKSPACE');
     assert.ok(!installed.startsWith(await realpath(root)), 'PACKED_PACKAGE_LINKS_TO_WORKSPACE');
   }
   await cp(join(root, 'examples', 'fixture.ts'), join(consumerDirectory, 'fixture.ts'));
+  await cp(join(root, 'examples', 'local.ts'), join(consumerDirectory, 'local.ts'));
+  await writeFile(join(consumerDirectory, 'network-guard.mjs'), networkGuard);
+  await writeFile(join(consumerDirectory, 'guard-test.mjs'), `import assert from 'node:assert/strict'; import net from 'node:net'; assert.throws(() => net.connect(80,'127.0.0.1'), {code:'RUNTIME_NETWORK_FORBIDDEN'}); assert.throws(() => fetch('https://example.invalid'), {code:'RUNTIME_NETWORK_FORBIDDEN'});`);
   await writeFile(join(consumerDirectory, 'consumer.ts'), typeConsumer);
   await writeFile(join(consumerDirectory, 'consumer-runtime.mjs'), runtimeConsumer);
   await writeFile(join(consumerDirectory, 'tsconfig.json'), `${JSON.stringify({
@@ -263,10 +277,18 @@ async function verifyConsumer(archives) {
       noUncheckedIndexedAccess: true, exactOptionalPropertyTypes: true, skipLibCheck: true,
       noEmit: true, verbatimModuleSyntax: true,
     },
-    include: ['consumer.ts', 'fixture.ts'],
+    include: ['consumer.ts', 'fixture.ts', 'local.ts'],
   }, null, 2)}\n`);
   run(process.execPath, ['./node_modules/typescript/bin/tsc', '-p', 'tsconfig.json'], consumerDirectory);
-  const runtime = JSON.parse(run(process.execPath, ['consumer-runtime.mjs'], consumerDirectory));
+  run(process.execPath, ['--import', './network-guard.mjs', 'guard-test.mjs'], consumerDirectory);
+  const runtime = JSON.parse(run(process.execPath, ['--import', './network-guard.mjs', 'consumer-runtime.mjs'], consumerDirectory));
+  assert.equal(runtime.network_guard, true);
+  run('./node_modules/.bin/esbuild', [ 'consumer-runtime.mjs', '--bundle', '--platform=node', '--format=esm', '--external:@modelcontextprotocol/*', '--external:zod', '--define:import.meta.url="file:///pulse-bundled-library"', '--outfile=bundle.mjs'], consumerDirectory);
+  const bundled = JSON.parse(run(process.execPath, ['--import', './network-guard.mjs', 'bundle.mjs'], consumerDirectory));
+  assert.equal(bundled.passed, true);
+  run(process.execPath, ['--import', './network-guard.mjs', '-e', "import('@reviseflow/pulse-otel').then(m => { if (typeof m.createOtelExporter !== 'function') process.exit(1) })"], consumerDirectory);
+  const cliHelp = run('./node_modules/.bin/pulse', ['help'], consumerDirectory);
+  assert.equal(cliHelp, '', 'CLI_MUST_NOT_WRITE_STDOUT');
   const locales = [];
   for (const locale of ['en', 'tr']) {
     const output = run(process.execPath, ['fixture.ts'], consumerDirectory, { env: { PULSE_LOCALE: locale } });
@@ -278,7 +300,7 @@ async function verifyConsumer(archives) {
     assert.deepEqual(result.structuredContent, { sum: 5 });
     assert.equal(event.tool_name, 'sum');
     assert.equal(event.outcome, 'tool_success');
-  assert.equal(event.sdk_version, '0.1.0');
+  assert.equal(event.sdk_version, report.packages[0].version);
     assert.equal(event.kind, 'tool_handler.completed');
     assert.equal(event.actor_id, null);
     assert.equal(event.client_name, null);
@@ -289,55 +311,67 @@ async function verifyConsumer(archives) {
     assert.ok(locale === 'en' ? lines[0].startsWith('LOCAL TEST ONLY:') : lines[0].startsWith('YALNIZCA YEREL TEST:'), 'FIXTURE_LOCALE_MISMATCH');
     locales.push({ locale, passed: true, caller_result: result, sanitized_event: event });
   }
-  const installedServerManifest = join(consumerDirectory, 'node_modules', '@modelcontextprotocol', 'server', 'package.json');
-  const originalServerManifest = await readFile(installedServerManifest, 'utf8');
-  const simulatedManifest = JSON.parse(originalServerManifest);
-  assert.equal(simulatedManifest.version, '2.0.0');
-  simulatedManifest.version = '2.0.1';
-  await writeFile(join(consumerDirectory, 'unsupported-version.mjs'), `import assert from 'node:assert/strict';\nimport { createPulse } from '@reviseflow/pulse';\nassert.throws(() => createPulse({ environment: 'test', enabled: false }), { code: 'UNSUPPORTED_MCP_VERSION' });\n`);
-  try {
-    // Mutate only this disposable consumer's installed package metadata. This
-    // exercises rejection of drift; it is not a real MCP 2.0.1 compatibility run.
-    await writeFile(installedServerManifest, `${JSON.stringify(simulatedManifest, null, 2)}\n`);
-    run(process.execPath, ['unsupported-version.mjs'], consumerDirectory);
-  } finally {
-    await writeFile(installedServerManifest, originalServerManifest);
-  }
-  assert.equal(await readFile(installedServerManifest, 'utf8'), originalServerManifest);
+  // Install a second actual MCP package copy and a second Pulse copy. No private
+  // paths are consulted by instrumentation; separate class identity is accepted.
+  const duplicateDirectory = join(consumerDirectory, 'duplicate');
+  await mkdir(duplicateDirectory);
+  await cp(join(consumerDirectory, 'node_modules/@modelcontextprotocol/server'), join(duplicateDirectory, 'server'), { recursive: true });
+  await cp(join(consumerDirectory, 'node_modules/@reviseflow/pulse'), join(duplicateDirectory, 'pulse'), { recursive: true });
+  const duplicateServer = JSON.parse(await readFile(join(duplicateDirectory, 'server/package.json'), 'utf8'));
+  const duplicatePulse = JSON.parse(await readFile(join(duplicateDirectory, 'pulse/package.json'), 'utf8'));
+  await writeFile(join(consumerDirectory, 'duplicates.mjs'), `import assert from 'node:assert/strict';
+import { McpServer as OriginalServer } from '@modelcontextprotocol/server';
+import { McpServer } from './duplicate/server/${duplicateServer.exports['.'].import.default.replace('./','')}';
+import { createPulse } from '@reviseflow/pulse';
+import { createPulse as duplicatePulse } from './duplicate/pulse/${duplicatePulse.exports['.'].import.replace('./','')}';
+import { createMemoryExporter } from '@reviseflow/pulse-core/memory';
+import { Client } from '@modelcontextprotocol/client';
+import { InMemoryTransport } from '@modelcontextprotocol/server';
+const memory=createMemoryExporter();
+const one=createPulse({environment:'test',exporter:memory});
+const two=duplicatePulse({environment:'test',exporter:memory});
+const target=new McpServer({name:'duplicate',version:'1'});
+assert.equal(target instanceof OriginalServer,false);
+const server=two.wrapServer(one.wrapServer(target));
+server.registerTool('once',{},()=>({content:[]}));
+const client=new Client({name:'fixture',version:'1'});
+const [c,s]=InMemoryTransport.createLinkedPair();
+await server.connect(s); await client.connect(c);
+await client.callTool({name:'once'}); await one.flush(); await two.flush();
+assert.equal(memory.getEvents().length,1);
+await client.close(); await server.close(); await one.shutdown(); await two.shutdown();
+`);
+  run(process.execPath, ['--import', './network-guard.mjs', 'duplicates.mjs'], consumerDirectory);
   report.consumer = {
     ...report.consumer,
     unrelated_temporary_directory: true,
     workspace_source_links_absent: true,
     typed_registration_compilation_passed: true,
     runtime,
-    unsupported_version_guard: {
-      passed: true,
-      kind: 'simulated-package-metadata-drift',
-      actual_installed_code: '2.0.0',
-      simulated_metadata_version: '2.0.1',
-      expected_error: 'UNSUPPORTED_MCP_VERSION',
-      metadata_restored: true,
-      real_2_0_1_compatibility_claimed: false,
-    },
+    offline_runtime_guard_verified: true,
+    bundle_esm_pulse_embedded_mcp_peer_external_passed: true,
+    duplicate_mcp_and_pulse_copies_passed: true,
+    cli_stdout_empty: true,
     fixture_source_sha256: sha256(await readFile(join(root, 'examples', 'fixture.ts'))),
     locales,
   };
 }
 
 try {
-  assert.equal(process.version, 'v24.20.0', 'RUN_WITH_VERIFIED_NODE_24_20_0');
+  assert.ok(['v24.11.1', 'v24.20.0'].includes(process.version), 'RUN_WITH_VERIFIED_NODE_MATRIX');
   report.package_manager = run('pnpm', ['--version']).trim();
   assert.equal(report.package_manager, '11.22.0', 'RUN_WITH_PINNED_PNPM');
   report.npm = run('npm', ['--version']).trim();
   // Read before packing: a missing owner-facing README is a failed gate, never
   // silently bypassed with generated placeholder content.
-  for (const name of ['core', 'mcp']) await readFile(join(root, 'packages', name, 'README.md'));
+  for (const name of ['core', 'mcp', 'otel']) await readFile(join(root, 'packages', name, 'README.md'));
   await mkdir(join(root, 'artifacts'), { recursive: true });
   archiveDirectory = await mkdtemp(join(root, 'artifacts', 'packed-'));
   run('pnpm', ['build']);
   const core = await auditPackage('@reviseflow/pulse-core');
   const mcp = await auditPackage('@reviseflow/pulse');
-  await verifyConsumer([core, mcp]);
+  const otel = await auditPackage('@reviseflow/pulse-otel');
+  await verifyConsumer([core, mcp, otel]);
   report.status = 'PASSED';
   console.log('Packed SDK consumer verification passed. / Paketlenmiş SDK tüketici doğrulaması başarılı.');
 } catch (error) {

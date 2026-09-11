@@ -1,3 +1,4 @@
+import { createHttpExporter } from '@reviseflow/pulse-core/http';
 import { readFile } from 'node:fs/promises';
 import { afterEach, describe, expect, it } from 'vitest';
 import { Ajv2020 } from 'ajv/dist/2020.js';
@@ -21,8 +22,7 @@ async function collectorAndPulse(overrides: Partial<Parameters<typeof createPuls
   const collector = await startFixtureCollector();
   cleanups.push(collector.close);
   const pulse = createPulse({
-    writeKey: collector.writeKey,
-    endpoint: collector.endpoint,
+    exporter: createHttpExporter({ endpoint: collector.endpoint, authorization: `Bearer ${collector.writeKey}` }),
     environment: 'test',
     enabled: true,
     queue: { flushIntervalMs: 60_000, requestTimeoutMs: 50, maxRetries: 0 },

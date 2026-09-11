@@ -1,10 +1,10 @@
 {
   "name": "@reviseflow/pulse-core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "type": "module",
   "engines": {
-    "node": ">=24.20.0 <25"
+    "node": ">=24.11.1 <25"
   },
   "files": [
     "dist",
@@ -18,14 +18,31 @@
       "import": "./dist/index.js"
     },
     "./contracts/event-v1.schema.json": "./contracts/event-v1.schema.json",
-    "./contracts/batch-v1.schema.json": "./contracts/batch-v1.schema.json"
+    "./contracts/batch-v1.schema.json": "./contracts/batch-v1.schema.json",
+    "./memory": {
+      "types": "./dist/memory.d.ts",
+      "import": "./dist/memory.js"
+    },
+    "./http": {
+      "types": "./dist/http.d.ts",
+      "import": "./dist/http.js"
+    },
+    "./jsonl": {
+      "types": "./dist/jsonl.d.ts",
+      "import": "./dist/jsonl.js"
+    },
+    "./conformance": {
+      "types": "./dist/conformance.d.ts",
+      "import": "./dist/conformance.js"
+    },
+    "./contracts/ack-v1.schema.json": "./contracts/ack-v1.schema.json"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "node ../../scripts/generate-contracts.mjs && tsc -p tsconfig.json",
     "prepack": "pnpm run build"
   },
   "description": "Bounded, metadata-only analytics exporter for observed MCP tool handler calls.",
-  "homepage": "https://pulse.reviseflow.io/en/docs",
+  "homepage": "https://github.com/selimeneserd/pulse-sdk#readme",
   "keywords": [
     "mcp",
     "analytics",
@@ -36,5 +53,13 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/selimeneserd/pulse-sdk.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/selimeneserd/pulse-sdk/issues"
   }
 }

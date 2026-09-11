@@ -5,14 +5,21 @@ permissions:
 jobs:
   sdk:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [24.11.1, 24.20.0]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: 24.20.0
+          node-version: ${{ matrix.node }}
       - run: npm install --global pnpm@11.22.0
       - run: pnpm install --frozen-lockfile
+      - run: pnpm contracts:check
       - run: pnpm check
+      - run: pnpm conformance
+      - run: pnpm identity:check
       - run: pnpm verify:pack
       - run: pnpm audit --prod

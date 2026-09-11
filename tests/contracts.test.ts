@@ -14,9 +14,13 @@ const validBatch = ajv.compile(read('../contracts/batch-v1.schema.json'));
 
 describe('strict public wire contract', () => {
   it('keeps the packaged wire schemas identical to the public source contract', () => {
-    for (const filename of ['event-v1.schema.json', 'batch-v1.schema.json']) {
+    for (const filename of ['event-v1.schema.json', 'batch-v1.schema.json', 'ack-v1.schema.json']) {
       expect(read(`../packages/core/contracts/${filename}`)).toEqual(read(`../contracts/${filename}`));
     }
+  });
+  it('keeps public conformance fixtures equal to regression fixtures', () => {
+    expect(read('../contracts/fixtures/events.json')).toEqual(read('./fixtures/golden-events.json'));
+    expect(read('../contracts/fixtures/negative-events.json')).toEqual(read('./fixtures/negative-events.json'));
   });
   it('validates all eight positive events and the batch', () => {
     const batch = read('./fixtures/golden-events.json');

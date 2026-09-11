@@ -1,3 +1,4 @@
+import { createHttpExporter } from '@reviseflow/pulse-core/http';
 /**
  * Local compatibility fixture only. The collector below is an ephemeral test
  * sink: it does not provide persistence, tenant authorization, quotas or billing.
@@ -189,8 +190,7 @@ async function main(): Promise<void> {
   }[locale];
   const collector = await startFixtureCollector();
   const pulse = createPulse({
-    writeKey: collector.writeKey,
-    endpoint: collector.endpoint,
+    exporter: createHttpExporter({ endpoint: collector.endpoint, authorization: `Bearer ${collector.writeKey}` }),
     environment: 'test',
     enabled: true,
     queue: { flushIntervalMs: 60_000 },

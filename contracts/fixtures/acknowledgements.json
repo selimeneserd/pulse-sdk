@@ -1,0 +1,73 @@
+[
+  {
+    "name": "accepted",
+    "schema_valid": true,
+    "body": {
+      "accepted": [
+        "00000000-0000-4000-8000-000000000001"
+      ],
+      "duplicates": [],
+      "rejected": [],
+      "server_time": "2026-09-11T12:00:00.000Z"
+    }
+  },
+  {
+    "name": "duplicate",
+    "schema_valid": true,
+    "body": {
+      "accepted": [],
+      "duplicates": [
+        "00000000-0000-4000-8000-000000000001"
+      ],
+      "rejected": [],
+      "server_time": "2026-09-11T12:00:00.000Z"
+    }
+  },
+  {
+    "name": "partial",
+    "schema_valid": true,
+    "body": {
+      "accepted": [
+        "00000000-0000-4000-8000-000000000001"
+      ],
+      "duplicates": [],
+      "rejected": [
+        {
+          "event_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+          "code": "BUSY",
+          "retryable": true
+        }
+      ],
+      "server_time": "2026-09-11T12:00:00.000Z"
+    }
+  },
+  {
+    "name": "permanent",
+    "schema_valid": true,
+    "body": {
+      "accepted": [],
+      "duplicates": [],
+      "rejected": [
+        {
+          "event_id": "00000000-0000-4000-8000-000000000001",
+          "code": "INVALID_EVENT",
+          "retryable": false
+        }
+      ],
+      "server_time": "2026-09-11T12:00:00.000Z"
+    }
+  },
+  {
+    "name": "raw-error-forbidden",
+    "schema_valid": false,
+    "body": {
+      "accepted": [
+        "00000000-0000-4000-8000-000000000001"
+      ],
+      "duplicates": [],
+      "rejected": [],
+      "server_time": "2026-09-11T12:00:00.000Z",
+      "message": "FORBIDDEN_SENTINEL"
+    }
+  }
+]

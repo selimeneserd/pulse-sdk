@@ -1,10 +1,10 @@
 {
   "name": "@reviseflow/pulse",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "type": "module",
   "engines": {
-    "node": ">=24.20.0 <25"
+    "node": ">=24.11.1 <25"
   },
   "files": [
     "dist",
@@ -18,7 +18,7 @@
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "node ../../scripts/generate-contracts.mjs && tsc -p tsconfig.json",
     "prepack": "pnpm run build"
   },
   "dependencies": {
@@ -27,8 +27,8 @@
   "peerDependencies": {
     "@modelcontextprotocol/server": "2.0.0"
   },
-  "description": "Google Analytics, but for your MCP. Metadata-only tool analytics for MCP server 2.0.0.",
-  "homepage": "https://pulse.reviseflow.io/en/docs",
+  "description": "Cloud-optional metadata-only analytics for observed MCP tool handlers.",
+  "homepage": "https://github.com/selimeneserd/pulse-sdk#readme",
   "keywords": [
     "mcp",
     "analytics",
@@ -39,5 +39,16 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/selimeneserd/pulse-sdk.git",
+    "directory": "packages/mcp"
+  },
+  "bugs": {
+    "url": "https://github.com/selimeneserd/pulse-sdk/issues"
+  },
+  "bin": {
+    "pulse": "./dist/cli.js"
   }
 }

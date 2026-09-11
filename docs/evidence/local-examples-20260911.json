@@ -1,0 +1,49 @@
+{
+  "date": "2026-09-11",
+  "node": "24.20.0",
+  "local_example": {
+    "command": "node --import ./scripts/network-disabled.mjs examples/local.ts pulse-events.jsonl",
+    "real_mcp_client_server": true,
+    "transport": "InMemoryTransport",
+    "network_apis_denied": true,
+    "cloud_account_key_repo_required": false,
+    "observed": 1,
+    "accepted": 1
+  },
+  "cli": {
+    "command": "node packages/mcp/dist/cli.js dev --file pulse-events.jsonl --locale tr",
+    "stdout_bytes": 0,
+    "summary": {
+      "code": "DEV",
+      "message": "Yerel dosyadaki gözlemlenen handler tamamlanmaları; süre tam MCP isteği gecikmesi değildir. Sınırlı özet dosyanın yalnızca başını kapsayabilir.",
+      "events": 1,
+      "invalid": 0,
+      "duplicates": 0,
+      "omittedToolRecords": 0,
+      "truncated": false,
+      "tools": [
+        {
+          "tool_name": "sum",
+          "count": 1,
+          "p50_ms": 0.04912500000000364,
+          "p95_ms": 0.04912500000000364,
+          "p99_ms": 0.04912500000000364,
+          "outcomes": {
+            "tool_success": 1
+          }
+        }
+      ]
+    }
+  },
+  "otel": {
+    "command": "node examples/otel.ts",
+    "stdout_bytes": 0,
+    "summary": {
+      "message": "Local OTel example / Yerel OTel örneği",
+      "spans": 1,
+      "accepted": 1
+    }
+  },
+  "initial_dependency_installation": "can require network; separate offline --frozen-lockfile install passed with existing cache",
+  "workspace_cli_note": "use direct built CLI path in source checkout; installed tarballs provide pulse executable"
+}

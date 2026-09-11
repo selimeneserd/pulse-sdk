@@ -1,0 +1,24 @@
+[WARN] Unsupported engine: wanted: {"node":">=24.20.0 <25"} (current: {"node":"v24.11.1","pnpm":"11.22.0"})
+$ pnpm build && pnpm typecheck && pnpm test
+[WARN] Unsupported engine: wanted: {"node":">=24.20.0 <25"} (current: {"node":"v24.11.1","pnpm":"11.22.0"})
+$ pnpm -r build
+.                                        | [WARN] Unsupported engine: wanted: {"node":">=24.20.0 <25"} (current: {"node":"v24.11.1","pnpm":"11.22.0"})
+packages/core                            | [WARN] Unsupported engine: wanted: {"node":">=24.20.0 <25"} (current: {"node":"v24.11.1","pnpm":"11.22.0"})
+packages/mcp                             | [WARN] Unsupported engine: wanted: {"node":">=24.20.0 <25"} (current: {"node":"v24.11.1","pnpm":"11.22.0"})
+Scope: 2 of 3 workspace projects
+packages/core build$ tsc -p tsconfig.json
+packages/core build: Done
+packages/mcp build$ tsc -p tsconfig.json
+packages/mcp build: Done
+[WARN] Unsupported engine: wanted: {"node":">=24.20.0 <25"} (current: {"node":"v24.11.1","pnpm":"11.22.0"})
+$ tsc --noEmit -p tsconfig.json
+[WARN] Unsupported engine: wanted: {"node":">=24.20.0 <25"} (current: {"node":"v24.11.1","pnpm":"11.22.0"})
+$ vitest run
+
+ RUN  v5.0.0 <sdk-workspace>
+
+
+ Test Files  4 passed (4)
+      Tests  70 passed (70)
+   Start at  19:05:08
+   Duration  631ms (tests 45%, import 31%, transform 23%, worker 1%)

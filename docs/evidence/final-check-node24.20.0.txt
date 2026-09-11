@@ -1,0 +1,28 @@
+v24.20.0
+$ pnpm contracts:check && pnpm build && pnpm verify:boundaries && pnpm typecheck && pnpm test && pnpm conformance && pnpm identity:check
+$ node scripts/generate-contracts.mjs --check
+$ pnpm -r build
+Scope: 3 of 4 workspace projects
+packages/core build$ node ../../scripts/generate-contracts.mjs && tsc -p tsconfig.json
+packages/core build: Done
+packages/otel build$ tsc -p tsconfig.json
+packages/mcp build$ node ../../scripts/generate-contracts.mjs && tsc -p tsconfig.json
+packages/otel build: Done
+packages/mcp build: Done
+$ node scripts/verify-boundaries.mjs
+Core runtime dependency graph passed / Core runtime bağımlılık grafiği doğrulandı
+$ tsc --noEmit -p tsconfig.json
+$ vitest run
+
+ RUN  v5.0.0 <sdk>
+
+
+ Test Files  10 passed (10)
+      Tests  133 passed (133)
+   Start at  19:37:15
+   Duration  931ms (tests 48%, import 28%, transform 23%, worker 1%)
+
+$ node --import tsx scripts/conformance.ts
+Public conformance passed / Açık sözleşme doğrulaması başarılı
+$ python3 scripts/verify-identity.py
+12 public identity vectors passed / açık kimlik vektörü geçti

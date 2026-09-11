@@ -1,111 +1,115 @@
 # Pulse SDK
 
-Google Analytics, but for your MCP. MIT SDK and MCP adapter for metadata-only **observed tool-handler executions**.
-The first npm release is **0.1.0**, with an exact MCP server **2.0.0** peer and verified Node **24.20.0** baseline.
+Open-source analytics for MCP tool handlers. Observe calls locally, then send the same metadata to your own collector or an optional managed backend.
+
+[**Türkçe**](README.tr.md) · [Local quickstart](#run-locally) · [Documentation](#documentation) · [Contributing](CONTRIBUTING.md)
+
+> **Version status:** this repository contains the **0.2.0 source API**. The latest npm releases of `@reviseflow/pulse` and `@reviseflow/pulse-core` are **0.1.0**, which use the previous API. **0.2.0 has not been published to npm.** Use this checkout or its locally packed archives for the examples below; see the [migration guide](docs/migration-release.md) for existing installations.
+
+## Run locally
+
+Use **Node.js 24.20.0** and **pnpm 11.22.0**. Node.js 24.11.1 is also tested; the adapter targets the official MCP TypeScript SDK **2.0.0**. See the [compatibility matrix](docs/compatibility.md) for the exact evidence and limitations.
 
 ```sh
-npm install --save-exact @reviseflow/pulse@0.1.0 @modelcontextprotocol/server@2.0.0
-```
-
-`@reviseflow/pulse-core@0.1.0` is installed automatically. See the [English setup guide](https://pulse.reviseflow.io/en/docs) or [Türkçe rehber](https://pulse.reviseflow.io/tr/docs).
-The hosted dashboard and collector are at **https://pulse.reviseflow.io**. Cloud implementation remains in a separate proprietary repository and is never included in SDK packages.
-
-**TR:** Yalnızca gözlenen araç işleyicilerinin metadatasını üreten MIT SDK. İlk npm sürümü **0.1.0**; doğrulanmış temel Node **24.20.0** ve resmî MCP **2.0.0** paketidir. Core otomatik kurulur. Panel ve toplayıcı **https://pulse.reviseflow.io** adresindedir. Özel cloud kodu SDK paketlerine dahil edilmez.
-
-## Run the real fixture / Gerçek düzeneği çalıştır
-
-Use Node **24.20.0**, pnpm **11.22.0** and the committed lockfile:
-
-```sh
+git clone https://github.com/selimeneserd/pulse-sdk.git
+cd pulse-sdk
 pnpm install --frozen-lockfile
-pnpm check
-pnpm fixture
-PULSE_LOCALE=tr pnpm fixture
-pnpm verify:pack
+pnpm example:local
+node packages/mcp/dist/cli.js dev --file pulse-events.jsonl
 ```
 
-If this Mac's shell selects a different Node version, prefix commands with
-`fnm exec --using 24.20.0`. `examples/fixture.ts` runs the official MCP client
-and server over real loopback Streamable HTTP, protocol **2026-07-28**. It
-prints the caller's original `sum: 5` result and the sanitized emitted event.
-Its clearly labelled collector is an **ephemeral test sink**, never production
-storage. The separate cloud service owns durable admission.
+This runs a real MCP client/server call through the official in-memory transport, records its handler completion in a bounded JSONL file, and reports the observed tool, duration percentiles and outcome. The example runs with network APIs blocked. Initial dependency installation can require internet; runtime observation needs no Cloud account, write key or Cloud repository.
 
-**TR:** Düzenek resmî MCP istemci ve sunucusunu gerçek yerel HTTP üzerinden
-çalıştırır. Özgün `sum: 5` sonucu ve arındırılmış olay gösterilir. Test
-toplayıcısı yalnızca bellekte çalışır; üretimde kalıcı veri kabulünün yerine
-geçmez. Kalıcı kabul, ayrı cloud servisinde gerçekleşir.
+The CLI writes to **stderr**, leaving stdout available for MCP stdio. Its local report deduplicates event IDs within the inspected file prefix and reports invalid, omitted and truncated records explicitly.
 
-## Integration surface / Entegrasyon yüzeyi
+## Add Pulse to a server
 
-After installation, instrument **before any registration**:
+Choose an exporter and wrap the server **before registering tools**. These APIs are also exercised in [`examples/quickstarts.ts`](examples/quickstarts.ts).
 
 ```ts
-import { McpServer } from '@modelcontextprotocol/server'; // exactly 2.0.0
+import { McpServer } from '@modelcontextprotocol/server';
 import { createPulse } from '@reviseflow/pulse';
+import { createJsonlExporter } from '@reviseflow/pulse-core/jsonl';
 
 const pulse = createPulse({
-  endpoint: process.env.PULSE_COLLECTOR_URL!, // full /v1/batch URL
-  writeKey: process.env.PULSE_WRITE_KEY!,      // server only
-  environment: 'production',
+  environment: 'development',
+  exporter: createJsonlExporter({ path: './pulse-events.jsonl' }),
 });
-const server = pulse.wrapServer(new McpServer({ name: 'my-server', version: '1.0.0' }));
-server.registerTool('health', {}, () => ({ content: [{ type: 'text', text: 'ok' }] }));
-// Use the server in the customer's existing HTTP entry point.
-// At a verified response-completion/shutdown lifecycle:
-await pulse.flush({ timeoutMs: 2000 });
+
+const server = pulse.wrapServer(
+  new McpServer({ name: 'my-mcp', version: '1.0.0' }),
+);
+
+server.registerTool('health', {}, () => ({
+  content: [{ type: 'text', text: 'ok' }],
+}));
 ```
 
-The endpoint must be explicitly supplied, HTTPS outside loopback. Development
-and test telemetry are disabled unless `enabled: true`. Defaults: 2-second
-timer and request timeout, at most 100 events/256 KiB per batch, 1,000 pending
-events/1 MiB per instance including in-flight events, three bounded retries.
-`getDiagnostics()` exposes local counts without payloads or credentials.
-`shutdown()` flushes within its bound and closes the SDK; it installs no
-process exit listeners. Collector delivery is asynchronous and best effort.
-No process-crash/frozen-runtime delivery guarantee is made.
+Connect `server` through your application's existing transport. Call `await pulse.shutdown({ timeoutMs: 2_000 })` from its shutdown hook. For a lifecycle boundary that keeps the application running, use `await pulse.flush({ timeoutMs: 2_000 })`. Neither operation guarantees delivery after a process is frozen or terminated.
 
-**TR:** Tam batch adresi açıkça verilir; yerel adresler dışında HTTPS zorunludur.
-Development/test için açık etkinleştirme gerekir. Varsayılan kuyruk 1.000 olay
-ve 1 MiB ile sınırlıdır; her istek en fazla 100 olay ve 256 KiB içerir.
-Toplayıcı kesintisi araç sonucunu değiştirmez. Süreç kapanması veya dondurulan
-çalışma zamanında sıfır kayıp garantisi yoktur.
+After installing the locally packed candidate in another project, `pulse init --dry-run` previews a thin integration file. `pulse doctor` distinguishes static configuration from observed runtime facts. These commands do not install dependencies, upgrade MCP or invoke business tools. See the [CLI guide](docs/tooling.md).
 
-## Privacy and limits / Gizlilik ve sınırlar
+## Choose where events go
 
-No args, result bodies, prompts, raw errors, headers, IPs, arbitrary properties
-or host identity are captured. Tool names and explicitly supplied release
-labels can still disclose business information: map/exclude sensitive names
-with `mapToolName(name)`, returning `null` to omit a tool. Client capture is
-off by default; `captureClient: true` records only bounded known labels and
-safe version hints from the public MCP envelope/handshake. It does not prove
-use by a real ChatGPT/Claude installation.
+| Exporter | Import | What acceptance means |
+| --- | --- | --- |
+| Memory | `@reviseflow/pulse-core/memory` | Retained in bounded process memory. |
+| Explicit no-op | `createNoopExporter()` from `/memory` | Intentionally discarded. |
+| JSONL | `@reviseflow/pulse-core/jsonl` | Appended locally with rotation; no fsync guarantee. |
+| HTTP | `@reviseflow/pulse-core/http` | A validated acknowledgement from your explicit collector URL. |
+| OpenTelemetry | `@reviseflow/pulse-otel` | Handed to your local tracer; remote delivery belongs to its provider. |
 
-Identity is off by default. If deliberately enabled, supply
-`identity: {secret, projectNamespace, epoch}` with a separate stable secret
-of at least 32 bytes, then run already-authenticated request handling inside
-`pulse.withContext({actorId, conversationId?}, handler)`. Values are HMACed
-locally with separate account/conversation domains and never exported raw.
-These are observed accounts, not people. Changing the secret, namespace or
-epoch breaks identity continuity; write-key rotation does not.
+Core has **zero third-party runtime dependencies**. It owns the bounded dispatcher and receives an exporter; its root entry does not load HTTP, filesystem or OTel exporters. Native Node.js crypto and async context are required.
 
-**TR:** Argüman, sonuç içeriği, sohbet, ham hata, header, IP veya keyfi özellik
-toplanmaz. Hassas araç adları eşlenmeli ya da hariç bırakılmalıdır. İstemci
-metadatası ve kimlik ayrı ayrı açık onayla etkinleştirilir. Kimlik, doğrulanmış
-istek bağlamından alınır ve ayrı kalıcı proje sırrıyla yerelde HMAC işleminden
-geçer. Bunlar insan sayısı değildir. Kimlik sırrı/namespace/epoch değişirse
-hesap geçmişinin sürekliliği bozulur; yazma anahtarı değişimi kimliği etkilemez.
+Without an exporter, observation is disabled and diagnostics report `missing_exporter`. `enabled: false` leaves the original server unpatched. There is no default collector URL, hidden fallback request, license check, remote configuration, update check or usage telemetry.
 
-Read [compatibility evidence](docs/SDK_COMPATIBILITY.md) for exact tested
-behavior, public registration hook details and blind spots. In particular,
-pre-handler rejection and post-handler output/transport failures are outside
-this metric. Pre-bound registration functions and direct `handler`/`executor`
-mutation are unsupported; use the public registration/update methods.
-Only MCP **2.0.0**, Node **24.20.0**, and loopback Streamable HTTP are verified.
-Next.js/serverless, stdio, Python, Edge and real host installations are not
-claimed. This SDK never imports the private sibling `pulse-cloud`.
+## Optional Pulse Cloud
 
-**TR:** Tam doğrulama kapsamı uyumluluk belgesindedir. Handler öncesi ret ve
-sonrası çıktı/taşıma hatası bu ölçümün dışındadır. Next.js/serverless, stdio,
-Python, Edge ve gerçek istemci platformları test edilmeden destekleniyor
-olarak gösterilmez. Bu SDK özel cloud reposundan kod içe aktarmaz.
+[Pulse Cloud](https://pulse.reviseflow.io/en) is a separate proprietary service for managed storage, analysis and collaboration. It consumes the same public collector contract that an independent implementation can use.
+
+Configure it through the generic HTTP exporter using your existing **server-side** configuration:
+
+```ts
+import { createPulse } from '@reviseflow/pulse';
+import { createHttpExporter } from '@reviseflow/pulse-core/http';
+
+export function createManagedPulse(endpoint: string, writeKey: string) {
+  return createPulse({
+    environment: 'production',
+    exporter: createHttpExporter({
+      endpoint, // Explicit, complete collector URL, including /v1/batch.
+      authorization: `Bearer ${writeKey}`,
+    }),
+  });
+}
+```
+
+Validate required configuration in your application and keep write keys out of the browser. Before using the 0.2.0 API with a collector, confirm it accepts the optional `adapter_version` field. The [migration guide](docs/migration-release.md) covers existing 0.1.0 installations, rollout order and rollback.
+
+## What Pulse measures
+
+- **Observed handler completions**, not every MCP request or business success. Input validation before the handler and failures after it returns fall outside this boundary.
+- Handler duration in monotonic milliseconds, with a separate wall-clock completion timestamp.
+- Optional project-scoped account pseudonyms. An account is not a person; self-reported client labels are not verified host identities.
+
+Pulse does not collect raw arguments, results, prompts, error messages, stacks, headers or arbitrary properties. Tool and release names can still reveal business information: map or exclude sensitive labels. Optional HMAC identity is pseudonymous and linkable, not anonymous.
+
+Queues, byte budgets and retries are bounded. Export failure does not replace a handler result. Auth recovery uses `reconfigure({ exporter })` or `resume()` on the existing instance; dropped events do not return. Pulse is best-effort analytics, not a durable audit ledger or an exactly-once delivery system.
+
+## Documentation
+
+| Topic | Guide |
+| --- | --- |
+| Local development and CLI | [Tooling](docs/tooling.md) |
+| Supported runtime, MCP and module formats | [Compatibility](docs/compatibility.md) |
+| Event/collector contracts and extension authoring | [Contracts](docs/contracts.md) |
+| Privacy, identity, lifecycle and diagnostics | [Privacy and lifecycle](docs/privacy-lifecycle.md) |
+| OpenTelemetry and Python scope | [Integration mapping](docs/otel-mapping.md) |
+| Reproducible performance results | [Benchmarks](docs/benchmark.md) |
+| API migration and release preparation | [Migration](docs/migration-release.md) · [Changelog](CHANGELOG.md) |
+| AI-assisted setup | [Agent recipe](docs/agent-setup.md) |
+| Evidence and remaining work | [Implementation status](docs/implementation-status.md) |
+
+To validate a contribution, run `pnpm check` and `pnpm verify:pack`. The latter creates real archives, installs them in an independent consumer, and checks types, offline MCP calls, HTTP delivery, bundling and duplicate package copies. Packing does **not** publish packages.
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution and RFC process. Report ordinary bugs through [GitHub issues](https://github.com/selimeneserd/pulse-sdk/issues); consult [SECURITY.md](SECURITY.md) before sharing a vulnerability. The SDK is [MIT licensed](LICENSE); Cloud code is separate and is not needed to build or test it.

@@ -4,9 +4,10 @@ export type ClientSource = 'handshake' | 'configured' | 'reported_metadata';
 export type Locale = 'en' | 'tr';
 
 export interface PulseCoreOptions {
-  writeKey?: string;
-  /** Full /v1/batch URL; HTTPS outside loopback development fixtures. */
-  endpoint?: string;
+  /** No implicit exporter or network destination is selected. */
+  exporter?: PulseExporter;
+  /** Receives only safe aggregate state; callback failures are isolated. */
+  onDiagnostics?: (diagnostics: PulseDiagnostics) => void;
   environment: Environment;
   enabled?: boolean;
   release?: string;
@@ -29,6 +30,7 @@ export interface Completion {
   durationMs: number;
   outcome: Outcome;
   client?: { name: string; version?: string; source: ClientSource };
+  adapter?: { name: string; version: string };
 }
 
 export interface PulseContext {
@@ -36,30 +38,17 @@ export interface PulseContext {
   conversationId?: string | null;
 }
 
-export interface PulseEvent {
-  readonly schema_version: 1;
-  readonly event_id: string;
-  readonly kind: 'tool_handler.completed';
-  readonly occurred_at: string;
-  readonly tool_name: string;
-  readonly duration_ms: number;
-  readonly outcome: Outcome;
-  readonly identity_source: 'none' | 'app_account';
-  readonly identity_epoch: string | null;
-  readonly actor_id: string | null;
-  readonly conversation_id: string | null;
-  readonly client_name: string | null;
-  readonly client_version: string | null;
-  readonly client_source: ClientSource | 'unknown';
-  readonly environment: Environment;
-  readonly release: string | null;
-  readonly error_code: 'TOOL_ERROR' | 'HANDLER_EXCEPTION' | 'CANCELLED' | 'UNSUPPORTED_RESULT' | null;
-  readonly sdk_name: '@reviseflow/pulse-core';
-  readonly sdk_version: '0.1.0';
-  readonly adapter: 'mcp-typescript-2';
-}
+import type { PulseEvent } from './event.generated.js';
+export type { PulseEvent } from './event.generated.js';
 
 export interface PulseDiagnostics {
+  readonly status: 'disabled' | 'ready' | 'paused' | 'blocked' | 'closing' | 'shutdown';
+  readonly blockReason: 'missing_exporter' | 'auth' | 'exporter_timeout' | null;
+  readonly lastAcceptedAt: string | null;
+  readonly retryAttempt: number;
+  readonly missingExporter: number;
+  readonly droppedPaused: number;
+  readonly droppedTimeout: number;
   readonly observed: number;
   readonly queued: number;
   readonly inFlight: number;
@@ -86,6 +75,27 @@ export interface PulseCore {
   withContext<T>(context: PulseContext, fn: () => T): T;
   /** Waits at most timeoutMs; remaining export work stays bounded in this instance. */
   flush(options?: { timeoutMs?: number }): Promise<void>;
-  shutdown(): Promise<void>;
+  pause(): void;
+  resume(): void;
+  reconfigure(options: { exporter: PulseExporter }): void;
+  shutdown(options?: { timeoutMs?: number }): Promise<void>;
   getDiagnostics(): PulseDiagnostics;
+}
+
+/** Result IDs must be unique, non-conflicting members of the submitted batch.
+ * Omitted IDs and retryable rejections remain pending within the dispatcher budget. */
+export interface PulseExportResult {
+  readonly accepted: readonly string[];
+  readonly duplicates: readonly string[];
+  readonly rejected: readonly { readonly event_id: string; readonly code: string; readonly retryable: boolean }[];
+  readonly retryAfterMs?: number;
+  readonly blocked?: 'auth';
+  /** The dispatcher alone splits and retries a collector-rejected oversized batch. */
+  readonly batchTooLarge?: boolean;
+}
+export interface PulseExportContext { readonly signal: AbortSignal }
+/** Exporters perform one delivery attempt. Retries and queue ownership stay in core. */
+export interface PulseExporter {
+  export(events: readonly PulseEvent[], context: PulseExportContext): PulseExportResult | Promise<PulseExportResult>;
+  shutdown?(context: PulseExportContext): void | Promise<void>;
 }

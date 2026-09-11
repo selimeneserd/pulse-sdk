@@ -1,5 +1,6 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
 import { createHmac, randomUUID } from 'node:crypto';
+import { PACKAGE_VERSION } from './version.js';
 import type { ResolvedOptions } from './config.js';
 import type { Completion, Outcome, PulseContext, PulseEvent } from './types.js';
 
@@ -19,7 +20,7 @@ const clients: Readonly<Record<string, string>> = Object.freeze({
   'mcp-inspector': 'mcp-inspector',
 });
 
-const errors: Record<Outcome, PulseEvent['error_code']> = {
+const errors: Record<Outcome, Exclude<PulseEvent['error_code'], undefined>> = {
   tool_success: null, tool_error: 'TOOL_ERROR', handler_exception: 'HANDLER_EXCEPTION',
   input_required: null, cancelled: 'CANCELLED', unknown: 'UNSUPPORTED_RESULT',
 };
@@ -40,8 +41,10 @@ export function createEventFactory(options: ResolvedOptions) {
       let hashed: HashedContext = null;
       // A malformed context omits identity. Customer callback errors remain untouched.
       try {
-        if (options.enabled && options.identity && safeId(input?.actorId)) {
-          hashed = Object.freeze({ actor: hash(input.actorId, 'actor'), conversation: safeId(input.conversationId) ? hash(input.conversationId, 'conversation') : null });
+        if (options.enabled && options.identity) {
+          const actorId = input?.actorId;
+          const conversationId = input?.conversationId;
+          if (safeId(actorId)) hashed = Object.freeze({ actor: hash(actorId, 'actor'), conversation: safeId(conversationId) ? hash(conversationId, 'conversation') : null });
         }
       } catch { /* Context failure must not fail customer execution. */ }
       return context.run(hashed, fn);
@@ -49,7 +52,15 @@ export function createEventFactory(options: ResolvedOptions) {
     make(input: Completion): PulseEvent | null {
       if (!input) return null;
       // Read each candidate once: accessors cannot replace a validated value.
-      const { toolName, durationMs, outcome, client } = input;
+      const { toolName, durationMs, outcome, client, adapter } = input;
+      let adapterName = 'custom';
+      let adapterVersion: string | undefined;
+      if (adapter !== undefined) {
+        const { name, version } = adapter;
+        if (typeof name !== 'string' || !/^[A-Za-z0-9_.:/-]{1,80}$/.test(name)) return null;
+        if (typeof version !== 'string' || version.length > 40 || !/^\d+\.\d+\.\d+(?:[-+][A-Za-z0-9.-]{1,20})?$/.test(version)) return null;
+        adapterName = name; adapterVersion = version;
+      }
       if (typeof toolName !== 'string' || !/^[A-Za-z0-9_.:/-]{1,128}$/.test(toolName)) return null;
       if (!Number.isFinite(durationMs) || durationMs < 0 || durationMs > 86_400_000) return null;
       if (typeof outcome !== 'string' || !Object.hasOwn(errors, outcome)) return null;
@@ -86,8 +97,9 @@ export function createEventFactory(options: ResolvedOptions) {
         release: options.release,
         error_code: errors[outcome],
         sdk_name: '@reviseflow/pulse-core',
-        sdk_version: '0.1.0',
-        adapter: 'mcp-typescript-2',
+        sdk_version: PACKAGE_VERSION,
+        adapter: adapterName,
+        ...(adapterVersion ? { adapter_version: adapterVersion } : {}),
       });
     },
   };

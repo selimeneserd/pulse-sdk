@@ -1,3 +1,9 @@
+# Historical0.1 compatibility / Tarihsel0.1 uyumluluk
+
+This file preserves the original0.1 test record. For current0.2 support, APIs and executed package matrix use [compatibility.md](compatibility.md). Old exact-version runtime checks and endpoint/key examples below do not describe0.2.
+
+TR: Bu kayıt0.1 geçmişidir; güncel0.2 için compatibility.md belirleyicidir.
+
 # SDK compatibility / SDK uyumluluğu
 
 **2026-09-11 release:** `@reviseflow/pulse@0.1.0` and `@reviseflow/pulse-core@0.1.0` are published on npm. The exact baseline below was retained and reverified with 70 tests and a real, unrelated npm-installed consumer. See [registry evidence](evidence/registry-consumer.json).

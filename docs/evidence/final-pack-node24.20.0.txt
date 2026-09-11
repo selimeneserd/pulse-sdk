@@ -1,0 +1,1 @@
+Packed SDK consumer verification passed. / Paketlenmiş SDK tüketici doğrulaması başarılı.

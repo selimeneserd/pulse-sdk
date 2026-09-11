@@ -1,0 +1,110 @@
+[
+  {
+    "secret": "public-conformance-fixture-secret-32bytes",
+    "projectNamespace": "project-a",
+    "epoch": "epoch1",
+    "value": "account-a",
+    "domain": "actor",
+    "serialized_utf8_hex": "5b2270756c73652e6964656e746974792e7631222c2270726f6a6563742d61222c226163746f72222c226170705f6163636f756e74222c2265706f636831222c226163636f756e742d61225d",
+    "expected": "h1_dad61e1ef49032f57f322954cd2b69829953f8070f4b1cc9739bd2317ba4b9c8"
+  },
+  {
+    "secret": "public-conformance-fixture-secret-32bytes",
+    "projectNamespace": "project-a",
+    "epoch": "epoch1",
+    "value": "account-a",
+    "domain": "conversation",
+    "serialized_utf8_hex": "5b2270756c73652e6964656e746974792e7631222c2270726f6a6563742d61222c22636f6e766572736174696f6e222c226170705f6163636f756e74222c2265706f636831222c226163636f756e742d61225d",
+    "expected": "h1_3e206ba49046c8cca49b6bc1de1da10eba4ef901a1c90b11e46bd6d93ab110dd"
+  },
+  {
+    "secret": "public-conformance-fixture-secret-32bytes",
+    "projectNamespace": "project-b",
+    "epoch": "epoch1",
+    "value": "account-a",
+    "domain": "actor",
+    "serialized_utf8_hex": "5b2270756c73652e6964656e746974792e7631222c2270726f6a6563742d62222c226163746f72222c226170705f6163636f756e74222c2265706f636831222c226163636f756e742d61225d",
+    "expected": "h1_0095c9d26f6c75ac0d20c47943f564a27531af120fac6719d8d2459580891b79"
+  },
+  {
+    "secret": "public-conformance-fixture-secret-32bytes",
+    "projectNamespace": "project-b",
+    "epoch": "epoch1",
+    "value": "account-a",
+    "domain": "conversation",
+    "serialized_utf8_hex": "5b2270756c73652e6964656e746974792e7631222c2270726f6a6563742d62222c22636f6e766572736174696f6e222c226170705f6163636f756e74222c2265706f636831222c226163636f756e742d61225d",
+    "expected": "h1_a350ba7d41b53b6124d53f9831173b71912f722f1bfd9b5affdc0bf0781a485f"
+  },
+  {
+    "secret": "public-conformance-fixture-secret-32bytes",
+    "projectNamespace": "project-a",
+    "epoch": "epoch2",
+    "value": "account-a",
+    "domain": "actor",
+    "serialized_utf8_hex": "5b2270756c73652e6964656e746974792e7631222c2270726f6a6563742d61222c226163746f72222c226170705f6163636f756e74222c2265706f636832222c226163636f756e742d61225d",
+    "expected": "h1_e0504d8b868f86baa116aea9a5deb3899d539baf37032a5e6035091d0a84cb29"
+  },
+  {
+    "secret": "public-conformance-fixture-secret-32bytes",
+    "projectNamespace": "project-a",
+    "epoch": "epoch2",
+    "value": "account-a",
+    "domain": "conversation",
+    "serialized_utf8_hex": "5b2270756c73652e6964656e746974792e7631222c2270726f6a6563742d61222c22636f6e766572736174696f6e222c226170705f6163636f756e74222c2265706f636832222c226163636f756e742d61225d",
+    "expected": "h1_24815319927bdf886d2e700c964b8b2025b3317091e488ec78795e62c467be19"
+  },
+  {
+    "secret": "public-conformance-fixture-secret-32bytes",
+    "projectNamespace": "project-a",
+    "epoch": "epoch1",
+    "value": "İstanbul😀",
+    "domain": "actor",
+    "serialized_utf8_hex": "5b2270756c73652e6964656e746974792e7631222c2270726f6a6563742d61222c226163746f72222c226170705f6163636f756e74222c2265706f636831222c22c4b07374616e62756cf09f9880225d",
+    "expected": "h1_d156d39f76d4814d700286a47c1b2ff3bd95c4d364a1c011dfaff2a30c06b8a8"
+  },
+  {
+    "secret": "public-conformance-fixture-secret-32bytes",
+    "projectNamespace": "project-a",
+    "epoch": "epoch1",
+    "value": "İstanbul😀",
+    "domain": "conversation",
+    "serialized_utf8_hex": "5b2270756c73652e6964656e746974792e7631222c2270726f6a6563742d61222c22636f6e766572736174696f6e222c226170705f6163636f756e74222c2265706f636831222c22c4b07374616e62756cf09f9880225d",
+    "expected": "h1_5fa56ed878e800a0f5bb0b68a832d3050a6996370ed34ae6119808b4a5e10b5f"
+  },
+  {
+    "secret": "public-conformance-fixture-secret-32bytes",
+    "projectNamespace": "project-a",
+    "epoch": "epoch1",
+    "value": "é",
+    "domain": "actor",
+    "serialized_utf8_hex": "5b2270756c73652e6964656e746974792e7631222c2270726f6a6563742d61222c226163746f72222c226170705f6163636f756e74222c2265706f636831222c2265cc81225d",
+    "expected": "h1_949897c0119f321c5f2e3ca34f3f41ab37dd50db7a5e07b1fcbd949a83ea51ba"
+  },
+  {
+    "secret": "public-conformance-fixture-secret-32bytes",
+    "projectNamespace": "project-a",
+    "epoch": "epoch1",
+    "value": "é",
+    "domain": "conversation",
+    "serialized_utf8_hex": "5b2270756c73652e6964656e746974792e7631222c2270726f6a6563742d61222c22636f6e766572736174696f6e222c226170705f6163636f756e74222c2265706f636831222c2265cc81225d",
+    "expected": "h1_1e51379650403b74c7e15ad98e337822d24aa9d1a43c65818440d152c95b2b20"
+  },
+  {
+    "secret": "public-conformance-fixture-secret-32bytes",
+    "projectNamespace": "project-a",
+    "epoch": "epoch1",
+    "value": "é",
+    "domain": "actor",
+    "serialized_utf8_hex": "5b2270756c73652e6964656e746974792e7631222c2270726f6a6563742d61222c226163746f72222c226170705f6163636f756e74222c2265706f636831222c22c3a9225d",
+    "expected": "h1_a1e58550250548780c8cd90672fa3533f212fe1cfef951d2d19cbc616776114c"
+  },
+  {
+    "secret": "public-conformance-fixture-secret-32bytes",
+    "projectNamespace": "project-a",
+    "epoch": "epoch1",
+    "value": "é",
+    "domain": "conversation",
+    "serialized_utf8_hex": "5b2270756c73652e6964656e746974792e7631222c2270726f6a6563742d61222c22636f6e766572736174696f6e222c226170705f6163636f756e74222c2265706f636831222c22c3a9225d",
+    "expected": "h1_24975ad423645bdfc252b7e0421450c8100b83f5ad7025b2d45ff8aefedc66fa"
+  }
+]

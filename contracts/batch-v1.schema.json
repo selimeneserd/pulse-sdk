@@ -16,8 +16,9 @@
       "minItems": 1,
       "maxItems": 100,
       "items": {
-        "$ref": "event-v1.schema.json"
+        "$ref": "urn:pulse:contract:event:1"
       }
     }
-  }
+  },
+  "$id": "urn:pulse:contract:batch:1"
 }

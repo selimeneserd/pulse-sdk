@@ -1,3 +1,5 @@
+import { createMemoryExporter } from '@reviseflow/pulse-core/memory';
+import { createHttpExporter } from '@reviseflow/pulse-core/http';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { McpServer, type RegisteredTool, type ServerContext } from '@modelcontextprotocol/server';
 import { createPulse, PulseCompatibilityError } from '@reviseflow/pulse';
@@ -14,7 +16,7 @@ const context = (signal = new AbortController().signal) => ({ mcpReq: { signal }
 async function setup() {
   const collector = await startFixtureCollector();
   cleanups.push(collector.close);
-  const pulse = createPulse({ writeKey: collector.writeKey, endpoint: collector.endpoint, environment: 'test', enabled: true, queue: { flushIntervalMs: 60_000 } });
+  const pulse = createPulse({ exporter: createHttpExporter({ endpoint: collector.endpoint, authorization: `Bearer ${collector.writeKey}` }), environment: 'test', enabled: true, queue: { flushIntervalMs: 60_000 } });
   cleanups.push(() => pulse.shutdown());
   return { collector, pulse };
 }
@@ -94,6 +96,25 @@ describe('public registration facade', () => {
     expect(collector.events.map(e => e.outcome)).toEqual(['tool_success', 'handler_exception']);
   });
 
+  it('adopts thenables asynchronously and reads their then accessor only once', async () => {
+    const { pulse } = await setup();
+    const server = pulse.wrapServer(new McpServer({ name: 'then-order', version: '1' }));
+    const order: string[] = [];
+    const result = { content: [] };
+    let reads = 0;
+    const thenable = Object.defineProperty({}, 'then', { get() {
+      reads++;
+      return (resolve: (value: typeof result) => void) => { order.push('then'); resolve(result); };
+    } }) as Promise<typeof result>;
+    const handle = server.registerTool('then_order', {}, () => { order.push('handler'); return thenable; });
+    const pending = invoke(handle, null, context());
+    order.push('caller');
+    expect(order).toEqual(['handler', 'caller']);
+    expect(await pending).toBe(result);
+    expect(order).toEqual(['handler', 'caller', 'then']);
+    expect(reads).toBe(1);
+  });
+
   it('observes subclass registration helpers without changing the prototype or another server', async () => {
     const { pulse, collector } = await setup();
     class Customer extends McpServer {
@@ -112,8 +133,9 @@ describe('public registration facade', () => {
     expect(collector.events.map(e => e.tool_name)).toEqual(['from_helper']);
   });
 
-  it('rejects double wrapping, prior registrations and pre-advertised tools', () => {
-    const pulse = createPulse({ enabled: false, environment: 'test' });
+  it('strict mode rejects double wrapping, prior registrations and pre-advertised tools', () => {
+    const pulse = createPulse({ exporter: createMemoryExporter(), strict: true, environment: 'test' });
+    cleanups.push(() => pulse.shutdown());
     const original = new McpServer({ name: 'fixture', version: '1' });
     const wrapped = pulse.wrapServer(original);
     expect(() => pulse.wrapServer(wrapped)).toThrow('SERVER_ALREADY_WRAPPED');
@@ -124,6 +146,85 @@ describe('public registration facade', () => {
     const advertised = new McpServer({ name: 'fixture', version: '1' }, { capabilities: { tools: {} } });
     expect(() => pulse.wrapServer(advertised)).toThrow('WRAP_BEFORE_REGISTRATION');
     expect(() => pulse.wrapServer({} as McpServer)).toThrow('UNSUPPORTED_MCP_VERSION');
+  });
+
+  it('disabled mode preserves exact server and registration identity without even probing compatibility', async () => {
+    const interval = vi.spyOn(globalThis, 'setInterval');
+    const pulse = createPulse({ enabled: false, environment: 'test' });
+    const target = new McpServer({ name: 'disabled', version: '1' });
+    const original = target.registerTool;
+    expect(pulse.wrapServer(target)).toBe(target);
+    expect(target.registerTool).toBe(original);
+    const hostile = new Proxy({}, { get() { throw new Error('DO_NOT_PROBE'); } }) as McpServer;
+    expect(pulse.wrapServer(hostile)).toBe(hostile);
+    expect(interval).not.toHaveBeenCalled();
+    interval.mockRestore();
+    await pulse.shutdown();
+  });
+
+  it('fails open with coded diagnostics and avoids duplicate events across Pulse instances', async () => {
+    const exporter = createMemoryExporter();
+    const pulse = createPulse({ exporter, environment: 'test' });
+    const other = createPulse({ exporter, environment: 'test' });
+    cleanups.push(() => pulse.shutdown(), () => other.shutdown());
+    const invalid = {} as McpServer;
+    expect(pulse.wrapServer(invalid)).toBe(invalid);
+    expect(pulse.getDiagnostics()).toMatchObject({ instrumentationFailures: 1, lastInstrumentationError: 'UNSUPPORTED_MCP_VERSION' });
+    const frozen = new McpServer({ name: 'frozen', version: '1' });
+    Object.freeze(frozen);
+    expect(pulse.wrapServer(frozen)).toBe(frozen);
+    const server = pulse.wrapServer(new McpServer({ name: 'double', version: '1' }));
+    const twice = other.wrapServer(server);
+    const handle = twice.registerTool('once', {}, () => ({ content: [] }));
+    invoke(handle, null, context());
+    await pulse.flush(); await other.flush();
+    expect(exporter.getEvents()).toHaveLength(1);
+  });
+
+  it('shutdown leaves another instrumentation layer installed and preserves throwing then accessor result', async () => {
+    const { pulse } = await setup();
+    const target = new McpServer({ name: 'ownership', version: '1' });
+    const server = pulse.wrapServer(target);
+    const unusual = Object.defineProperty({ content: [] }, 'then', { get() { throw new Error('PRIVATE_THEN'); } });
+    const handle = server.registerTool('unusual', {}, () => unusual);
+    expect(invoke(handle, null, context())).toBe(unusual);
+    const ours = target.registerTool;
+    const theirs = ((...args: unknown[]) => Reflect.apply(ours, target, args)) as typeof ours;
+    target.registerTool = theirs;
+    await pulse.shutdown();
+    expect(target.registerTool).toBe(theirs);
+    expect(server.registerTool).toBe(theirs);
+  });
+
+  it('preserves successful registration when another layer returns a frozen public handle', async () => {
+    const exporter = createMemoryExporter();
+    const pulse = createPulse({ exporter, environment: 'test' });
+    cleanups.push(() => pulse.shutdown());
+    const target = new McpServer({ name: 'frozen-handle', version: '1' });
+    const register = target.registerTool;
+    target.registerTool = ((...args: unknown[]) => Object.freeze(Reflect.apply(register, target, args))) as typeof register;
+    const server = pulse.wrapServer(target);
+    const handle = server.registerTool('frozen_handle', {}, () => ({ content: [] }));
+    expect(Object.isFrozen(handle)).toBe(true);
+    expect(invoke(handle, null, context())).toEqual({ content: [] });
+    await pulse.flush();
+    expect(exporter.getEvents()).toHaveLength(1);
+    expect(pulse.getDiagnostics().lastInstrumentationError).toBe('INSTRUMENTATION_FAILED');
+  });
+
+  it('exposes live enablement and recovers from missing exporter without wrapping twice', async () => {
+    const pulse = createPulse({ environment: 'test' });
+    cleanups.push(() => pulse.shutdown());
+    const server = pulse.wrapServer(new McpServer({ name: 'reconfigure', version: '1' }));
+    const handle = server.registerTool('recover', {}, () => ({ content: [] }));
+    expect(pulse.enabled).toBe(false);
+    invoke(handle, null, context());
+    const exporter = createMemoryExporter();
+    pulse.reconfigure({ exporter });
+    expect(pulse.enabled).toBe(true);
+    invoke(handle, null, context());
+    await pulse.flush();
+    expect(exporter.getEvents()).toHaveLength(1);
   });
 
   it('measures duration monotonically while recording a separate wall-clock completion time', async () => {
@@ -195,7 +296,7 @@ describe('public registration facade', () => {
 
   it('excludes/maps sensitive tool names and isolates mapper errors', async () => {
     const collector = await startFixtureCollector(); cleanups.push(collector.close);
-    const pulse = createPulse({ enabled: true, environment: 'test', endpoint: collector.endpoint, writeKey: collector.writeKey, queue: { flushIntervalMs: 60_000 }, mapToolName: name => {
+    const pulse = createPulse({ enabled: true, environment: 'test', exporter: createHttpExporter({ endpoint: collector.endpoint, authorization: `Bearer ${collector.writeKey}` }), queue: { flushIntervalMs: 60_000 }, mapToolName: name => {
       if (name === 'excluded') return null;
       if (name === 'throws') throw new Error('mapper-secret');
       return 'safe_tool';
@@ -214,7 +315,7 @@ describe('public registration facade', () => {
   });
 
   it('provides EN/TR for every compatibility error without exposing input', () => {
-    for (const code of ['UNSUPPORTED_MCP_VERSION', 'SERVER_ALREADY_WRAPPED', 'WRAP_BEFORE_REGISTRATION'] as const) {
+    for (const code of ['UNSUPPORTED_MCP_VERSION', 'SERVER_ALREADY_WRAPPED', 'WRAP_BEFORE_REGISTRATION', 'INSTRUMENTATION_FAILED'] as const) {
       const error = new PulseCompatibilityError(code);
       expect(error.getMessage('en')).not.toBe(error.getMessage('tr'));
       expect(error.message).toBe(code);

@@ -5,6 +5,8 @@ import { Ajv2020 } from 'ajv/dist/2020.js';
 import addFormats from 'ajv-formats';
 import { afterEach, describe, expect, it } from 'vitest';
 import { createPulseCore, PulseConfigurationError, type Completion, type PulseCore, type PulseCoreOptions, type PulseEvent } from '../packages/core/src/index.js';
+import { createHttpExporter } from '../packages/core/src/http.js';
+import { createMemoryExporter, createNoopExporter } from '../packages/core/src/memory.js';
 
 type Batch = { schema_version: 1; events: PulseEvent[] };
 type Received = { body: Batch; wire: string; authorization: string | undefined; at: number };
@@ -42,7 +44,7 @@ function acknowledge(response: ServerResponse, events: readonly PulseEvent[], ex
 
 function core(endpoint: string, overrides: Partial<PulseCoreOptions> = {}): PulseCore {
   const instance = createPulseCore({
-    endpoint, writeKey: 'isolated-test-write-key', environment: 'test', enabled: true,
+    exporter: createHttpExporter({ endpoint, authorization: 'Bearer isolated-test-write-key' }), environment: 'test', enabled: true,
     ...overrides,
     queue: { flushIntervalMs: 60_000, requestTimeoutMs: 500, retryBaseMs: 5, retryMaxMs: 100, ...overrides.queue },
   });
@@ -86,7 +88,7 @@ describe('strict source events and request context', () => {
     (addFormats as unknown as (instance: Ajv2020) => void)(ajv);
     expect(ajv.validate(schema, event), JSON.stringify(ajv.errors)).toBe(true);
     expect(fixture.received[0]!.authorization).toBe('Bearer isolated-test-write-key');
-    expect(Object.values(pulse.getDiagnostics()).every(value => typeof value === 'number')).toBe(true);
+    expect(pulse.getDiagnostics()).toMatchObject({ status: 'ready', blockReason: null, missingExporter: 0 });
   });
 
   it('isolates concurrent identities, separates actor/conversation domains, and restores nested context', async () => {
@@ -236,6 +238,13 @@ describe('bounded HTTP exporter', () => {
     expect(pulse.getDiagnostics().accepted).toBe(1);
   });
 
+  it.each(['2026-02-30T12:00:00Z','2026-09-11T99:00:00Z','2026-09-11T12:00:00Z EXTRA'])('retries acknowledgements with invalid server_time %s', async serverTime => {
+    let calls=0;
+    const fixture=await collector((request,response)=>{if(++calls===1)acknowledge(response,request.body.events,{server_time:serverTime});else acknowledge(response,request.body.events);});
+    const pulse=core(fixture.endpoint);complete(pulse);await pulse.flush();
+    expect(fixture.received).toHaveLength(2);expect(pulse.getDiagnostics()).toMatchObject({accepted:1,retries:1});
+  });
+
   it('splits 413 batches without modifying or duplicating event IDs', async () => {
     const fixture = await collector((request, response) => {
       if (request.body.events.length > 1) response.writeHead(413).end('{}');
@@ -283,12 +292,12 @@ describe('bounded HTTP exporter', () => {
     expect(pulse.getDiagnostics()).toMatchObject({ droppedAuth: 2, retries: 0, pendingBytes: 0 });
   });
 
-  it('stops on quota exhaustion; rate limit Retry-After is respected within a bounded retry horizon', async () => {
+  it('treats quota as generic retryable 429 and respects rate-limit Retry-After within a bounded horizon', async () => {
     const quota = await collector((_request, response) => response.writeHead(429).end(JSON.stringify({ code: 'QUOTA_EXCEEDED' })));
     const quotaPulse = core(quota.endpoint);
     complete(quotaPulse); await quotaPulse.flush(); complete(quotaPulse); await quotaPulse.flush();
-    expect(quota.received).toHaveLength(1);
-    expect(quotaPulse.getDiagnostics().droppedQuota).toBe(2);
+    expect(quota.received).toHaveLength(8);
+    expect(quotaPulse.getDiagnostics()).toMatchObject({ droppedQuota: 0, droppedRetries: 2, status: 'ready' });
     let calls = 0;
     const rate = await collector((request, response) => {
       if (++calls === 1) response.writeHead(429, { 'retry-after': '0.04' }).end(JSON.stringify({ code: 'RATE_LIMITED' }));
@@ -389,6 +398,14 @@ describe('bounded HTTP exporter', () => {
     expect(pulse.getDiagnostics().accepted).toBe(1);
   });
 
+  it('retries cooperative HTTP timeouts without marking the exporter unresponsive', async () => {
+    const fixture = await collector(() => {});
+    const pulse = core(fixture.endpoint, {queue:{requestTimeoutMs:10,maxRetries:1}});
+    complete(pulse);await pulse.flush();
+    expect(fixture.received).toHaveLength(2);
+    expect(pulse.getDiagnostics()).toMatchObject({requests:2,retries:1,droppedRetries:1,droppedTimeout:0,blockReason:null,status:'ready'});
+  });
+
   it('bounds request timeout, explicit flush wait, and shutdown without process hooks', async () => {
     const fixture = await collector(() => { /* Explicit hanging local collector fixture. */ });
     const pulse = core(fixture.endpoint, { queue: { requestTimeoutMs: 40 } });
@@ -407,10 +424,10 @@ describe('bounded HTTP exporter', () => {
     expect(['beforeExit', 'exit', 'SIGINT', 'SIGTERM'].map(event => process.listenerCount(event))).toEqual(beforeListeners);
   });
 
-  it('disables development/test by default with no requests or telemetry queue', async () => {
+  it('honors explicit disable with no requests or telemetry queue', async () => {
     const fixture = await collector();
     for (const environment of ['development', 'test'] as const) {
-      const pulse = createPulseCore({ environment, endpoint: fixture.endpoint, queue: { flushIntervalMs: 1 } });
+      const pulse = createPulseCore({ environment, enabled: false, exporter: createHttpExporter({endpoint: fixture.endpoint}), queue: { flushIntervalMs: 1 } });
       expect(pulse.enabled).toBe(false);
       complete(pulse);
       await pulse.flush();
@@ -434,14 +451,13 @@ describe('bounded HTTP exporter', () => {
 describe('configuration validation', () => {
   const invalidConfigurations: unknown[] = [
     { environment: 'not-supported' },
-    { environment: 'production' },
+    { environment: 'production', exporter: {} },
     { environment: 'test', enabled: 'true' },
     { environment: 'production', writeKey: 'key', endpoint: 'http://example.test/v1/batch' },
     { environment: 'production', writeKey: 'key', endpoint: 'https://private:secret@example.test/v1/batch' },
     { environment: 'production', writeKey: 'key', endpoint: 'https://example.test/v1/batch?secret=value' },
     { environment: 'test', release: 'private@example.test' },
     { environment: 'test', identity: { secret: 'short', projectNamespace: 'project', epoch: 'epoch1' } },
-    { environment: 'test', writeKey: 'same-identity-and-write-key-is-unsafe', identity: { secret: 'same-identity-and-write-key-is-unsafe', projectNamespace: 'project', epoch: 'epoch1' } },
     { environment: 'test', queue: { maxEvents: 1001 } },
     { environment: 'test', queue: { batchMaxEvents: 101 } },
     { environment: 'test', queue: { batchMaxBytes: 262145 } },

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pulse:contract:ack:1",
+  "title": "Pulse collector acknowledgement v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "accepted",
+    "duplicates",
+    "rejected",
+    "server_time"
+  ],
+  "properties": {
+    "accepted": {
+      "type": "array",
+      "maxItems": 100,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      }
+    },
+    "duplicates": {
+      "type": "array",
+      "maxItems": 100,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      }
+    },
+    "rejected": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "event_id",
+          "code",
+          "retryable"
+        ],
+        "properties": {
+          "event_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "code": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9_]{0,63}$"
+          },
+          "retryable": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "server_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "next_retry_after_ms": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 60000
+    }
+  }
+}

@@ -5,16 +5,24 @@
   "type": "module",
   "packageManager": "pnpm@11.22.0",
   "engines": {
-    "node": ">=24.20.0 <25"
+    "node": ">=24.11.1 <25"
   },
   "scripts": {
     "build": "pnpm -r build",
     "test": "vitest run",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "check": "pnpm build && pnpm typecheck && pnpm test",
+    "check": "pnpm contracts:check && pnpm build && pnpm verify:boundaries && pnpm typecheck && pnpm test && pnpm conformance && pnpm identity:check",
     "fixture": "pnpm build && node examples/fixture.ts",
     "verify:pack": "node scripts/verify-packed.mjs",
-    "verify:registry": "node scripts/verify-packed.mjs --registry"
+    "verify:registry": "node scripts/verify-packed.mjs --registry",
+    "contracts:generate": "node scripts/generate-contracts.mjs",
+    "contracts:check": "node scripts/generate-contracts.mjs --check",
+    "conformance": "node --import tsx scripts/conformance.ts",
+    "identity:check": "python3 scripts/verify-identity.py",
+    "benchmark": "pnpm build && node scripts/benchmark.ts",
+    "example:local": "pnpm build && node --import ./scripts/network-disabled.mjs examples/local.ts pulse-events.jsonl",
+    "example:otel": "pnpm build && node examples/otel.ts",
+    "verify:boundaries": "node scripts/verify-boundaries.mjs"
   },
   "devDependencies": {
     "@modelcontextprotocol/server": "2.0.0",
@@ -28,6 +36,11 @@
     "ajv-formats": "3.0.1",
     "@types/node": "24.13.4",
     "@reviseflow/pulse-core": "workspace:*",
-    "@reviseflow/pulse": "workspace:*"
+    "@reviseflow/pulse": "workspace:*",
+    "@opentelemetry/api": "1.9.1",
+    "@opentelemetry/sdk-trace-base": "2.11.0",
+    "@reviseflow/pulse-otel": "workspace:*",
+    "tsx": "4.23.13",
+    "esbuild": "0.28.2"
   }
 }

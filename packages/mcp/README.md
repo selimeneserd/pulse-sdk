@@ -1,86 +1,73 @@
 # @reviseflow/pulse
 
-Google Analytics, but for your MCP. MIT-licensed analytics for **observed tool-handler calls**, with bounded, best-effort delivery and no raw tool payload capture.
+The MIT-licensed MCP adapter for Pulse. Observe tool handlers through the official MCP **2.0.0** public registration API, with a local or explicitly selected exporter.
 
-**TR:** MCP sunucunuz için analitik. Gözlenen araç işleyicisi çağrılarını ölçer; ham araç içeriği toplamaz. Gönderim sınırlıdır ve en iyi çaba esasına dayanır. MIT lisanslıdır.
+> **Source API: 0.2.0. npm release: 0.1.0.** The new API is not yet published to npm. Use the checkout or its local archives; [migrate existing 0.1.0 integrations](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/migration-release.md) before changing versions.
+>
+> **TR:** Kaynak API **0.2.0**, npm sürümü **0.1.0**. Yeni API henüz npm'de yoktur; depoyu veya yerel arşivleri kullanın. Mevcut kurulumlarda önce geçiş rehberini okuyun.
 
-## Install / Kurulum
+## Install a local candidate
+
+From the SDK checkout:
 
 ```sh
-npm install --save-exact @reviseflow/pulse@0.1.0 @modelcontextprotocol/server@2.0.0
+pnpm --filter @reviseflow/pulse-core pack --pack-destination ./artifacts
+pnpm --filter @reviseflow/pulse pack --pack-destination ./artifacts
 ```
 
-The adapter installs `@reviseflow/pulse-core@0.1.0` automatically. Verified baseline:
-Node **24.20.0**, official MCP server **2.0.0**, Streamable HTTP, protocol **2026-07-28**.
-The exact peer is intentional; other MCP versions and runtimes are not verified.
+In a **new** consumer project, replace `/path/to/pulse-sdk` with the checkout's location:
 
-**TR:** Adaptör `@reviseflow/pulse-core@0.1.0` paketini otomatik kurar. Doğrulanmış temel:
-Node **24.20.0**, resmî MCP sunucusu **2.0.0**, Streamable HTTP ve **2026-07-28** protokolü.
-Diğer MCP sürümleri ve çalışma ortamları doğrulanmış değildir.
+```sh
+npm install \
+  /path/to/pulse-sdk/artifacts/reviseflow-pulse-core-0.2.0.tgz \
+  /path/to/pulse-sdk/artifacts/reviseflow-pulse-0.2.0.tgz \
+  @modelcontextprotocol/server@2.0.0
+```
 
-[English setup guide](https://pulse.reviseflow.io/en/docs) · [Türkçe kurulum rehberi](https://pulse.reviseflow.io/tr/docs)
+Check the [compatibility guide](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/compatibility.md) before changing an existing project's MCP version. Pulse does not upgrade it for you.
 
-## Connect / Bağlantı
-
-Create a project and a Test write key in Pulse. Set `PULSE_COLLECTOR_URL` to
-`https://pulse.reviseflow.io/v1/batch` and store `PULSE_WRITE_KEY` only in your server environment.
-Never commit the key or put it in browser code. Write keys cannot read analytics.
-
-**TR:** Pulse içinde proje ve Test yazma anahtarı oluşturun. `PULSE_COLLECTOR_URL` değerini
-`https://pulse.reviseflow.io/v1/batch` olarak ayarlayın. `PULSE_WRITE_KEY` yalnızca sunucu
-ortamında saklanmalıdır; Git'e veya tarayıcı koduna koymayın. Yazma anahtarı analitik okuyamaz.
+## Instrument a server
 
 ```ts
 import { McpServer } from '@modelcontextprotocol/server';
 import { createPulse } from '@reviseflow/pulse';
-const pulse = createPulse({
-  environment: 'test',
-  enabled: true,
-  endpoint: process.env.PULSE_COLLECTOR_URL!,
-  writeKey: process.env.PULSE_WRITE_KEY!,
-});
-const server = pulse.wrapServer(new McpServer({ name: 'my-server', version: '1.0.0' }));
-server.registerTool('health', {}, () => ({ content: [] }));
+import { createMemoryExporter } from '@reviseflow/pulse-core/memory';
+
+const exporter = createMemoryExporter();
+const pulse = createPulse({ environment: 'development', exporter });
+const server = pulse.wrapServer(
+  new McpServer({ name: 'my-mcp', version: '1.0.0' }),
+);
+
+server.registerTool('health', {}, () => ({
+  content: [{ type: 'text', text: 'ok' }],
+}));
 ```
 
-Wrap before tool registration/connection. This replaces the instance's public
-`registerTool` method and returns a facade with correctly bound other methods.
-Public handle `update`, rename, enable/disable and remove are preserved.
-No upstream private registry or global/prototype patch is used. Registrations
-through pre-bound functions and direct handle internals mutation are unsupported.
+Wrap **before registration**, then connect through your existing transport. At application shutdown, call `await pulse.shutdown({ timeoutMs: 2_000 })`. For a complete, runnable client/server example with JSONL output, use the [local quickstart](https://github.com/selimeneserd/pulse-sdk#run-locally).
 
-Observed handler duration uses a monotonic clock. One terminal event per
-execution; results and exceptions preserve the original handler behavior.
-`isError` → `tool_error`; thrown exception → `handler_exception`; explicit
-`input_required`, observed request abort and unknown envelopes stay separate.
-Input rejection before the handler and output validation after it are outside
-this boundary. Original tool content is never exported.
+Node.js 24 ESM and MCP 2.0.0 are the tested scope. The adapter preserves handler values, rejection identity, `this`, cancellation and registration updates. Setup failures default to fail-open diagnostics; `strict: true` opts into setup exceptions. `enabled: false` returns the original server without instrumentation. Default double wrapping observes one event. See the compatibility guide for PromiseLike edge cases and unsupported environments.
 
-**TR:** MIT lisanslı MCP adaptörü. Sunucuyu araç kaydından ve bağlantıdan
-önce sarmalayın. Yalnızca bu nesnenin açık kayıt metodu değiştirilir; özel
-SDK kayıtları okunmaz, global/prototip yaması yapılmaz. Kayıt güncelleme,
-yeniden adlandırma, etkinleştirme ve kaldırma korunur. Ölçüm handler sınırıdır;
-öncesindeki girdi reddi ve sonrasındaki çıktı doğrulaması kapsam dışıdır.
-Kimlik ve istemci metadatası varsayılan olarak kapalıdır. Ham tool içeriği
-dışarı aktarılmaz. Next.js/serverless ve diğer platformlar henüz doğrulanmadı.
+Events describe observed **handler completions**, not full MCP request outcomes or business success. Memory/JSONL need no Cloud account or key. HTTP requires an explicit collector URL. Core does not depend on Cloud.
 
-All failures originating in telemetry delivery remain isolated from tool
-execution. Diagnostic/compatibility errors provide English/Turkish messages;
-machine identifiers stay locale-independent.
+## Local CLI
 
-## Verify and shut down / Doğrulama ve kapanış
+The installed package provides `pulse`:
 
-Call a real tool through your MCP client, then at a controlled verification point:
-
-**TR:** MCP istemcisinden gerçek bir araç çağırın; ardından kontrollü bir doğrulama noktasında:
-
-```ts
-await pulse.flush({ timeoutMs: 2000 });
-const diagnostics = pulse.getDiagnostics();
+```sh
+pulse init --dry-run
+pulse doctor
+pulse dev --file pulse-events.jsonl
 ```
 
-Diagnostics are local counters. Confirm the accepted event in your project's **Test → Live events** dashboard; local counters do not prove database storage.
-After stopping new requests and waiting for active handlers, call `await pulse.shutdown()` during graceful shutdown. No process listeners are installed automatically. See the setup guide for optional account identity, client labels and delivery limits.
+`init` previews one thin integration file and never overwrites different content. `doctor` separates static checks from runtime evidence. `dev` summarizes bounded local JSONL data. All output goes to **stderr**, protecting MCP stdio. Add `--locale tr` for Turkish output. See the [CLI guide](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/tooling.md) for write flags, limits and lifecycle setup.
 
-**TR:** Tanılama yerel sayaçlardan oluşur. Kabul edilen olayı projenizin **Test → Canlı olaylar** panelinde doğrulayın; yerel sayaçlar veritabanı kaydını kanıtlamaz.
-Yeni istekleri durdurup etkin işleyicileri bekledikten sonra kontrollü kapanışta `await pulse.shutdown()` çağırın. Otomatik süreç dinleyicisi kurulmaz. İsteğe bağlı hesap kimliği, istemci etiketleri ve gönderim sınırları için kurulum rehberine bakın.
+## Türkçe
+
+MCP 2.0.0 için ince bir adaptördür. Yukarıdaki yerel arşivleri SDK deposunda oluşturun ve yeni tüketici projede yollarını değiştirerek kurun. Mevcut MCP sürümünü değiştirmeden önce uyumluluk rehberini okuyun.
+
+Sunucuyu araç kaydından **önce** sarmalayın; mevcut transport ile bağlayın ve uygulama kapanışında sınırlı `shutdown` çağrısını kullanın. Yerel bellek/JSONL için hesap veya anahtar gerekmez. Cloud isteğe bağlıdır.
+
+Kurulum hataları varsayılan olarak uygulamayı bozmaz; `strict: true` ile geliştirme sırasında hata alınabilir. `enabled: false` sunucuyu yamalamaz. Ölçüm, handler tamamlanmasını temsil eder; tam MCP veya iş başarısı iddia etmez. CLI stderr kullanır, dosyaları habersiz ezmez ve `--locale tr` seçeneğini destekler.
+
+[Türkçe başlangıç](https://github.com/selimeneserd/pulse-sdk/blob/main/README.tr.md) · [Gizlilik ve yaşam döngüsü](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/privacy-lifecycle.md)

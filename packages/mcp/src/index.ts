@@ -1,21 +1,21 @@
-import { readFileSync } from 'node:fs';
-import { createRequire } from 'node:module';
-import { dirname, resolve } from 'node:path';
 import { performance } from 'node:perf_hooks';
-import { CLIENT_INFO_META_KEY, McpServer, type RegisteredTool, type ServerContext } from '@modelcontextprotocol/server';
+import { CLIENT_INFO_META_KEY, type McpServer, type RegisteredTool, type ServerContext } from '@modelcontextprotocol/server';
 import { createPulseCore, type PulseCoreOptions, type Outcome } from '@reviseflow/pulse-core';
+import { PACKAGE_VERSION } from './version.js';
 
 export type { PulseCoreOptions, Outcome } from '@reviseflow/pulse-core';
 export const SUPPORTED_MCP_VERSION = '2.0.0';
 
 const messages = {
   en: {
-    UNSUPPORTED_MCP_VERSION: 'This adapter requires the tested MCP server version 2.0.0.',
+    UNSUPPORTED_MCP_VERSION: 'The public MCP registration interface is unsupported.',
+    INSTRUMENTATION_FAILED: 'Instrumentation could not be installed; the server remains available.',
     SERVER_ALREADY_WRAPPED: 'This server is already instrumented.',
     WRAP_BEFORE_REGISTRATION: 'Wrap a fresh server before tool registration and connection.',
   },
   tr: {
-    UNSUPPORTED_MCP_VERSION: 'Bu adaptör test edilmiş MCP server 2.0.0 sürümünü gerektirir.',
+    UNSUPPORTED_MCP_VERSION: 'Public MCP kayıt arayüzü desteklenmiyor.',
+    INSTRUMENTATION_FAILED: 'Ölçüm kurulamadı; sunucu kullanılabilir durumda.',
     SERVER_ALREADY_WRAPPED: 'Bu sunucu zaten ölçümleniyor.',
     WRAP_BEFORE_REGISTRATION: 'Yeni sunucuyu araç kaydından ve bağlantıdan önce sarmalayın.',
   },
@@ -27,22 +27,19 @@ export class PulseCompatibilityError extends Error {
 }
 
 export interface PulseOptions extends PulseCoreOptions {
+  /** Opt into setup exceptions in development. Production setup defaults to fail-open. */
+  strict?: boolean;
   /** Self-reported label only. No host certification, headers or raw metadata capture. */
   captureClient?: boolean;
   /** Return null to exclude a tool. Mapping happens locally; thrown mapper errors drop telemetry. */
   mapToolName?: (name: string) => string | null;
 }
 
-// Per-module WeakSet, never a current-user global or an upstream private registry.
-const instrumented = new WeakSet<McpServer>();
-const require = createRequire(import.meta.url);
-function assertVersion(): void {
-  try {
-    // Read published package metadata only. No private SDK runtime fields.
-    const entry = require.resolve('@modelcontextprotocol/server');
-    const pkg = JSON.parse(readFileSync(resolve(dirname(entry), '../package.json'), 'utf8')) as { name?: unknown; version?: unknown };
-    if (pkg.name !== '@modelcontextprotocol/server' || pkg.version !== SUPPORTED_MCP_VERSION) throw new Error();
-  } catch { throw new PulseCompatibilityError('UNSUPPORTED_MCP_VERSION'); }
+// A marker on our own public hook prevents double wrapping across duplicate SDK
+// copies or bundles. It contains no identity, runtime state or customer data.
+const hookMarker = Symbol.for('@reviseflow/pulse/register-tool/v1');
+function isInstrumented(register: unknown): boolean {
+  return typeof register === 'function' && Reflect.get(register, hookMarker) === true;
 }
 
 /** Inspect envelope discriminants only; never parse/copy/traverse tool content. */
@@ -63,14 +60,19 @@ type Core = ReturnType<typeof createPulseCore>;
 type ClientHint = NonNullable<Parameters<Core['complete']>[0]['client']>;
 
 export function createPulse(options: PulseOptions) {
-  assertVersion();
   const core = createPulseCore(options);
   let excluded = 0;
   let mapperErrors = 0;
+  let instrumentationFailures = 0;
+  let lastInstrumentationError: CompatibilityCode | null = null;
 
-  function wrapServer<T extends McpServer>(target: T): T {
-    if (instrumented.has(target)) throw new PulseCompatibilityError('SERVER_ALREADY_WRAPPED');
-    if (!(target instanceof McpServer)) throw new PulseCompatibilityError('UNSUPPORTED_MCP_VERSION');
+  function install<T extends McpServer>(target: T): T {
+    if (!target || typeof target.registerTool !== 'function' || typeof target.isConnected !== 'function'
+      || typeof target.server?.getCapabilities !== 'function') throw new PulseCompatibilityError('UNSUPPORTED_MCP_VERSION');
+    if (isInstrumented(target.registerTool)) {
+      if (options.strict) throw new PulseCompatibilityError('SERVER_ALREADY_WRAPPED');
+      return target;
+    }
     // Public capability check conservatively rejects even manually pre-advertised tools.
     if (target.isConnected() || target.server.getCapabilities().tools !== undefined) {
       throw new PulseCompatibilityError('WRAP_BEFORE_REGISTRATION');
@@ -110,7 +112,9 @@ export function createPulse(options: PulseOptions) {
           // Only the request's public signal can establish cancellation. Exporter
           // timeouts never touch it. A handler may throw any error after observing it.
           try { if (ctx?.mcpReq?.signal?.aborted) outcome = 'cancelled'; } catch { /* Invalid local context stays unknown. */ }
-          core.complete({ toolName, durationMs: performance.now() - started, outcome, ...(client ? { client } : {}) });
+          try {
+            core.complete({ toolName, durationMs: performance.now() - started, outcome, adapter: { name: 'mcp-typescript-2', version: PACKAGE_VERSION }, ...(client ? { client } : {}) });
+          } catch { /* Telemetry must never replace the handler outcome. */ }
         };
         const failed = (error: unknown): never => {
           finish('handler_exception');
@@ -125,10 +129,17 @@ export function createPulse(options: PulseOptions) {
           if (result !== null && (typeof result === 'object' || typeof result === 'function')) {
             then = Reflect.get(result, 'then');
           }
-        } catch (error) { return failed(error); }
+        } catch { finish('unknown'); return result; }
         if (typeof then === 'function') {
-          // Promise.resolve adopts foreign-realm Promises and PromiseLike results.
-          return Promise.resolve(result).then(value => { finish(outcomeOf(value)); return value; }, failed);
+          // Adopt the public then method once, including foreign-realm promises.
+          return new Promise((resolve, reject) => {
+            // Promise resolution calls a thenable's method in a later job, never
+            // synchronously inside the application handler's return path.
+            queueMicrotask(() => {
+              try { Reflect.apply(then as Callback, result, [resolve, reject]); }
+              catch (error) { reject(error); }
+            });
+          }).then(value => { finish(outcomeOf(value)); return value; }, failed);
         }
         finish(outcomeOf(result));
         return result;
@@ -140,27 +151,34 @@ export function createPulse(options: PulseOptions) {
     const register = ((name: string, config: unknown, callback: Callback): RegisteredTool => {
       let currentName = name;
       const handle = Reflect.apply(original, target, [name, config, instrument(callback, () => currentName)]) as RegisteredTool;
-      const update = handle.update;
       // This is the returned public registration handle itself, with its identity preserved.
       // No hidden registry, executor, handler field or prototype is inspected or patched.
-      handle.update = (updates) => {
+      try {
+        const update = handle.update;
+        handle.update = (updates) => {
         const next = updates.callback
           ? { ...updates, callback: instrument(updates.callback as Callback, () => currentName) as typeof updates.callback }
           : updates;
         Reflect.apply(update, handle, [next]);
-        if (typeof updates.name === 'string' && updates.name) currentName = updates.name;
-      };
+          if (typeof updates.name === 'string' && updates.name) currentName = updates.name;
+        };
+      } catch {
+        instrumentationFailures++;
+        lastInstrumentationError = 'INSTRUMENTATION_FAILED';
+        // Registration already succeeded. Never replace the public return value.
+      }
       return handle;
     }) as T['registerTool'];
 
     // Instance-local PUBLIC registration hook: a bound subclass method that calls
     // this.registerTool() must use the same instrumentation path as the facade.
     // The prototype and other server instances are never changed.
+    Object.defineProperty(register, hookMarker, { value: true });
     target.registerTool = register;
     const bindings = new Map<PropertyKey, { original: unknown; bound: unknown }>();
     const facade = new Proxy(target, {
       get(object, key) {
-        if (key === 'registerTool') return register;
+        if (key === 'registerTool') return Reflect.get(object, key, object);
         const value: unknown = Reflect.get(object, key, object);
         if (typeof value !== 'function') return value;
         const cached = bindings.get(key);
@@ -171,14 +189,25 @@ export function createPulse(options: PulseOptions) {
       },
       set(object, key, value) { return Reflect.set(object, key, value, object); },
     });
-    instrumented.add(target);
-    instrumented.add(facade);
     return facade;
+  }
+
+  function wrapServer<T extends McpServer>(target: T): T {
+    // Exact identity, no patch/capability check: disabled means no instrumentation.
+    if (options.enabled === false) return target;
+    try { return install(target); }
+    catch (error) {
+      instrumentationFailures++;
+      lastInstrumentationError = error instanceof PulseCompatibilityError ? error.code : 'INSTRUMENTATION_FAILED';
+      if (options.strict) throw new PulseCompatibilityError(lastInstrumentationError);
+      return target;
+    }
   }
 
   return {
     ...core,
+    get enabled() { return core.enabled; },
     wrapServer,
-    getDiagnostics: () => ({ ...core.getDiagnostics(), excludedTools: excluded, mapperErrors }),
+    getDiagnostics: () => ({ ...core.getDiagnostics(), excludedTools: excluded, mapperErrors, instrumentationFailures, lastInstrumentationError }),
   };
 }

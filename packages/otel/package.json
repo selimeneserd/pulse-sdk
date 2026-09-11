@@ -1,0 +1,44 @@
+{
+  "name": "@reviseflow/pulse-otel",
+  "version": "0.2.0",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=24.11.1 <25"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepack": "pnpm run build"
+  },
+  "dependencies": {
+    "@reviseflow/pulse-core": "workspace:*"
+  },
+  "peerDependencies": {
+    "@opentelemetry/api": "1.9.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/selimeneserd/pulse-sdk.git",
+    "directory": "packages/otel"
+  },
+  "bugs": {
+    "url": "https://github.com/selimeneserd/pulse-sdk/issues"
+  },
+  "homepage": "https://github.com/selimeneserd/pulse-sdk#readme",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "description": "Optional allowlisted Pulse handler completion spans for OpenTelemetry."
+}
