@@ -1,7 +1,7 @@
 {
   "gate": "M0_LOCAL_PACKED_CONSUMER",
   "status": "PASSED",
-  "started_at": "2026-09-10T12:48:57.596Z",
+  "started_at": "2026-09-11T07:09:21.985Z",
   "node": "v24.20.0",
   "package_manager": "11.22.0",
   "npm": "11.19.0",
@@ -12,7 +12,7 @@
     {
       "name": "@pulse-sdk/core",
       "version": "0.0.0-m0",
-      "archive": "artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+      "archive": "artifacts/packed-MsHPQr/pulse-sdk-core-0.0.0-m0.tgz",
       "sha256": "d453bd86d80b0f5746c4a47fc4f7896d591b5802e5cdd5d13a04c4a672675cb3",
       "dry_run_matches_archive": true,
       "allowlist_passed": true,
@@ -103,7 +103,7 @@
     {
       "name": "@pulse-sdk/mcp",
       "version": "0.0.0-m0",
-      "archive": "artifacts/packed-i4y9NA/pulse-sdk-mcp-0.0.0-m0.tgz",
+      "archive": "artifacts/packed-MsHPQr/pulse-sdk-mcp-0.0.0-m0.tgz",
       "sha256": "56946d1f34260db77295ba0f25b8d4dfbdb35e24269667ed3766333c3a6d0176",
       "dry_run_matches_archive": true,
       "allowlist_passed": true,
@@ -191,11 +191,11 @@
         },
         "sanitized_event": {
           "schema_version": 1,
-          "event_id": "8150afb4-8fa0-4924-a8a5-0e471409c409",
+          "event_id": "96020e6e-c6a2-430a-a83d-3bac81d1c894",
           "kind": "tool_handler.completed",
-          "occurred_at": "2026-09-10T12:49:05.260Z",
+          "occurred_at": "2026-09-11T07:09:28.182Z",
           "tool_name": "sum",
-          "duration_ms": 0.04704199999997627,
+          "duration_ms": 0.04887500000000955,
           "outcome": "tool_success",
           "identity_source": "none",
           "identity_epoch": null,
@@ -234,11 +234,11 @@
         },
         "sanitized_event": {
           "schema_version": 1,
-          "event_id": "016a2291-5eb2-46af-9208-46fc79d6930f",
+          "event_id": "432f47bd-02ab-4a0b-bfe7-79bf41b8e064",
           "kind": "tool_handler.completed",
-          "occurred_at": "2026-09-10T12:49:05.604Z",
+          "occurred_at": "2026-09-11T07:09:28.405Z",
           "tool_name": "sum",
-          "duration_ms": 0.14183399999996027,
+          "duration_ms": 0.047708000000000084,
           "outcome": "tool_success",
           "identity_source": "none",
           "identity_epoch": null,
@@ -300,7 +300,7 @@
         "@pulse-sdk/core",
         "pack",
         "--pack-destination",
-        "<sdk>/artifacts/packed-i4y9NA"
+        "<sdk>/artifacts/packed-MsHPQr"
       ],
       "cwd": "<sdk>",
       "exit_code": 0
@@ -309,7 +309,7 @@
       "command": [
         "tar",
         "-tzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz"
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-core-0.0.0-m0.tgz"
       ],
       "cwd": "<sdk>",
       "exit_code": 0
@@ -318,7 +318,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-core-0.0.0-m0.tgz",
         "package/LICENSE"
       ],
       "cwd": "<sdk>",
@@ -328,7 +328,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-core-0.0.0-m0.tgz",
         "package/README.md"
       ],
       "cwd": "<sdk>",
@@ -338,7 +338,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-core-0.0.0-m0.tgz",
         "package/contracts/batch-v1.schema.json"
       ],
       "cwd": "<sdk>",
@@ -348,7 +348,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-core-0.0.0-m0.tgz",
         "package/contracts/event-v1.schema.json"
       ],
       "cwd": "<sdk>",
@@ -358,7 +358,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-core-0.0.0-m0.tgz",
         "package/dist/config.d.ts"
       ],
       "cwd": "<sdk>",
@@ -368,7 +368,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-core-0.0.0-m0.tgz",
         "package/dist/config.js"
       ],
       "cwd": "<sdk>",
@@ -378,7 +378,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-core-0.0.0-m0.tgz",
         "package/dist/config.js.map"
       ],
       "cwd": "<sdk>",
@@ -388,7 +388,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-core-0.0.0-m0.tgz",
         "package/dist/event.d.ts"
       ],
       "cwd": "<sdk>",
@@ -398,7 +398,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-core-0.0.0-m0.tgz",
         "package/dist/event.js"
       ],
       "cwd": "<sdk>",
@@ -408,7 +408,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-core-0.0.0-m0.tgz",
         "package/dist/event.js.map"
       ],
       "cwd": "<sdk>",
@@ -418,7 +418,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-core-0.0.0-m0.tgz",
         "package/dist/exporter.d.ts"
       ],
       "cwd": "<sdk>",
@@ -428,7 +428,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-core-0.0.0-m0.tgz",
         "package/dist/exporter.js"
       ],
       "cwd": "<sdk>",
@@ -438,7 +438,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-core-0.0.0-m0.tgz",
         "package/dist/exporter.js.map"
       ],
       "cwd": "<sdk>",
@@ -448,7 +448,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-core-0.0.0-m0.tgz",
         "package/dist/index.d.ts"
       ],
       "cwd": "<sdk>",
@@ -458,7 +458,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-core-0.0.0-m0.tgz",
         "package/dist/index.js"
       ],
       "cwd": "<sdk>",
@@ -468,7 +468,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-core-0.0.0-m0.tgz",
         "package/dist/index.js.map"
       ],
       "cwd": "<sdk>",
@@ -478,7 +478,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-core-0.0.0-m0.tgz",
         "package/dist/types.d.ts"
       ],
       "cwd": "<sdk>",
@@ -488,7 +488,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-core-0.0.0-m0.tgz",
         "package/dist/types.js"
       ],
       "cwd": "<sdk>",
@@ -498,7 +498,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-core-0.0.0-m0.tgz",
         "package/dist/types.js.map"
       ],
       "cwd": "<sdk>",
@@ -508,7 +508,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-core-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-core-0.0.0-m0.tgz",
         "package/package.json"
       ],
       "cwd": "<sdk>",
@@ -532,7 +532,7 @@
         "@pulse-sdk/mcp",
         "pack",
         "--pack-destination",
-        "<sdk>/artifacts/packed-i4y9NA"
+        "<sdk>/artifacts/packed-MsHPQr"
       ],
       "cwd": "<sdk>",
       "exit_code": 0
@@ -541,7 +541,7 @@
       "command": [
         "tar",
         "-tzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-mcp-0.0.0-m0.tgz"
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-mcp-0.0.0-m0.tgz"
       ],
       "cwd": "<sdk>",
       "exit_code": 0
@@ -550,7 +550,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-mcp-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-mcp-0.0.0-m0.tgz",
         "package/LICENSE"
       ],
       "cwd": "<sdk>",
@@ -560,7 +560,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-mcp-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-mcp-0.0.0-m0.tgz",
         "package/README.md"
       ],
       "cwd": "<sdk>",
@@ -570,7 +570,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-mcp-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-mcp-0.0.0-m0.tgz",
         "package/dist/index.d.ts"
       ],
       "cwd": "<sdk>",
@@ -580,7 +580,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-mcp-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-mcp-0.0.0-m0.tgz",
         "package/dist/index.js"
       ],
       "cwd": "<sdk>",
@@ -590,7 +590,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-mcp-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-mcp-0.0.0-m0.tgz",
         "package/dist/index.js.map"
       ],
       "cwd": "<sdk>",
@@ -600,7 +600,7 @@
       "command": [
         "tar",
         "-xOzf",
-        "<sdk>/artifacts/packed-i4y9NA/pulse-sdk-mcp-0.0.0-m0.tgz",
+        "<sdk>/artifacts/packed-MsHPQr/pulse-sdk-mcp-0.0.0-m0.tgz",
         "package/package.json"
       ],
       "cwd": "<sdk>",
@@ -676,5 +676,5 @@
       "exit_code": 0
     }
   ],
-  "finished_at": "2026-09-10T12:49:05.820Z"
+  "finished_at": "2026-09-11T07:09:28.535Z"
 }
