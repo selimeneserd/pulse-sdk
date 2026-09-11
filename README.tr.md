@@ -4,7 +4,11 @@ MCP araç handler'ları için açık kaynak analiz altyapısı. Çağrıları ye
 
 [**English**](README.md) · [Yerel başlangıç](#yerelde-çalıştırın) · [Belgeler](#belgeler) · [Katkı](CONTRIBUTING.md)
 
-> **Sürüm durumu:** bu depo **0.2.0 kaynak API'sini** içerir. `@reviseflow/pulse` ve `@reviseflow/pulse-core` paketlerinin npm'deki son sürümü, önceki API'yi kullanan **0.1.0**'dır. **0.2.0 henüz npm'de yayımlanmadı.** Aşağıdaki örnekleri bu depodan veya yerelde paketlenen arşivlerden çalıştırın. Mevcut kurulumlar için [geçiş rehberine](docs/migration-release.md) bakın.
+> **npm 0.2.0:** `@reviseflow/pulse`, `@reviseflow/pulse-core` ve isteğe bağlı `@reviseflow/pulse-otel`. 0.1.0'dan geçiş kırıcıdır: exporter açıkça seçilir. Güncellemeden önce [geçiş rehberini](docs/migration-release.md) okuyun.
+
+```sh
+npm install --save-exact @reviseflow/pulse@0.2.0 @reviseflow/pulse-core@0.2.0 @modelcontextprotocol/server@2.0.0
+```
 
 ## Yerelde çalıştırın
 

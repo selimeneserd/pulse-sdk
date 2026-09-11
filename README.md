@@ -4,7 +4,11 @@ Open-source analytics for MCP tool handlers. Observe calls locally, then send th
 
 [**Türkçe**](README.tr.md) · [Local quickstart](#run-locally) · [Documentation](#documentation) · [Contributing](CONTRIBUTING.md)
 
-> **Version status:** this repository contains the **0.2.0 source API**. The latest npm releases of `@reviseflow/pulse` and `@reviseflow/pulse-core` are **0.1.0**, which use the previous API. **0.2.0 has not been published to npm.** Use this checkout or its locally packed archives for the examples below; see the [migration guide](docs/migration-release.md) for existing installations.
+> **npm 0.2.0:** `@reviseflow/pulse`, `@reviseflow/pulse-core` and optional `@reviseflow/pulse-otel`. This is a breaking update from 0.1.0: choose an exporter explicitly. Read the [migration guide](docs/migration-release.md) before upgrading.
+
+```sh
+npm install --save-exact @reviseflow/pulse@0.2.0 @reviseflow/pulse-core@0.2.0 @modelcontextprotocol/server@2.0.0
+```
 
 ## Run locally
 

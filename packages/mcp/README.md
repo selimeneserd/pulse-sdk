@@ -2,26 +2,14 @@
 
 The MIT-licensed MCP adapter for Pulse. Observe tool handlers through the official MCP **2.0.0** public registration API, with a local or explicitly selected exporter.
 
-> **Source API: 0.2.0. npm release: 0.1.0.** The new API is not yet published to npm. Use the checkout or its local archives; [migrate existing 0.1.0 integrations](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/migration-release.md) before changing versions.
->
-> **TR:** Kaynak API **0.2.0**, npm sürümü **0.1.0**. Yeni API henüz npm'de yoktur; depoyu veya yerel arşivleri kullanın. Mevcut kurulumlarda önce geçiş rehberini okuyun.
+**Version 0.2.0 · MIT · Node.js 24 ESM.** The API requires an explicit exporter. [Migrate from 0.1.0](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/migration-release.md) before upgrading an existing integration.
 
-## Install a local candidate
+**TR:** **0.2.0 · MIT · Node.js 24 ESM.** API açık bir exporter gerektirir; mevcut 0.1.0 kurulumu için önce geçiş rehberini okuyun.
 
-From the SDK checkout:
+## Install / Kurulum
 
 ```sh
-pnpm --filter @reviseflow/pulse-core pack --pack-destination ./artifacts
-pnpm --filter @reviseflow/pulse pack --pack-destination ./artifacts
-```
-
-In a **new** consumer project, replace `/path/to/pulse-sdk` with the checkout's location:
-
-```sh
-npm install \
-  /path/to/pulse-sdk/artifacts/reviseflow-pulse-core-0.2.0.tgz \
-  /path/to/pulse-sdk/artifacts/reviseflow-pulse-0.2.0.tgz \
-  @modelcontextprotocol/server@2.0.0
+npm install --save-exact @reviseflow/pulse@0.2.0 @reviseflow/pulse-core@0.2.0 @modelcontextprotocol/server@2.0.0
 ```
 
 Check the [compatibility guide](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/compatibility.md) before changing an existing project's MCP version. Pulse does not upgrade it for you.
@@ -64,7 +52,7 @@ pulse dev --file pulse-events.jsonl
 
 ## Türkçe
 
-MCP 2.0.0 için ince bir adaptördür. Yukarıdaki yerel arşivleri SDK deposunda oluşturun ve yeni tüketici projede yollarını değiştirerek kurun. Mevcut MCP sürümünü değiştirmeden önce uyumluluk rehberini okuyun.
+MCP 2.0.0 için ince bir adaptördür. Yukarıdaki npm komutuyla tam sürümleri kurun. Mevcut MCP sürümünü değiştirmeden önce uyumluluk rehberini okuyun.
 
 Sunucuyu araç kaydından **önce** sarmalayın; mevcut transport ile bağlayın ve uygulama kapanışında sınırlı `shutdown` çağrısını kullanın. Yerel bellek/JSONL için hesap veya anahtar gerekmez. Cloud isteğe bağlıdır.
 

@@ -2,22 +2,14 @@
 
 The MIT-licensed event contract and bounded dispatcher behind Pulse. Observe handler completions with **zero third-party runtime dependencies**, then choose an exporter explicitly.
 
-> **Source API: 0.2.0. npm release: 0.1.0.** The 0.2.0 API below has not been published to npm. Use a source checkout or locally packed archive; do not install 0.1.0 expecting this API.
->
-> **TR:** Kaynak API **0.2.0**, npm sürümü **0.1.0**. Aşağıdaki API henüz npm'de yayımlanmadı; kaynak depoyu veya yerel paket arşivini kullanın.
+**Version 0.2.0 · MIT · Node.js 24 ESM.** The API requires an explicit exporter. [Migrate from 0.1.0](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/migration-release.md) before upgrading an existing integration.
 
-## Try the source version
+**TR:** **0.2.0 · MIT · Node.js 24 ESM.** API açık bir exporter gerektirir; mevcut 0.1.0 kurulumu için önce geçiş rehberini okuyun.
 
-From the SDK checkout, create the archive:
+## Install / Kurulum
 
 ```sh
-pnpm --filter @reviseflow/pulse-core pack --pack-destination ./artifacts
-```
-
-In a consumer project, replace `/path/to/pulse-sdk` with that checkout's location:
-
-```sh
-npm install /path/to/pulse-sdk/artifacts/reviseflow-pulse-core-0.2.0.tgz
+npm install --save-exact @reviseflow/pulse-core@0.2.0
 ```
 
 This standalone example records an explicitly supplied test observation in memory:
@@ -56,6 +48,6 @@ JSON Schemas are available under `/contracts`. `/conformance` provides canonical
 
 Pulse Core, açık olay sözleşmesini ve sınırlı dispatcher'ı sağlar. Üçüncü taraf runtime bağımlılığı yoktur. Node.js 24 ESM üzerinde çalışır; 24.11.1 ve 24.20.0 doğrulanmıştır. Tarayıcı veya edge desteği iddia edilmez.
 
-Yukarıdaki `pack` komutunu SDK deposunda çalıştırın; tüketici projede arşiv yolunu kendi depo konumunuzla değiştirerek kurun. Bellek örneği açıkça tanımlanmış bir test gözlemidir. Gerçek MCP çağrısı için [Türkçe başlangıç rehberini](https://github.com/selimeneserd/pulse-sdk/blob/main/README.tr.md) kullanın.
+Yukarıdaki npm komutuyla tam 0.2.0 sürümünü kurun. Bellek örneği açıkça tanımlanmış bir test gözlemidir. Gerçek MCP çağrısı için [Türkçe başlangıç rehberini](https://github.com/selimeneserd/pulse-sdk/blob/main/README.tr.md) kullanın.
 
 Exporter açıkça seçilir; yerel kullanım için hesap, anahtar veya ağ gerekmez. Eksik exporter diagnostics'te görünür. Kuyruk ve yeniden denemeler sınırlıdır; handler tamamlanması tam MCP veya iş başarısı değildir. Ham içerik alınmaz, HMAC anonimlik sağlamaz ve atılan olaylar geri getirilemez.

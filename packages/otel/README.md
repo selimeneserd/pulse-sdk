@@ -2,26 +2,14 @@
 
 An optional MIT-licensed exporter that sends Pulse handler observations to **your OpenTelemetry tracer**. Core and the MCP adapter do not import this package.
 
-> **Source API: 0.2.0; not yet published to npm.** Use a locally packed archive for this version. The tested peer dependency is `@opentelemetry/api@1.9.1`.
->
-> **TR:** Kaynak API **0.2.0** henüz npm'de yayımlanmadı. Bu sürüm için yerel arşivi kullanın. Doğrulanan peer bağımlılığı `@opentelemetry/api@1.9.1`'dir.
+**Version 0.2.0 · MIT · Node.js 24 ESM.** The API requires an explicit exporter. [Migrate from 0.1.0](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/migration-release.md) before upgrading an existing integration.
 
-## Install and use
+**TR:** **0.2.0 · MIT · Node.js 24 ESM.** API açık bir exporter gerektirir; mevcut 0.1.0 kurulumu için önce geçiş rehberini okuyun.
 
-From the SDK checkout:
+## Install / Kurulum
 
 ```sh
-pnpm --filter @reviseflow/pulse-core pack --pack-destination ./artifacts
-pnpm --filter @reviseflow/pulse-otel pack --pack-destination ./artifacts
-```
-
-In a consumer project, replace `/path/to/pulse-sdk` with the checkout's location:
-
-```sh
-npm install \
-  /path/to/pulse-sdk/artifacts/reviseflow-pulse-core-0.2.0.tgz \
-  /path/to/pulse-sdk/artifacts/reviseflow-pulse-otel-0.2.0.tgz \
-  @opentelemetry/api@1.9.1
+npm install --save-exact @reviseflow/pulse-otel@0.2.0 @reviseflow/pulse-core@0.2.0 @opentelemetry/api@1.9.1
 ```
 
 Pass your configured tracer to the exporter, then inject it into Pulse:
@@ -54,7 +42,7 @@ This is a Node.js integration. Reverse ingestion from existing spans is not impl
 
 ## Türkçe
 
-Kendi OTel tracer'ınızı verin ve exporter'ı `createPulseCore` veya MCP adaptörünün `createPulse` fonksiyonuna aktarın. Yukarıdaki arşivleri SDK deposunda oluşturun; tüketici projede arşiv yolunu kendi konumunuzla değiştirin. Tam gerçek MCP örneği için depoda `pnpm example:otel` çalıştırın.
+Kendi OTel tracer'ınızı verin ve exporter'ı `createPulseCore` veya MCP adaptörünün `createPulse` fonksiyonuna aktarın. Yukarıdaki npm komutuyla tam sürümleri kurun. Tam gerçek MCP örneği için depoda `pnpm example:otel` çalıştırın.
 
 Yalnızca izinli handler metadata'sı INTERNAL span olarak aktarılır. Handler süresi tam MCP gecikmesi değildir. Kimlik, argüman, sonuç, hata veya prompt kopyalanmaz. Örnekleme kapsamı bilinmiyor olarak kalır. Kabul, yerel tracer'a teslimdir; uzak teslim ve provider yaşam döngüsü uygulamanın sorumluluğudur.
 
