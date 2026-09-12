@@ -2,15 +2,17 @@
 
 An optional MIT-licensed exporter that sends Pulse handler observations to **your OpenTelemetry tracer**. Core and the MCP adapter do not import this package.
 
-**Version 0.2.0 · MIT · Node.js 24 ESM.** The API requires an explicit exporter. [Migrate from 0.1.0](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/migration-release.md) before upgrading an existing integration.
+**Version 0.2.1 · MIT · Node.js 24 ESM.** The API requires an explicit exporter. [Migrate from 0.1.0](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/migration-release.md) before upgrading an existing integration.
 
-**TR:** **0.2.0 · MIT · Node.js 24 ESM.** API açık bir exporter gerektirir; mevcut 0.1.0 kurulumu için önce geçiş rehberini okuyun.
+**TR:** **0.2.1 · MIT · Node.js 24 ESM.** API açık bir exporter gerektirir; mevcut 0.1.0 kurulumu için önce geçiş rehberini okuyun.
 
 ## Install / Kurulum
 
 ```sh
-npm install --save-exact @reviseflow/pulse-otel@0.2.0 @reviseflow/pulse-core@0.2.0 @opentelemetry/api@1.9.1
+npm install --save-exact @reviseflow/pulse-otel@0.2.1 @reviseflow/pulse-core@0.2.1 @opentelemetry/api@1.9.1
 ```
+
+0.2.1 aligns with Pulse Core 0.2.1; OTel mapping and tracer ownership are unchanged. No migration is needed from 0.2.0.
 
 Pass your configured tracer to the exporter, then inject it into Pulse:
 
@@ -41,6 +43,8 @@ The same exporter can be passed to the MCP adapter's `createPulse`. A full examp
 This is a Node.js integration. Reverse ingestion from existing spans is not implemented. See the [OTel mapping and scope](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/otel-mapping.md) and [privacy guide](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/privacy-lifecycle.md).
 
 ## Türkçe
+
+0.2.1, Pulse Core 0.2.1 ile hizalanır; OTel eşlemesi ve tracer sorumluluğu değişmez. 0.2.0’dan geçişte migration gerekmez.
 
 Kendi OTel tracer'ınızı verin ve exporter'ı `createPulseCore` veya MCP adaptörünün `createPulse` fonksiyonuna aktarın. Yukarıdaki npm komutuyla tam sürümleri kurun. Tam gerçek MCP örneği için depoda `pnpm example:otel` çalıştırın.
 

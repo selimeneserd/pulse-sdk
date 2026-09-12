@@ -1,0 +1,235 @@
+Baseline full check (Node24.11.1, exit0)
+$ pnpm contracts:check && pnpm build && pnpm verify:boundaries && pnpm typecheck && pnpm test && pnpm conformance && pnpm identity:check
+$ node scripts/generate-contracts.mjs --check
+$ pnpm -r build
+Scope: 3 of 4 workspace projects
+packages/core build$ node ../../scripts/generate-contracts.mjs && tsc -p tsconfig.json
+packages/core build: Done
+packages/mcp build$ node ../../scripts/generate-contracts.mjs && tsc -p tsconfig.json
+packages/otel build$ tsc -p tsconfig.json
+packages/otel build: Done
+packages/mcp build: Done
+$ node scripts/verify-boundaries.mjs
+Core runtime dependency graph passed / Core runtime bağımlılık grafiği doğrulandı
+$ tsc --noEmit -p tsconfig.json
+$ vitest run
+
+ RUN  v5.0.0 <sdk>
+
+
+ Test Files  10 passed (10)
+      Tests  133 passed (133)
+   Start at  08:12:49
+   Duration  901ms (tests 44%, transform 29%, import 26%, worker 1%)
+
+$ node --import tsx scripts/conformance.ts
+Public conformance passed / Açık sözleşme doğrulaması başarılı
+$ python3 scripts/verify-identity.py
+12 public identity vectors passed / açık kimlik vektörü geçti
+
+
+Baseline packed consumer (Node24.11.1, exit0)
+$ node scripts/verify-packed.mjs
+Packed SDK consumer verification passed. / Paketlenmiş SDK tüketici doğrulaması başarılı.
+
+
+Conformance red (Node24.11.1, vitest exit1, 3 failures)
+$ vitest run tests/export-result.test.ts
+
+ RUN  v5.0.0 <sdk>
+
+ ❯ tests/export-result.test.ts (3 tests | 3 failed) 10ms
+   ❯ export result contract through conformance and dispatcher (3)
+     × rejects negative retry minimum consistently 7ms
+     × rejects NaN retry minimum consistently 1ms
+     × rejects unknown result field consistently 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/export-result.test.ts > export result contract through conformance and dispatcher > rejects negative retry minimum consistently
+ FAIL  tests/export-result.test.ts > export result contract through conformance and dispatcher > rejects NaN retry minimum consistently
+ FAIL  tests/export-result.test.ts > export result contract through conformance and dispatcher > rejects unknown result field consistently
+AssertionError: expected { passed: true, checks: 2 } to deeply equal { passed: false, checks: +0 }
+
+- Expected
++ Received
+
+  {
+-   "checks": 0,
+-   "passed": false,
++   "checks": 2,
++   "passed": true,
+  }
+
+ ❯ tests/export-result.test.ts:27:59
+     25|     await pulse.flush();
+     26|     expect(pulse.getDiagnostics()).toMatchObject({ accepted: 0, reques…
+     27|     expect(await runExporterConformance(exporter, event)).toEqual({ pa…
+       |                                                           ^
+     28|   });
+     29| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed (3)
+   Start at  08:14:29
+   Duration  143ms (transform 63%, import 19%, tests 14%, worker 4%)
+
+[ELIFECYCLE] Test failed. See above for more details.
+
+
+Retry red (Node24.11.1, vitest exit1, 9 failures)
+$ vitest run tests/http-retry.test.ts
+
+ RUN  v5.0.0 <sdk>
+
+ ❯ tests/http-retry.test.ts (19 tests | 9 failed) 42ms
+   ❯ HTTP Retry-After minimum through the real exporter and dispatcher (19)
+     × preserves numeric seconds beyond the local per-delay cap in its public result 16ms
+     × preserves HTTP-date beyond the local per-delay cap in its public result 1ms
+     × preserves large numeric seconds beyond the local per-delay cap in its public result 1ms
+     × preserves far future HTTP-date beyond the local per-delay cap in its public result 1ms
+     × drops numeric seconds beyond 60 seconds without starting an early second request 10ms
+     × drops HTTP-date beyond 60 seconds without starting an early second request 1ms
+     × drops large numeric seconds beyond 60 seconds without starting an early second request 1ms
+     × drops far future HTTP-date beyond 60 seconds without starting an early second request 1ms
+     × does not retry before the fractional millisecond seconds minimum and allows the exact boundary 1ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 9 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/http-retry.test.ts > HTTP Retry-After minimum through the real exporter and dispatcher > preserves numeric seconds beyond the local per-delay cap in its public result
+AssertionError: expected 60000 to be 120000 // Object.is equality
+
+- Expected
++ Received
+
+- 120000
++ 60000
+
+ ❯ tests/http-retry.test.ts:57:33
+     55|     const exporter = createHttpExporter({ endpoint: 'http://127.0.0.1:…
+     56|     const result = await exporter.export([sample], { signal: new Abort…
+     57|     expect(result.retryAfterMs).toBe(expected);
+       |                                 ^
+     58|   });
+     59|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/9]⎯
+
+ FAIL  tests/http-retry.test.ts > HTTP Retry-After minimum through the real exporter and dispatcher > preserves HTTP-date beyond the local per-delay cap in its public result
+AssertionError: expected 60000 to be 120000 // Object.is equality
+
+- Expected
++ Received
+
+- 120000
++ 60000
+
+ ❯ tests/http-retry.test.ts:57:33
+     55|     const exporter = createHttpExporter({ endpoint: 'http://127.0.0.1:…
+     56|     const result = await exporter.export([sample], { signal: new Abort…
+     57|     expect(result.retryAfterMs).toBe(expected);
+       |                                 ^
+     58|   });
+     59|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/9]⎯
+
+ FAIL  tests/http-retry.test.ts > HTTP Retry-After minimum through the real exporter and dispatcher > preserves large numeric seconds beyond the local per-delay cap in its public result
+AssertionError: expected 60000 to be 1e+103 // Object.is equality
+
+- Expected
++ Received
+
+- 1e+103
++ 60000
+
+ ❯ tests/http-retry.test.ts:57:33
+     55|     const exporter = createHttpExporter({ endpoint: 'http://127.0.0.1:…
+     56|     const result = await exporter.export([sample], { signal: new Abort…
+     57|     expect(result.retryAfterMs).toBe(expected);
+       |                                 ^
+     58|   });
+     59|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/9]⎯
+
+ FAIL  tests/http-retry.test.ts > HTTP Retry-After minimum through the real exporter and dispatcher > preserves far future HTTP-date beyond the local per-delay cap in its public result
+AssertionError: expected 60000 to be 251613086399000 // Object.is equality
+
+- Expected
++ Received
+
+- 251613086399000
++ 60000
+
+ ❯ tests/http-retry.test.ts:57:33
+     55|     const exporter = createHttpExporter({ endpoint: 'http://127.0.0.1:…
+     56|     const result = await exporter.export([sample], { signal: new Abort…
+     57|     expect(result.retryAfterMs).toBe(expected);
+       |                                 ^
+     58|   });
+     59|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/9]⎯
+
+ FAIL  tests/http-retry.test.ts > HTTP Retry-After minimum through the real exporter and dispatcher > drops numeric seconds beyond 60 seconds without starting an early second request
+ FAIL  tests/http-retry.test.ts > HTTP Retry-After minimum through the real exporter and dispatcher > drops HTTP-date beyond 60 seconds without starting an early second request
+ FAIL  tests/http-retry.test.ts > HTTP Retry-After minimum through the real exporter and dispatcher > drops large numeric seconds beyond 60 seconds without starting an early second request
+ FAIL  tests/http-retry.test.ts > HTTP Retry-After minimum through the real exporter and dispatcher > drops far future HTTP-date beyond 60 seconds without starting an early second request
+AssertionError: expected [ { at: +0, …(1) }, …(1) ] to have a length of 1 but got 2
+
+- Expected
++ Received
+
+- 1
++ 2
+
+ ❯ tests/http-retry.test.ts:73:22
+     71|     await vi.advanceTimersByTimeAsync(1);
+     72|     await flushing;
+     73|     expect(attempts).toHaveLength(1);
+       |                      ^
+     74|     expect(pulse.getDiagnostics()).toMatchObject({ requests: 1, retrie…
+     75|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/9]⎯
+
+ FAIL  tests/http-retry.test.ts > HTTP Retry-After minimum through the real exporter and dispatcher > does not retry before the fractional millisecond seconds minimum and allows the exact boundary
+AssertionError: expected [ +0, 40 ] to deeply equal [ +0 ]
+
+- Expected
++ Received
+
+  [
+    0,
++   40,
+  ]
+
+ ❯ tests/http-retry.test.ts:87:49
+     85|     const flushing = pulse.flush({ timeoutMs: 60_000 });
+     86|     await vi.advanceTimersByTimeAsync(minimum - 1);
+     87|     expect(attempts.map(attempt => attempt.at)).toEqual([0]);
+       |                                                 ^
+     88|     await vi.advanceTimersByTimeAsync(1);
+     89|     await flushing;
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/9]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  9 failed | 10 passed (19)
+   Start at  08:15:57
+   Duration  201ms (transform 48%, tests 36%, import 14%, worker 2%)
+
+[ELIFECYCLE] Test failed. See above for more details.
+
+
+CLI red observations from real source runs before each fix:
+Command: pnpm exec vitest run tests/cli-resolution.test.ts -t "accepts the hoisted package"
+Node24.11.1, exit1: Node ESM resolved fixture but doctor static mcpInstalled=null, compatible=false. 1 failed,17 skipped.
+Command: pnpm exec vitest run tests/cli-resolution.test.ts -t "npm-style executable symlink"
+Node24.11.1, exit1: actual executable symlink returned empty stderr instead of HELP.
+These summaries record observed runs; they are not reconstructed raw logs.

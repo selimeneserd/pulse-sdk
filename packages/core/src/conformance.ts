@@ -1,6 +1,7 @@
 import schema from '../contracts/event-v1.schema.json' with { type: 'json' };
 import type { PulseEvent } from './event.generated.js';
 import type { PulseExporter } from './types.js';
+import { snapshotExportResult } from './export-result.js';
 
 type Schema = { const?: unknown; enum?: unknown[]; anyOf?: Schema[]; allOf?: Schema[]; if?: Schema; then?: Schema; else?: Schema; type?: string; required?: string[]; properties?: Record<string, Schema>; additionalProperties?: boolean; pattern?: string; format?: string; minLength?: number; maxLength?: number; minimum?: number; maximum?: number };
 function matches(value: unknown, rule: Schema): boolean {
@@ -73,9 +74,10 @@ export async function runExporterConformance(exporter: PulseExporter, event: Pul
     let timer: ReturnType<typeof setTimeout> | undefined;
     try {
       const timeout = new Promise<never>((_, reject) => { timer = setTimeout(() => { controller.abort(); reject(new Error('CONFORMANCE_TIMEOUT')); }, 1000); });
-      const result = await Promise.race([Promise.resolve().then(() => exporter.export(Object.freeze([frozen]), { signal: controller.signal })), timeout]);
+      const events = Object.freeze([frozen]);
+      const result = snapshotExportResult(await Promise.race([Promise.resolve().then(() => exporter.export(events, { signal: controller.signal })), timeout]), events);
+      if (!result) return { passed: false, checks };
       const {accepted,duplicates,rejected} = result;
-      if (!Array.isArray(accepted) || !Array.isArray(duplicates) || !Array.isArray(rejected)) return {passed:false,checks};
       const ids = [...accepted, ...duplicates];
       // A collector refusing a valid event has not proved a working handoff.
       // This smoke check permits a duplicate when the caller supplied an ID

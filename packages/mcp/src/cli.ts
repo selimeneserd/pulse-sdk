@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 /** Local-only tools. No network, project execution, package install or secrets. */
 import { open, lstat, writeFile } from 'node:fs/promises';
+import { execFile } from 'node:child_process';
+import { findPackageJSON } from 'node:module';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { promisify } from 'node:util';
 import { validatePulseEvent } from '@reviseflow/pulse-core/conformance';
 
 const texts = {
@@ -11,6 +14,11 @@ const texts = {
     INVALID_OPTIONS: 'Unsupported command or options.',
     PROJECT_UNAVAILABLE: 'Cannot safely inspect the project package manifest.',
     COMPATIBILITY_UNKNOWN: 'MCP server 2.0.0 has not been verified in this project. No files changed and no versions upgraded.',
+    MCP_VERIFIED: 'Installed MCP server version and Node ESM entry were verified.',
+    MCP_NOT_FOUND: 'MCP server was not found from the target project.',
+    MCP_UNRESOLVABLE: 'Installed metadata was read, but the Node ESM entry could not be resolved.',
+    MCP_METADATA_UNVERIFIED: 'Installed MCP metadata could not be safely verified.',
+    MCP_UNSUPPORTED: 'The installed MCP server version is outside the tested version: 2.0.0.',
     INIT_PREVIEW: 'Preview: add pulse.integration.ts. Wrap before registering tools; call shutdown from the application lifecycle. Re-run with --yes to write.',
     INIT_CREATED: 'Created pulse.integration.ts. Connect it to the server before registering tools and flush during shutdown.',
     INIT_UNCHANGED: 'The integration file already matches. No changes.',
@@ -25,6 +33,11 @@ const texts = {
     INVALID_OPTIONS: 'Komut veya seçenekler desteklenmiyor.',
     PROJECT_UNAVAILABLE: 'Proje paket bildirimi güvenle incelenemedi.',
     COMPATIBILITY_UNKNOWN: 'Bu projede MCP server 2.0.0 doğrulanamadı. Dosyalar ve sürümler değiştirilmedi.',
+    MCP_VERIFIED: 'Kurulu MCP server sürümü ve Node ESM girişi doğrulandı.',
+    MCP_NOT_FOUND: 'Hedef projeden MCP server paketi bulunamadı.',
+    MCP_UNRESOLVABLE: 'Kurulu paket bilgisi okundu ancak Node ESM girişi çözümlenemedi.',
+    MCP_METADATA_UNVERIFIED: 'Kurulu MCP paket bilgisi güvenle doğrulanamadı.',
+    MCP_UNSUPPORTED: 'Kurulu MCP server sürümü test edilen 2.0.0 sürümünün dışında.',
     INIT_PREVIEW: 'Önizleme: pulse.integration.ts eklenecek. Araç kaydından önce sarmalayın; uygulama kapanışında shutdown çağırın. Yazmak için --yes ile yeniden çalıştırın.',
     INIT_CREATED: 'pulse.integration.ts oluşturuldu. Araç kaydından önce sunucuya bağlayın ve kapanışta flush çağırın.',
     INIT_UNCHANGED: 'Entegrasyon dosyası zaten aynı. Değişiklik yok.',
@@ -60,21 +73,62 @@ async function boundedRead(path: string, maxBytes: number): Promise<{ text: stri
   } finally { await handle.close(); }
 }
 
-async function projectInfo(cwd: string) {
+const mcpPackage = '@modelcontextprotocol/server';
+const exec = promisify(execFile);
+const statusCodes = {
+  verified: 'MCP_VERIFIED', not_found: 'MCP_NOT_FOUND', unresolvable: 'MCP_UNRESOLVABLE',
+  metadata_unverified: 'MCP_METADATA_UNVERIFIED', unsupported: 'MCP_UNSUPPORTED',
+} as const;
+type McpStatus = keyof typeof statusCodes;
+
+async function installedMcp(cwd: string): Promise<{ version: string | null; status: McpStatus }> {
+  let path: string | undefined;
+  try {
+    // Bare-specifier lookup returns the selected package root, including hoists
+    // and package symlinks, without requiring an exported package.json subpath.
+    path = findPackageJSON(mcpPackage, pathToFileURL(resolve(cwd, 'package.json')));
+  } catch (error) {
+    return { version: null, status: (error as NodeJS.ErrnoException).code === 'ERR_MODULE_NOT_FOUND' ? 'not_found' : 'metadata_unverified' };
+  }
+  if (!path) return { version: null, status: 'not_found' };
+  let version: string;
+  try {
+    const source = await boundedRead(path, 1_048_576);
+    if (source.truncated) throw new Error('METADATA_TOO_LARGE');
+    const metadata: unknown = JSON.parse(source.text);
+    if (!metadata || typeof metadata !== 'object' || !('name' in metadata) || metadata.name !== mcpPackage ||
+      !('version' in metadata) || typeof metadata.version !== 'string' || metadata.version.length > 80 || !/^\d+\.\d+\.\d+$/.test(metadata.version)) throw new Error('METADATA_UNVERIFIED');
+    version = metadata.version;
+  } catch { return { version: null, status: 'metadata_unverified' }; }
+  try {
+    // Node's supported one-argument ESM resolver is scoped to this fixed eval
+    // module in the target cwd. It resolves import conditions without importing
+    // the package or running application entry/config/lifecycle code. A separate
+    // process avoids a global loader hook or experimental parentURL API.
+    const { NODE_OPTIONS: _nodeOptions, ...env } = process.env;
+    const { stdout } = await exec(process.execPath, ['--input-type=module', '--eval',
+      `import { statSync } from 'node:fs';
+       const entry = new URL(import.meta.resolve('@modelcontextprotocol/server'));
+       if (entry.protocol !== 'file:' || !statSync(entry).isFile()) process.exitCode = 1;
+       else process.stdout.write('resolved');`,
+    ], { cwd, env, timeout: 2_000, maxBuffer: 4_096, windowsHide: true });
+    if (stdout !== 'resolved') return { version, status: 'unresolvable' };
+  } catch { return { version, status: 'unresolvable' }; }
+  return { version, status: version === '2.0.0' ? 'verified' : 'unsupported' };
+}
+
+async function projectInfo(cwd: string, locale: Locale) {
   const source = await boundedRead(resolve(cwd, 'package.json'), 1_048_576);
   if (source.truncated) throw new Error('PROJECT_TOO_LARGE');
   const manifest = JSON.parse(source.text) as { dependencies?: Record<string, unknown>; devDependencies?: Record<string, unknown> };
   const declared = manifest.dependencies?.['@modelcontextprotocol/server'] ?? manifest.devDependencies?.['@modelcontextprotocol/server'];
-  let installed: unknown;
-  try {
-    // CLI static inspection only; adapter runtime never reads package paths.
-    const metadata = await boundedRead(resolve(cwd, 'node_modules/@modelcontextprotocol/server/package.json'), 1_048_576);
-    if (!metadata.truncated) installed = JSON.parse(metadata.text).version;
-  } catch { /* Missing install remains unverified. */ }
+  const installed = await installedMcp(cwd);
   return {
     mcpDeclared: typeof declared === 'string' && /^[\d.^~<>= |*-]{1,80}$/.test(declared) ? declared : null,
-    mcpInstalled: typeof installed === 'string' && /^\d+\.\d+\.\d+$/.test(installed) ? installed : null,
-    compatible: installed === '2.0.0',
+    mcpInstalled: installed.version,
+    compatible: installed.status === 'verified',
+    mcpStatus: installed.status,
+    mcpStatusMessage: texts[locale][statusCodes[installed.status]],
   };
 }
 
@@ -134,7 +188,7 @@ export async function runCli(args: string[], write: (text: string) => void = tex
       catch { emit('FILE_UNAVAILABLE'); return 1; }
     }
     let project;
-    try { project = await projectInfo(cwd); } catch { emit('PROJECT_UNAVAILABLE'); return 1; }
+    try { project = await projectInfo(cwd, locale); } catch { emit('PROJECT_UNAVAILABLE'); return 1; }
     if (command === 'doctor') {
       let localExport: Awaited<ReturnType<typeof summarize>> | null = null;
       if (file) { try { localExport = await summarize(resolve(cwd, file)); } catch { emit('FILE_UNAVAILABLE'); return 1; } }
@@ -156,4 +210,4 @@ export async function runCli(args: string[], write: (text: string) => void = tex
   } catch { emit('FAILED'); return 1; }
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) process.exitCode = await runCli(process.argv.slice(2));
+if (import.meta.main) process.exitCode = await runCli(process.argv.slice(2));

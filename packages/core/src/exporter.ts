@@ -1,4 +1,5 @@
 import type { ResolvedOptions } from './config.js';
+import { snapshotExportResult } from './export-result.js';
 import type { PulseDiagnostics, PulseEvent, PulseExporter, PulseExportResult } from './types.js';
 
 type Entry = Readonly<{ event: PulseEvent; bytes: number; sequence: number }>;
@@ -6,33 +7,6 @@ type Counter = 'observed' | 'accepted' | 'duplicates' | 'rejected' | 'requests' 
 // Byte accounting covers the public JSON HTTP envelope, even for local exporters.
 const envelopeBytes = Buffer.byteLength('{"schema_version":1,"events":[]}');
 const encoder = new TextEncoder();
-export function validResult(value: unknown, events: readonly PulseEvent[]): value is PulseExportResult {
-  try {
-    if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
-    const result = value as PulseExportResult;
-    if (Object.keys(result).some(key => !['accepted', 'duplicates', 'rejected', 'retryAfterMs', 'blocked', 'batchTooLarge'].includes(key))) return false;
-    if (!Array.isArray(result.accepted) || !Array.isArray(result.duplicates) || !Array.isArray(result.rejected)) return false;
-    if (result.accepted.length + result.duplicates.length + result.rejected.length > events.length) return false;
-    if (result.retryAfterMs !== undefined && (!Number.isFinite(result.retryAfterMs) || result.retryAfterMs < 0)) return false;
-    if (result.blocked !== undefined && result.blocked !== 'auth') return false;
-    if (result.batchTooLarge !== undefined && typeof result.batchTooLarge !== 'boolean') return false;
-    const ids = new Set(events.map(event => event.event_id));
-    const seen = new Set<string>();
-    for (const id of [...result.accepted, ...result.duplicates]) {
-      if (typeof id !== 'string' || !ids.has(id) || seen.has(id)) return false;
-      seen.add(id);
-    }
-    for (const rejection of result.rejected) {
-      if (!rejection || typeof rejection !== 'object' || Object.keys(rejection).some(key => !['event_id', 'code', 'retryable'].includes(key))) return false;
-      if (!ids.has(rejection.event_id) || seen.has(rejection.event_id) || typeof rejection.retryable !== 'boolean' || typeof rejection.code !== 'string' || !/^[A-Z][A-Z0-9_]{0,63}$/.test(rejection.code)) return false;
-      seen.add(rejection.event_id);
-    }
-    if ((result.batchTooLarge || result.blocked) && seen.size > 0) return false;
-    if (result.batchTooLarge && result.blocked) return false;
-    return true;
-  } catch { return false; }
-}
-
 /** This module owns all queues, timeout deadlines, batching, and retries; it performs no I/O. */
 export function createDispatcher(options: ResolvedOptions) {
   const settings = options.queue;
@@ -155,22 +129,7 @@ export function createDispatcher(options: ResolvedOptions) {
         }
         return null;
       }
-      if (!result || typeof result !== 'object' || Array.isArray(result) || Object.keys(result).some(key => !['accepted', 'duplicates', 'rejected', 'retryAfterMs', 'blocked', 'batchTooLarge'].includes(key))) return null;
-      // Read third-party accessors once, then validate only the private snapshot.
-      const { accepted, duplicates, rejected, retryAfterMs, blocked: responseBlock, batchTooLarge } = result;
-      if (!Array.isArray(accepted) || !Array.isArray(duplicates) || !Array.isArray(rejected) || accepted.length + duplicates.length + rejected.length > events.length) return null;
-      const snapshot = {
-        accepted: [...accepted], duplicates: [...duplicates],
-        rejected: rejected.map(item => {
-          if (!item || typeof item !== 'object' || Object.keys(item).some(key => !['event_id', 'code', 'retryable'].includes(key))) throw 0;
-          const { event_id, code, retryable } = item;
-          return { event_id, code, retryable };
-        }),
-        ...(retryAfterMs === undefined ? {} : { retryAfterMs }),
-        ...(responseBlock === undefined ? {} : { blocked: responseBlock }),
-        ...(batchTooLarge === undefined ? {} : { batchTooLarge }),
-      };
-      return validResult(snapshot, events) ? snapshot : null;
+      return snapshotExportResult(result, events);
     } catch { return null; }
     finally {
       if (timeout !== undefined) clearTimeout(timeout);
@@ -222,7 +181,8 @@ export function createDispatcher(options: ResolvedOptions) {
       const exponential = Math.min(settings.retryMaxMs, settings.retryBaseMs * 2 ** attempt);
       const jittered = exponential * (0.5 + Math.random() * 0.5);
       notify();
-      await delay(Math.max(jittered, result?.retryAfterMs ?? 0));
+      // Node truncates fractional timer delays; round up to preserve the server minimum.
+      await delay(Math.ceil(Math.max(jittered, result?.retryAfterMs ?? 0)));
       if (stopped) { remove(entries, 'droppedShutdown'); return; }
       if (paused) { remove(entries, 'droppedPaused'); return; }
       attempt++; counts.retries++;

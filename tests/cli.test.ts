@@ -15,7 +15,8 @@ async function project(version = '2.0.0') {
   const dir = await mkdtemp(join(tmpdir(), 'pulse-cli-test-')); dirs.push(dir);
   await mkdir(join(dir, 'node_modules/@modelcontextprotocol/server'), { recursive: true });
   await writeFile(join(dir, 'package.json'), JSON.stringify({ dependencies: { '@modelcontextprotocol/server': version } }));
-  await writeFile(join(dir, 'node_modules/@modelcontextprotocol/server/package.json'), JSON.stringify({ version }));
+  await writeFile(join(dir, 'node_modules/@modelcontextprotocol/server/package.json'), JSON.stringify({ name: '@modelcontextprotocol/server', version, type: 'module', exports: { '.': { import: './index.mjs' } } }));
+  await writeFile(join(dir, 'node_modules/@modelcontextprotocol/server/index.mjs'), 'export {};');
   return dir;
 }
 async function cli(...args: string[]) {

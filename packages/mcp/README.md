@@ -2,14 +2,14 @@
 
 The MIT-licensed MCP adapter for Pulse. Observe tool handlers through the official MCP **2.0.0** public registration API, with a local or explicitly selected exporter.
 
-**Version 0.2.0 · MIT · Node.js 24 ESM.** The API requires an explicit exporter. [Migrate from 0.1.0](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/migration-release.md) before upgrading an existing integration.
+**Version 0.2.1 · MIT · Node.js 24 ESM.** The API requires an explicit exporter. [Migrate from 0.1.0](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/migration-release.md) before upgrading an existing integration.
 
-**TR:** **0.2.0 · MIT · Node.js 24 ESM.** API açık bir exporter gerektirir; mevcut 0.1.0 kurulumu için önce geçiş rehberini okuyun.
+**TR:** **0.2.1 · MIT · Node.js 24 ESM.** API açık bir exporter gerektirir; mevcut 0.1.0 kurulumu için önce geçiş rehberini okuyun.
 
 ## Install / Kurulum
 
 ```sh
-npm install --save-exact @reviseflow/pulse@0.2.0 @reviseflow/pulse-core@0.2.0 @modelcontextprotocol/server@2.0.0
+npm install --save-exact @reviseflow/pulse@0.2.1 @reviseflow/pulse-core@0.2.1 @modelcontextprotocol/server@2.0.0
 ```
 
 Check the [compatibility guide](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/compatibility.md) before changing an existing project's MCP version. Pulse does not upgrade it for you.
@@ -40,12 +40,14 @@ Events describe observed **handler completions**, not full MCP request outcomes 
 
 ## Local CLI
 
-The installed package provides `pulse`:
+Version 0.2.1 provides the `pulse` executable through npm's installed bin symlink. MCP checks use the target project's default Node ESM resolution, including hoisted installations and import-only exports. A broken or unsupported nearest package stays visible as a diagnostic; Pulse does not silently select another version.
+
+TR: 0.2.1, npm'nin kurduğu komut symlink'i üzerinden `pulse` komutunu çalıştırır. MCP kontrolü, hoisted kurulumlar ve yalnız import export'ları dahil hedef projenin varsayılan Node ESM çözümlemesini kullanır. En yakın paket bozuksa veya desteklenmiyorsa bu durum diagnostics'te gösterilir; başka sürüm sessizce seçilmez.
 
 ```sh
-pulse init --dry-run
-pulse doctor
-pulse dev --file pulse-events.jsonl
+npx --no-install pulse init --dry-run
+npx --no-install pulse doctor
+npx --no-install pulse dev --file pulse-events.jsonl
 ```
 
 `init` previews one thin integration file and never overwrites different content. `doctor` separates static checks from runtime evidence. `dev` summarizes bounded local JSONL data. All output goes to **stderr**, protecting MCP stdio. Add `--locale tr` for Turkish output. See the [CLI guide](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/tooling.md) for write flags, limits and lifecycle setup.

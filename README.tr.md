@@ -4,10 +4,12 @@ MCP araç handler'ları için açık kaynak analiz altyapısı. Çağrıları ye
 
 [**English**](README.md) · [Yerel başlangıç](#yerelde-çalıştırın) · [Belgeler](#belgeler) · [Katkı](CONTRIBUTING.md)
 
-> **npm 0.2.0:** `@reviseflow/pulse`, `@reviseflow/pulse-core` ve isteğe bağlı `@reviseflow/pulse-otel`. 0.1.0'dan geçiş kırıcıdır: exporter açıkça seçilir. Güncellemeden önce [geçiş rehberini](docs/migration-release.md) okuyun.
+> **Sürüm 0.2.1:** `@reviseflow/pulse`, `@reviseflow/pulse-core` ve isteğe bağlı `@reviseflow/pulse-otel`. Bu yama 0.2 API'sini korur; 0.2.0'dan geçişte migration gerekmez. 0.1.0'dan güncelleme açık exporter seçimi gerektirir: [geçiş rehberini](docs/migration-release.md) okuyun.
+
+0.2.1, conformance ile çalışma zamanı exporter doğrulamasını eşitler; kurulan CLI komutunu ve hoisted MCP çözümlemesini düzeltir; collector'ın `Retry-After` alt sınırını korur. Alt sınır dispatcher'ın yapılandırılan bekleme sınırını aşarsa, bekleyen olaylar erken yeniden denenmek yerine sınırlı kuyruk politikasıyla atılır. Ayrıntılar [değişiklik günlüğündedir](CHANGELOG.md).
 
 ```sh
-npm install --save-exact @reviseflow/pulse@0.2.0 @reviseflow/pulse-core@0.2.0 @modelcontextprotocol/server@2.0.0
+npm install --save-exact @reviseflow/pulse@0.2.1 @reviseflow/pulse-core@0.2.1 @modelcontextprotocol/server@2.0.0
 ```
 
 ## Yerelde çalıştırın
@@ -51,7 +53,7 @@ server.registerTool('health', {}, () => ({
 
 `server` nesnesini uygulamanızın mevcut transport'u üzerinden bağlayın. Uygulamanın kapanış hook'unda `await pulse.shutdown({ timeoutMs: 2_000 })` çağırın. Uygulama çalışmaya devam ederken kuyruğu boşaltmak için `await pulse.flush({ timeoutMs: 2_000 })` kullanın. Process dondurulduktan veya sonlandırıldıktan sonra teslim garantisi yoktur.
 
-Yerelde paketlenen adayı başka bir projeye kurduğunuzda `pulse init --dry-run`, ince bir entegrasyon dosyasını önizler. `pulse doctor`, statik yapılandırma ile gerçekten gözlenmiş çalışma zamanı durumlarını ayırır. Bu komutlar bağımlılık kurmaz, MCP sürümünü yükseltmez ve iş araçlarını çağırmaz. Ayrıntılar [CLI rehberinde](docs/tooling.md).
+Paketleri projenize kurduktan sonra `npx --no-install pulse init --dry-run`, ince bir entegrasyon dosyasını önizler. `npx --no-install pulse doctor`, hoisted kurulumlar dahil projenin Node ESM bağlamında çözümlenen MCP paketini kontrol eder; statik yapılandırma ile gerçekten gözlenmiş çalışma zamanı durumlarını ayırır. Bu komutlar bağımlılık kurmaz, MCP sürümünü yükseltmez ve iş araçlarını çağırmaz. Ayrıntılar [CLI rehberinde](docs/tooling.md).
 
 ## Olayların gideceği yeri seçin
 
@@ -88,7 +90,7 @@ export function createManagedPulse(endpoint: string, writeKey: string) {
 }
 ```
 
-Zorunlu yapılandırmayı uygulamanızda doğrulayın; write key'i tarayıcıya taşımayın. Collector ile 0.2.0 API'sini kullanmadan önce isteğe bağlı `adapter_version` alanını kabul ettiğini doğrulayın. [Geçiş rehberi](docs/migration-release.md), mevcut 0.1.0 kurulumlarını, yayın sırasını ve geri almayı açıklar.
+Zorunlu yapılandırmayı uygulamanızda doğrulayın; write key'i tarayıcıya taşımayın. Collector ile 0.2 API'sini kullanmadan önce isteğe bağlı `adapter_version` alanını kabul ettiğini doğrulayın. [Geçiş rehberi](docs/migration-release.md), mevcut 0.1.0 kurulumlarını, yayın sırasını ve geri almayı açıklar.
 
 ## Pulse neyi ölçer?
 

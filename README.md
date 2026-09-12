@@ -4,10 +4,12 @@ Open-source analytics for MCP tool handlers. Observe calls locally, then send th
 
 [**Türkçe**](README.tr.md) · [Local quickstart](#run-locally) · [Documentation](#documentation) · [Contributing](CONTRIBUTING.md)
 
-> **npm 0.2.0:** `@reviseflow/pulse`, `@reviseflow/pulse-core` and optional `@reviseflow/pulse-otel`. This is a breaking update from 0.1.0: choose an exporter explicitly. Read the [migration guide](docs/migration-release.md) before upgrading.
+> **Version 0.2.1:** `@reviseflow/pulse`, `@reviseflow/pulse-core` and optional `@reviseflow/pulse-otel`. This patch keeps the 0.2 API; no migration is needed from 0.2.0. Upgrading from 0.1.0 requires an explicit exporter: read the [migration guide](docs/migration-release.md).
+
+0.2.1 aligns conformance with runtime exporter validation, fixes the installed CLI and hoisted MCP resolution, and preserves collector `Retry-After` minimums. If the minimum exceeds the dispatcher's configured delay limit, the pending events are dropped under its bounded policy instead of retried early. See the [changelog](CHANGELOG.md).
 
 ```sh
-npm install --save-exact @reviseflow/pulse@0.2.0 @reviseflow/pulse-core@0.2.0 @modelcontextprotocol/server@2.0.0
+npm install --save-exact @reviseflow/pulse@0.2.1 @reviseflow/pulse-core@0.2.1 @modelcontextprotocol/server@2.0.0
 ```
 
 ## Run locally
@@ -51,7 +53,7 @@ server.registerTool('health', {}, () => ({
 
 Connect `server` through your application's existing transport. Call `await pulse.shutdown({ timeoutMs: 2_000 })` from its shutdown hook. For a lifecycle boundary that keeps the application running, use `await pulse.flush({ timeoutMs: 2_000 })`. Neither operation guarantees delivery after a process is frozen or terminated.
 
-After installing the npm package in another project, `pulse init --dry-run` previews a thin integration file. `pulse doctor` distinguishes static configuration from observed runtime facts. These commands do not install dependencies, upgrade MCP or invoke business tools. See the [CLI guide](docs/tooling.md).
+After installing the packages in your project, `npx --no-install pulse init --dry-run` previews a thin integration file. `npx --no-install pulse doctor` checks the MCP package resolved from that project's Node ESM context, including hoisted installations, and distinguishes static configuration from observed runtime facts. These commands do not install dependencies, upgrade MCP or invoke business tools. See the [CLI guide](docs/tooling.md).
 
 ## Choose where events go
 
@@ -88,7 +90,7 @@ export function createManagedPulse(endpoint: string, writeKey: string) {
 }
 ```
 
-Validate required configuration in your application and keep write keys out of the browser. Before using the 0.2.0 API with a collector, confirm it accepts the optional `adapter_version` field. The [migration guide](docs/migration-release.md) covers existing 0.1.0 installations, rollout order and rollback.
+Validate required configuration in your application and keep write keys out of the browser. Before using the 0.2 API with a collector, confirm it accepts the optional `adapter_version` field. The [migration guide](docs/migration-release.md) covers existing 0.1.0 installations, rollout order and rollback.
 
 ## What Pulse measures
 

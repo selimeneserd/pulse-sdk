@@ -1,0 +1,5364 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-09-12T05:23:14.222Z",
+  "environment": {
+    "node": "v24.11.1",
+    "dependencyVersions": {
+      "@reviseflow/pulse-core": "0.2.0",
+      "@reviseflow/pulse": "0.2.0",
+      "@modelcontextprotocol/server": "2.0.0",
+      "@modelcontextprotocol/client": "2.0.0",
+      "@modelcontextprotocol/node": "2.0.0"
+    },
+    "platform": "darwin",
+    "arch": "arm64",
+    "osRelease": "25.1.0",
+    "cpuModel": "Apple M1",
+    "logicalCpus": 8,
+    "memoryBytes": 17179869184,
+    "gitSha": "e304c641f0e09b91b401366e247f73f22550ccfa",
+    "workingTreeDirty": true,
+    "sourceSha256": {
+      "scripts/benchmark.ts": "2f99485ecee2b32fd9a50aebc0b69cdd63416ffa9aaf4b5b15a63f8b71cd23e5",
+      "packages/core/dist/config.js": "0562dcc9933ac439d03e156e9615e0f46da2feb1ed1876f59f6970df48749d81",
+      "packages/core/dist/index.js": "231e1f9d1149ef6eaa5cac580106a0caa36dbeda03df8dcc5af43917a27e68be",
+      "packages/core/dist/export-input.js": "8155bf4316e90af438ad808c67e8a8ba3281d79107afc2a251912befba941930",
+      "packages/core/dist/conformance.js": "73465c0e04ae769bb7fd2e0919266aeed209642702a439c1aa3489a26e569071",
+      "packages/core/dist/exporter.js": "f79a514129acedaed5f87ba340106be2b4216b52c327d7981eaf32b0e1a8bc9a",
+      "packages/core/dist/event.js": "2b1df5798811945640bab41e6d93ffd4f2809b5298e951018c54d1f5692bb23a",
+      "packages/core/dist/http.js": "cff3e8afceb62196ab4f2fe887bb9b96f5f35ae9828e99ff279c5c163ab88d3b",
+      "packages/core/dist/memory.js": "dcaac38ef57bade3204351688d2b51c267d6ef02dab1eff8a5204626475cdb17",
+      "packages/mcp/dist/index.js": "8e71b50d3d2a282e242d196269aba7a5855dca5142124f89612f79b8f275ccdf"
+    }
+  },
+  "methodology": {
+    "repetitions": 3,
+    "warmupCallsPerMicrobenchRun": 100,
+    "fullRequestWarmupCalls": 10,
+    "fullRequestCallsPerRun": 50,
+    "randomizedOrder": false,
+    "explicitGc": false,
+    "percentileMethod": "nearest-rank over pooled individual observations, never averages of percentiles",
+    "sustainedPacing": "25 synchronous invocations then a 1 ms timer yield",
+    "localSlowCollectorDelayMs": 15,
+    "shutdownDeadlineMs": 10,
+    "scope": "public MCP registered handler direct invocation microbench; full HTTP MCP request samples reported separately",
+    "queuePolicy": "encoded-byte/count bounded; queued oldest evicted, in-flight retained; burst intentionally exceeds default1000 queue",
+    "rssSampling": "before/after and every25 invocations, not a process-isolated exact peak",
+    "notes": [
+      "Local public fixture identifiers only; no production requests.",
+      "Synchronous mean includes timer-sampling overhead and optional identity context, excludes async export I/O.",
+      "Invocation loop CPU includes concurrently executed exporter and local collector work; totalCPU includes flush/shutdown. HTTP process CPU is not isolated SDK CPU.",
+      "Sequential cases share one process; JIT/GC/system contention influence ratios.",
+      "Absent and disabled load SDK modules in the process but do not execute instrumentation; no import/startup cost claim.",
+      "Microbench ratios are to the matching absent workload; stress cases use absent burst reference."
+    ]
+  },
+  "microbenchmarks": [
+    {
+      "mode": "absent",
+      "identity": false,
+      "workload": "burst",
+      "calls": 1500,
+      "runs": [
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 0.5660000000000025,
+          "lifecycleMs": 0.0008750000000077307,
+          "wallThroughputCallsPerSecond": 2650176.678445218,
+          "synchronousInvocation": {
+            "meanUs": 0.14111199999952836,
+            "p50Us": 0.08399999998687235,
+            "p95Us": 0.2089999999839165,
+            "p99Us": 1.1669999999810443,
+            "minUs": 0.04099999998175008,
+            "maxUs": 16.583999999994603
+          },
+          "cpu": {
+            "invocationUserMs": 0.928,
+            "invocationSystemMs": 0.104,
+            "totalUserMs": 5.709,
+            "totalSystemMs": 0.613
+          },
+          "memory": {
+            "rssBeforeBytes": 110985216,
+            "peakRssBytes": 111460352,
+            "rssAfterBytes": 113147904,
+            "heapDeltaBytes": -1700928,
+            "peakPendingEvents": 0,
+            "peakEncodedPendingBytes": 0
+          },
+          "eventLoop": {
+            "samples": 1,
+            "p95Ms": 0.865279,
+            "p99Ms": 0.865279,
+            "maxMs": 0.865279
+          },
+          "diagnostics": null,
+          "finalPendingEvents": 0,
+          "finalStatus": null,
+          "collectorObservedAfterWarmup": null
+        },
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 0.4205830000000219,
+          "lifecycleMs": 0.0013749999999959073,
+          "wallThroughputCallsPerSecond": 3566477.960354845,
+          "synchronousInvocation": {
+            "meanUs": 0.11747866666684104,
+            "p50Us": 0.12499999999704414,
+            "p95Us": 0.12500000002546585,
+            "p99Us": 0.16700000000469117,
+            "minUs": 0.08299999998939711,
+            "maxUs": 7.749999999987267
+          },
+          "cpu": {
+            "invocationUserMs": 1.232,
+            "invocationSystemMs": 0.085,
+            "totalUserMs": 3.006,
+            "totalSystemMs": 0.147
+          },
+          "memory": {
+            "rssBeforeBytes": 114475008,
+            "peakRssBytes": 114475008,
+            "rssAfterBytes": 114507776,
+            "heapDeltaBytes": 1018256,
+            "peakPendingEvents": 0,
+            "peakEncodedPendingBytes": 0
+          },
+          "eventLoop": {
+            "samples": 0,
+            "p95Ms": null,
+            "p99Ms": null,
+            "maxMs": null
+          },
+          "diagnostics": null,
+          "finalPendingEvents": 0,
+          "finalStatus": null,
+          "collectorObservedAfterWarmup": null
+        },
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 0.418042000000014,
+          "lifecycleMs": 0.0009579999999971278,
+          "wallThroughputCallsPerSecond": 3588156.213968811,
+          "synchronousInvocation": {
+            "meanUs": 0.1145800000001979,
+            "p50Us": 0.08300000001781882,
+            "p95Us": 0.08400000001529406,
+            "p99Us": 0.12499999999704414,
+            "minUs": 0.04099999998175008,
+            "maxUs": 50.292000000013104
+          },
+          "cpu": {
+            "invocationUserMs": 0.397,
+            "invocationSystemMs": 0.048,
+            "totalUserMs": 0.507,
+            "totalSystemMs": 0.058
+          },
+          "memory": {
+            "rssBeforeBytes": 114540544,
+            "peakRssBytes": 114556928,
+            "rssAfterBytes": 114556928,
+            "heapDeltaBytes": 1027360,
+            "peakPendingEvents": 0,
+            "peakEncodedPendingBytes": 0
+          },
+          "eventLoop": {
+            "samples": 0,
+            "p95Ms": null,
+            "p99Ms": null,
+            "maxMs": null
+          },
+          "diagnostics": null,
+          "finalPendingEvents": 0,
+          "finalStatus": null,
+          "collectorObservedAfterWarmup": null
+        }
+      ],
+      "pooled": {
+        "meanUs": 0.1243902222221891,
+        "p95Us": 0.20799999998644125,
+        "p99Us": 0.24999999999408828
+      },
+      "ratioToAbsentMean": 1
+    },
+    {
+      "mode": "absent",
+      "identity": false,
+      "workload": "sustained",
+      "calls": 600,
+      "runs": [
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 31.208584000000002,
+          "lifecycleMs": 0.0007909999999924366,
+          "wallThroughputCallsPerSecond": 19225.4797590304,
+          "synchronousInvocation": {
+            "meanUs": 0.08950499999940575,
+            "p50Us": 0.08300000001781882,
+            "p95Us": 0.12499999999704414,
+            "p99Us": 0.3330000000119071,
+            "minUs": 0.04099999998175008,
+            "maxUs": 1.3329999999882602
+          },
+          "cpu": {
+            "invocationUserMs": 0.817,
+            "invocationSystemMs": 0.181,
+            "totalUserMs": 0.842,
+            "totalSystemMs": 0.195
+          },
+          "memory": {
+            "rssBeforeBytes": 114950144,
+            "peakRssBytes": 114966528,
+            "rssAfterBytes": 114966528,
+            "heapDeltaBytes": 480920,
+            "peakPendingEvents": 0,
+            "peakEncodedPendingBytes": 0
+          },
+          "eventLoop": {
+            "samples": 25,
+            "p95Ms": 1.360895,
+            "p99Ms": 1.401855,
+            "maxMs": 1.401855
+          },
+          "diagnostics": null,
+          "finalPendingEvents": 0,
+          "finalStatus": null,
+          "collectorObservedAfterWarmup": null
+        },
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 31.30333299999998,
+          "lifecycleMs": 0.0007909999999924366,
+          "wallThroughputCallsPerSecond": 19167.288032874978,
+          "synchronousInvocation": {
+            "meanUs": 0.11382666666709913,
+            "p50Us": 0.08299999998939711,
+            "p95Us": 0.16600000000721593,
+            "p99Us": 0.41699999999877946,
+            "minUs": 0.04099999998175008,
+            "maxUs": 17.416999999994687
+          },
+          "cpu": {
+            "invocationUserMs": 1.369,
+            "invocationSystemMs": 0.21,
+            "totalUserMs": 1.386,
+            "totalSystemMs": 0.217
+          },
+          "memory": {
+            "rssBeforeBytes": 115343360,
+            "peakRssBytes": 115425280,
+            "rssAfterBytes": 115425280,
+            "heapDeltaBytes": 432040,
+            "peakPendingEvents": 0,
+            "peakEncodedPendingBytes": 0
+          },
+          "eventLoop": {
+            "samples": 25,
+            "p95Ms": 1.361919,
+            "p99Ms": 1.411071,
+            "maxMs": 1.411071
+          },
+          "diagnostics": null,
+          "finalPendingEvents": 0,
+          "finalStatus": null,
+          "collectorObservedAfterWarmup": null
+        },
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 30.91954199999998,
+          "lifecycleMs": 0.0006250000000136424,
+          "wallThroughputCallsPerSecond": 19405.2033500367,
+          "synchronousInvocation": {
+            "meanUs": 0.06507000000055996,
+            "p50Us": 0.04200000000764703,
+            "p95Us": 0.08400000001529406,
+            "p99Us": 0.33400000000938235,
+            "minUs": 0.04099999995332837,
+            "maxUs": 2.082999999998947
+          },
+          "cpu": {
+            "invocationUserMs": 0.514,
+            "invocationSystemMs": 0.183,
+            "totalUserMs": 0.534,
+            "totalSystemMs": 0.193
+          },
+          "memory": {
+            "rssBeforeBytes": 115802112,
+            "peakRssBytes": 115802112,
+            "rssAfterBytes": 115802112,
+            "heapDeltaBytes": 370272,
+            "peakPendingEvents": 0,
+            "peakEncodedPendingBytes": 0
+          },
+          "eventLoop": {
+            "samples": 25,
+            "p95Ms": 1.313791,
+            "p99Ms": 1.413119,
+            "maxMs": 1.413119
+          },
+          "diagnostics": null,
+          "finalPendingEvents": 0,
+          "finalStatus": null,
+          "collectorObservedAfterWarmup": null
+        }
+      ],
+      "pooled": {
+        "meanUs": 0.08946722222235495,
+        "p95Us": 0.12499999999704414,
+        "p99Us": 0.33399999998096064
+      },
+      "ratioToAbsentMean": 1
+    },
+    {
+      "mode": "disabled",
+      "identity": false,
+      "workload": "burst",
+      "calls": 1500,
+      "runs": [
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 0.6805420000000026,
+          "lifecycleMs": 0.011500000000012278,
+          "wallThroughputCallsPerSecond": 2204125.5352351423,
+          "synchronousInvocation": {
+            "meanUs": 0.08301933333378504,
+            "p50Us": 0.04200000000764703,
+            "p95Us": 0.16699999997626946,
+            "p99Us": 0.16700000003311288,
+            "minUs": 0,
+            "maxUs": 11.042000000031749
+          },
+          "cpu": {
+            "invocationUserMs": 0.472,
+            "invocationSystemMs": 0.124,
+            "totalUserMs": 0.53,
+            "totalSystemMs": 0.133
+          },
+          "memory": {
+            "rssBeforeBytes": 116178944,
+            "peakRssBytes": 116178944,
+            "rssAfterBytes": 116178944,
+            "heapDeltaBytes": 843312,
+            "peakPendingEvents": 0,
+            "peakEncodedPendingBytes": 0
+          },
+          "eventLoop": {
+            "samples": 0,
+            "p95Ms": null,
+            "p99Ms": null,
+            "maxMs": null
+          },
+          "diagnostics": {
+            "observed": 0,
+            "accepted": 0,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 0,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "disabled",
+          "collectorObservedAfterWarmup": null
+        },
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 0.3014999999999759,
+          "lifecycleMs": 0.0035829999999918982,
+          "wallThroughputCallsPerSecond": 4975124.378109851,
+          "synchronousInvocation": {
+            "meanUs": 0.0540553333327504,
+            "p50Us": 0.04200000000764703,
+            "p95Us": 0.08399999995845064,
+            "p99Us": 0.08400000001529406,
+            "minUs": 0.04099999995332837,
+            "maxUs": 3.0420000000503933
+          },
+          "cpu": {
+            "invocationUserMs": 0.297,
+            "invocationSystemMs": 0.051,
+            "totalUserMs": 0.358,
+            "totalSystemMs": 0.058
+          },
+          "memory": {
+            "rssBeforeBytes": 116178944,
+            "peakRssBytes": 116195328,
+            "rssAfterBytes": 116195328,
+            "heapDeltaBytes": 845048,
+            "peakPendingEvents": 0,
+            "peakEncodedPendingBytes": 0
+          },
+          "eventLoop": {
+            "samples": 1,
+            "p95Ms": 1.270783,
+            "p99Ms": 1.270783,
+            "maxMs": 1.270783
+          },
+          "diagnostics": {
+            "observed": 0,
+            "accepted": 0,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 0,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "disabled",
+          "collectorObservedAfterWarmup": null
+        },
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 0.26991600000002336,
+          "lifecycleMs": 0.0015419999999721767,
+          "wallThroughputCallsPerSecond": 5557284.488507055,
+          "synchronousInvocation": {
+            "meanUs": 0.050428666666751575,
+            "p50Us": 0.04200000000764703,
+            "p95Us": 0.08400000001529406,
+            "p99Us": 0.08400000001529406,
+            "minUs": 0,
+            "maxUs": 0.24999999999408828
+          },
+          "cpu": {
+            "invocationUserMs": 0.241,
+            "invocationSystemMs": 0.03,
+            "totalUserMs": 0.276,
+            "totalSystemMs": 0.038
+          },
+          "memory": {
+            "rssBeforeBytes": 116228096,
+            "peakRssBytes": 116228096,
+            "rssAfterBytes": 116228096,
+            "heapDeltaBytes": 825568,
+            "peakPendingEvents": 0,
+            "peakEncodedPendingBytes": 0
+          },
+          "eventLoop": {
+            "samples": 0,
+            "p95Ms": null,
+            "p99Ms": null,
+            "maxMs": null
+          },
+          "diagnostics": {
+            "observed": 0,
+            "accepted": 0,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 0,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "disabled",
+          "collectorObservedAfterWarmup": null
+        }
+      ],
+      "pooled": {
+        "meanUs": 0.06250111111109567,
+        "p95Us": 0.12500000002546585,
+        "p99Us": 0.16700000003311288
+      },
+      "ratioToAbsentMean": 0.5024600004287679
+    },
+    {
+      "mode": "disabled",
+      "identity": false,
+      "workload": "sustained",
+      "calls": 600,
+      "runs": [
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 31.15625,
+          "lifecycleMs": 0.004250000000013188,
+          "wallThroughputCallsPerSecond": 19257.77331995988,
+          "synchronousInvocation": {
+            "meanUs": 0.06623000000284189,
+            "p50Us": 0.04200000000764703,
+            "p95Us": 0.12500000002546585,
+            "p99Us": 0.24999999999408828,
+            "minUs": 0,
+            "maxUs": 1.167000000009466
+          },
+          "cpu": {
+            "invocationUserMs": 0.854,
+            "invocationSystemMs": 0.223,
+            "totalUserMs": 0.964,
+            "totalSystemMs": 0.249
+          },
+          "memory": {
+            "rssBeforeBytes": 116228096,
+            "peakRssBytes": 116244480,
+            "rssAfterBytes": 116244480,
+            "heapDeltaBytes": 386696,
+            "peakPendingEvents": 0,
+            "peakEncodedPendingBytes": 0
+          },
+          "eventLoop": {
+            "samples": 24,
+            "p95Ms": 1.342463,
+            "p99Ms": 1.466367,
+            "maxMs": 1.466367
+          },
+          "diagnostics": {
+            "observed": 0,
+            "accepted": 0,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 0,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "disabled",
+          "collectorObservedAfterWarmup": null
+        },
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 31.338332999999977,
+          "lifecycleMs": 0.012042000000008102,
+          "wallThroughputCallsPerSecond": 19145.881180087035,
+          "synchronousInvocation": {
+            "meanUs": 0.10556166666693419,
+            "p50Us": 0.04200000000764703,
+            "p95Us": 0.08400000001529406,
+            "p99Us": 0.2920000000017353,
+            "minUs": 0.04099999995332837,
+            "maxUs": 26.292000000012195
+          },
+          "cpu": {
+            "invocationUserMs": 0.883,
+            "invocationSystemMs": 0.201,
+            "totalUserMs": 0.937,
+            "totalSystemMs": 0.217
+          },
+          "memory": {
+            "rssBeforeBytes": 116244480,
+            "peakRssBytes": 116244480,
+            "rssAfterBytes": 116277248,
+            "heapDeltaBytes": 385880,
+            "peakPendingEvents": 0,
+            "peakEncodedPendingBytes": 0
+          },
+          "eventLoop": {
+            "samples": 25,
+            "p95Ms": 1.347583,
+            "p99Ms": 1.403903,
+            "maxMs": 1.403903
+          },
+          "diagnostics": {
+            "observed": 0,
+            "accepted": 0,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 0,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "disabled",
+          "collectorObservedAfterWarmup": null
+        },
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 31.342624999999998,
+          "lifecycleMs": 0.004750000000001364,
+          "wallThroughputCallsPerSecond": 19143.25937920005,
+          "synchronousInvocation": {
+            "meanUs": 0.10091333333226278,
+            "p50Us": 0.04200000000764703,
+            "p95Us": 0.08400000001529406,
+            "p99Us": 0.3330000000119071,
+            "minUs": 0.04099999995332837,
+            "maxUs": 24.87500000000864
+          },
+          "cpu": {
+            "invocationUserMs": 1.363,
+            "invocationSystemMs": 0.257,
+            "totalUserMs": 1.393,
+            "totalSystemMs": 0.271
+          },
+          "memory": {
+            "rssBeforeBytes": 116342784,
+            "peakRssBytes": 116473856,
+            "rssAfterBytes": 116670464,
+            "heapDeltaBytes": 349200,
+            "peakPendingEvents": 0,
+            "peakEncodedPendingBytes": 0
+          },
+          "eventLoop": {
+            "samples": 25,
+            "p95Ms": 1.385471,
+            "p99Ms": 1.417215,
+            "maxMs": 1.417215
+          },
+          "diagnostics": {
+            "observed": 0,
+            "accepted": 0,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 0,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "disabled",
+          "collectorObservedAfterWarmup": null
+        }
+      ],
+      "pooled": {
+        "meanUs": 0.09090166666734628,
+        "p95Us": 0.08400000001529406,
+        "p99Us": 0.2920000000017353
+      },
+      "ratioToAbsentMean": 1.0160331841020644
+    },
+    {
+      "mode": "memory",
+      "identity": false,
+      "workload": "burst",
+      "calls": 1500,
+      "runs": [
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 7.6652500000000146,
+          "lifecycleMs": 14.213583999999969,
+          "wallThroughputCallsPerSecond": 195688.33371383804,
+          "synchronousInvocation": {
+            "meanUs": 4.832448666666634,
+            "p50Us": 3.084000000001197,
+            "p95Us": 8.292000000039934,
+            "p99Us": 37.12500000000318,
+            "minUs": 2.5409999999510546,
+            "maxUs": 361.58399999999347
+          },
+          "cpu": {
+            "invocationUserMs": 11.223,
+            "invocationSystemMs": 1.055,
+            "totalUserMs": 36.834,
+            "totalSystemMs": 1.922
+          },
+          "memory": {
+            "rssBeforeBytes": 120291328,
+            "peakRssBytes": 126844928,
+            "rssAfterBytes": 126844928,
+            "heapDeltaBytes": -356632,
+            "peakPendingEvents": 1000,
+            "peakEncodedPendingBytes": 554925
+          },
+          "eventLoop": {
+            "samples": 1,
+            "p95Ms": 1.278975,
+            "p99Ms": 1.278975,
+            "maxMs": 1.278975
+          },
+          "diagnostics": {
+            "observed": 1500,
+            "accepted": 1000,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 10,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 500,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": null
+        },
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 5.116417000000013,
+          "lifecycleMs": 12.875207999999986,
+          "wallThroughputCallsPerSecond": 293173.9144796048,
+          "synchronousInvocation": {
+            "meanUs": 3.250336666666227,
+            "p50Us": 2.999999999985903,
+            "p95Us": 4.457999999999629,
+            "p99Us": 7.125000000030468,
+            "minUs": 2.6249999999663487,
+            "maxUs": 42.8749999999809
+          },
+          "cpu": {
+            "invocationUserMs": 5.75,
+            "invocationSystemMs": 0.393,
+            "totalUserMs": 18.303,
+            "totalSystemMs": 1.435
+          },
+          "memory": {
+            "rssBeforeBytes": 126861312,
+            "peakRssBytes": 137707520,
+            "rssAfterBytes": 138428416,
+            "heapDeltaBytes": 5432952,
+            "peakPendingEvents": 1000,
+            "peakEncodedPendingBytes": 554954
+          },
+          "eventLoop": {
+            "samples": 1,
+            "p95Ms": 1.291263,
+            "p99Ms": 1.291263,
+            "maxMs": 1.291263
+          },
+          "diagnostics": {
+            "observed": 1500,
+            "accepted": 1000,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 10,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 500,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": null
+        },
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 6.077875000000006,
+          "lifecycleMs": 11.727374999999995,
+          "wallThroughputCallsPerSecond": 246796.78341525592,
+          "synchronousInvocation": {
+            "meanUs": 3.823781333332741,
+            "p50Us": 2.8340000000071086,
+            "p95Us": 4.9579999999878055,
+            "p99Us": 14.041999999960808,
+            "minUs": 2.583000000015545,
+            "maxUs": 522.625000000005
+          },
+          "cpu": {
+            "invocationUserMs": 6.044,
+            "invocationSystemMs": 0.55,
+            "totalUserMs": 18.366,
+            "totalSystemMs": 1.152
+          },
+          "memory": {
+            "rssBeforeBytes": 140279808,
+            "peakRssBytes": 145031168,
+            "rssAfterBytes": 145031168,
+            "heapDeltaBytes": -9338552,
+            "peakPendingEvents": 1000,
+            "peakEncodedPendingBytes": 554937
+          },
+          "eventLoop": {
+            "samples": 1,
+            "p95Ms": 0.023551,
+            "p99Ms": 0.023551,
+            "maxMs": 0.023551
+          },
+          "diagnostics": {
+            "observed": 1500,
+            "accepted": 1000,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 10,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 500,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": null
+        }
+      ],
+      "pooled": {
+        "meanUs": 3.9688555555552076,
+        "p95Us": 5.4580000000328255,
+        "p99Us": 17.291000000000167
+      },
+      "ratioToAbsentMean": 31.90649139982991
+    },
+    {
+      "mode": "memory",
+      "identity": false,
+      "workload": "sustained",
+      "calls": 600,
+      "runs": [
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 34.55087499999996,
+          "lifecycleMs": 0.010042000000055396,
+          "wallThroughputCallsPerSecond": 17365.696237794287,
+          "synchronousInvocation": {
+            "meanUs": 5.173410000001202,
+            "p50Us": 2.9159999999706088,
+            "p95Us": 11.957999999992808,
+            "p99Us": 29.75000000003547,
+            "minUs": 2.583000000015545,
+            "maxUs": 326.79200000001174
+          },
+          "cpu": {
+            "invocationUserMs": 11.398,
+            "invocationSystemMs": 1.033,
+            "totalUserMs": 11.632,
+            "totalSystemMs": 1.055
+          },
+          "memory": {
+            "rssBeforeBytes": 145047552,
+            "peakRssBytes": 145981440,
+            "rssAfterBytes": 145981440,
+            "heapDeltaBytes": -475304,
+            "peakPendingEvents": 76,
+            "peakEncodedPendingBytes": 42202
+          },
+          "eventLoop": {
+            "samples": 25,
+            "p95Ms": 2.732031,
+            "p99Ms": 3.063807,
+            "maxMs": 3.063807
+          },
+          "diagnostics": {
+            "observed": 600,
+            "accepted": 600,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 6,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": null
+        },
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 62.16837499999997,
+          "lifecycleMs": 0.021500000000060027,
+          "wallThroughputCallsPerSecond": 9651.209316634066,
+          "synchronousInvocation": {
+            "meanUs": 9.781921666667586,
+            "p50Us": 8.874999999989086,
+            "p95Us": 23.29199999996945,
+            "p99Us": 77.33299999995324,
+            "minUs": 2.7079999999841675,
+            "maxUs": 162.37499999999727
+          },
+          "cpu": {
+            "invocationUserMs": 21.981,
+            "invocationSystemMs": 1.245,
+            "totalUserMs": 22.735,
+            "totalSystemMs": 1.295
+          },
+          "memory": {
+            "rssBeforeBytes": 145997824,
+            "peakRssBytes": 146587648,
+            "rssAfterBytes": 146604032,
+            "heapDeltaBytes": -980152,
+            "peakPendingEvents": 76,
+            "peakEncodedPendingBytes": 42203
+          },
+          "eventLoop": {
+            "samples": 25,
+            "p95Ms": 6.074367,
+            "p99Ms": 6.643711,
+            "maxMs": 6.643711
+          },
+          "diagnostics": {
+            "observed": 600,
+            "accepted": 600,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 6,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": null
+        },
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 49.130957999999964,
+          "lifecycleMs": 0.01749999999992724,
+          "wallThroughputCallsPerSecond": 12212.259325372823,
+          "synchronousInvocation": {
+            "meanUs": 10.441491666669359,
+            "p50Us": 8.915999999999258,
+            "p95Us": 26.833000000010543,
+            "p99Us": 75.0829999999496,
+            "minUs": 2.7079999999841675,
+            "maxUs": 499.9169999999822
+          },
+          "cpu": {
+            "invocationUserMs": 20.601,
+            "invocationSystemMs": 0.991,
+            "totalUserMs": 20.663,
+            "totalSystemMs": 1.01
+          },
+          "memory": {
+            "rssBeforeBytes": 146604032,
+            "peakRssBytes": 147341312,
+            "rssAfterBytes": 147341312,
+            "heapDeltaBytes": -1143720,
+            "peakPendingEvents": 76,
+            "peakEncodedPendingBytes": 42191
+          },
+          "eventLoop": {
+            "samples": 25,
+            "p95Ms": 4.098047,
+            "p99Ms": 5.115903,
+            "maxMs": 5.115903
+          },
+          "diagnostics": {
+            "observed": 600,
+            "accepted": 600,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 6,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": null
+        }
+      ],
+      "pooled": {
+        "meanUs": 8.465607777779393,
+        "p95Us": 18.666000000052918,
+        "p99Us": 71.37499999998909
+      },
+      "ratioToAbsentMean": 94.62245018337133
+    },
+    {
+      "mode": "memory",
+      "identity": true,
+      "workload": "burst",
+      "calls": 1500,
+      "runs": [
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 17.215166000000067,
+          "lifecycleMs": 15.258625000000052,
+          "wallThroughputCallsPerSecond": 87132.4737734155,
+          "synchronousInvocation": {
+            "meanUs": 11.218068666665514,
+            "p50Us": 9.000000000014552,
+            "p95Us": 16.041999999970358,
+            "p99Us": 50.33400000002075,
+            "minUs": 8.040999999934684,
+            "maxUs": 410.66699999998946
+          },
+          "cpu": {
+            "invocationUserMs": 20.753,
+            "invocationSystemMs": 0.774,
+            "totalUserMs": 44.531,
+            "totalSystemMs": 1.482
+          },
+          "memory": {
+            "rssBeforeBytes": 147505152,
+            "peakRssBytes": 150355968,
+            "rssAfterBytes": 150355968,
+            "heapDeltaBytes": -3260960,
+            "peakPendingEvents": 1000,
+            "peakEncodedPendingBytes": 691988
+          },
+          "eventLoop": {
+            "samples": 1,
+            "p95Ms": 1.566719,
+            "p99Ms": 1.566719,
+            "maxMs": 1.566719
+          },
+          "diagnostics": {
+            "observed": 1500,
+            "accepted": 1000,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 10,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 500,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": null
+        },
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 15.968208000000004,
+          "lifecycleMs": 17.75087499999995,
+          "wallThroughputCallsPerSecond": 93936.65212777787,
+          "synchronousInvocation": {
+            "meanUs": 10.360681333333535,
+            "p50Us": 8.624999999938154,
+            "p95Us": 10.832999999934145,
+            "p99Us": 37.167000000067674,
+            "minUs": 8.125000000063665,
+            "maxUs": 433.791000000042
+          },
+          "cpu": {
+            "invocationUserMs": 15.208,
+            "invocationSystemMs": 0.335,
+            "totalUserMs": 38.677,
+            "totalSystemMs": 1.106
+          },
+          "memory": {
+            "rssBeforeBytes": 150355968,
+            "peakRssBytes": 151502848,
+            "rssAfterBytes": 151977984,
+            "heapDeltaBytes": -2242520,
+            "peakPendingEvents": 1000,
+            "peakEncodedPendingBytes": 691959
+          },
+          "eventLoop": {
+            "samples": 1,
+            "p95Ms": 1.143807,
+            "p99Ms": 1.143807,
+            "maxMs": 1.143807
+          },
+          "diagnostics": {
+            "observed": 1500,
+            "accepted": 1000,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 10,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 500,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": null
+        },
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 14.695666999999958,
+          "lifecycleMs": 21.621667000000002,
+          "wallThroughputCallsPerSecond": 102070.90294030236,
+          "synchronousInvocation": {
+            "meanUs": 9.55531399999858,
+            "p50Us": 8.667000000059488,
+            "p95Us": 10.708000000022366,
+            "p99Us": 29.541999999992186,
+            "minUs": 8.249999999975444,
+            "maxUs": 125.54199999999582
+          },
+          "cpu": {
+            "invocationUserMs": 24.163,
+            "invocationSystemMs": 0.445,
+            "totalUserMs": 41.676,
+            "totalSystemMs": 0.986
+          },
+          "memory": {
+            "rssBeforeBytes": 151977984,
+            "peakRssBytes": 152928256,
+            "rssAfterBytes": 152928256,
+            "heapDeltaBytes": 9715232,
+            "peakPendingEvents": 1000,
+            "peakEncodedPendingBytes": 692002
+          },
+          "eventLoop": {
+            "samples": 1,
+            "p95Ms": 1.307647,
+            "p99Ms": 1.307647,
+            "maxMs": 1.307647
+          },
+          "diagnostics": {
+            "observed": 1500,
+            "accepted": 1000,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 10,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 500,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": null
+        }
+      ],
+      "pooled": {
+        "meanUs": 10.378021333332564,
+        "p95Us": 12.624999999957254,
+        "p99Us": 39.499999999975444
+      },
+      "ratioToAbsentMean": 83.43116643682065
+    },
+    {
+      "mode": "memory",
+      "identity": true,
+      "workload": "sustained",
+      "calls": 600,
+      "runs": [
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 59.74391700000001,
+          "lifecycleMs": 0.01829099999997652,
+          "wallThroughputCallsPerSecond": 10042.863443319258,
+          "synchronousInvocation": {
+            "meanUs": 27.841715000001265,
+            "p50Us": 25.332999999932326,
+            "p95Us": 84.79099999999562,
+            "p99Us": 152.7089999999589,
+            "minUs": 7.416000000034728,
+            "maxUs": 302.54200000001674
+          },
+          "cpu": {
+            "invocationUserMs": 54.404,
+            "invocationSystemMs": 1.683,
+            "totalUserMs": 54.476,
+            "totalSystemMs": 1.698
+          },
+          "memory": {
+            "rssBeforeBytes": 156303360,
+            "peakRssBytes": 156729344,
+            "rssAfterBytes": 156729344,
+            "heapDeltaBytes": 13080872,
+            "peakPendingEvents": 76,
+            "peakEncodedPendingBytes": 52590
+          },
+          "eventLoop": {
+            "samples": 25,
+            "p95Ms": 5.468159,
+            "p99Ms": 7.184383,
+            "maxMs": 7.184383
+          },
+          "diagnostics": {
+            "observed": 600,
+            "accepted": 600,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 6,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": null
+        },
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 91.00400000000002,
+          "lifecycleMs": 0.040208000000006905,
+          "wallThroughputCallsPerSecond": 6593.116786075337,
+          "synchronousInvocation": {
+            "meanUs": 33.560201666668924,
+            "p50Us": 9.87499999996544,
+            "p95Us": 99.29199999999128,
+            "p99Us": 590.50000000002,
+            "minUs": 7.583000000067841,
+            "maxUs": 1530.083999999988
+          },
+          "cpu": {
+            "invocationUserMs": 35.05,
+            "invocationSystemMs": 3.322,
+            "totalUserMs": 35.214,
+            "totalSystemMs": 3.359
+          },
+          "memory": {
+            "rssBeforeBytes": 156729344,
+            "peakRssBytes": 167198720,
+            "rssAfterBytes": 167198720,
+            "heapDeltaBytes": -11382176,
+            "peakPendingEvents": 76,
+            "peakEncodedPendingBytes": 52610
+          },
+          "eventLoop": {
+            "samples": 25,
+            "p95Ms": 11.673599,
+            "p99Ms": 11.829247,
+            "maxMs": 11.829247
+          },
+          "diagnostics": {
+            "observed": 600,
+            "accepted": 600,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 6,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": null
+        },
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 51.07524999999998,
+          "lifecycleMs": 0.01791600000001381,
+          "wallThroughputCallsPerSecond": 11747.372749032069,
+          "synchronousInvocation": {
+            "meanUs": 21.136913333335002,
+            "p50Us": 9.084000000029846,
+            "p95Us": 60.24999999999636,
+            "p99Us": 136.08299999998508,
+            "minUs": 7.540999999946507,
+            "maxUs": 264.62500000002365
+          },
+          "cpu": {
+            "invocationUserMs": 23.039,
+            "invocationSystemMs": 1.091,
+            "totalUserMs": 24.243,
+            "totalSystemMs": 1.131
+          },
+          "memory": {
+            "rssBeforeBytes": 167215104,
+            "peakRssBytes": 169213952,
+            "rssAfterBytes": 169508864,
+            "heapDeltaBytes": 13380336,
+            "peakPendingEvents": 76,
+            "peakEncodedPendingBytes": 52621
+          },
+          "eventLoop": {
+            "samples": 25,
+            "p95Ms": 4.202495,
+            "p99Ms": 5.017599,
+            "maxMs": 5.017599
+          },
+          "diagnostics": {
+            "observed": 600,
+            "accepted": 600,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 6,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": null
+        }
+      ],
+      "pooled": {
+        "meanUs": 27.51294333333506,
+        "p95Us": 81.29199999996217,
+        "p99Us": 202.91600000007293
+      },
+      "ratioToAbsentMean": 307.51981172452753
+    },
+    {
+      "mode": "http_healthy",
+      "identity": false,
+      "workload": "burst",
+      "calls": 1500,
+      "runs": [
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 7.652458000000024,
+          "lifecycleMs": 57.777708000000075,
+          "wallThroughputCallsPerSecond": 196015.450199138,
+          "synchronousInvocation": {
+            "meanUs": 4.781316666671349,
+            "p50Us": 2.9999999999290594,
+            "p95Us": 10.499999999865395,
+            "p99Us": 16.37499999992542,
+            "minUs": 2.7079999999841675,
+            "maxUs": 75.6659999999556
+          },
+          "cpu": {
+            "invocationUserMs": 8.245,
+            "invocationSystemMs": 0.62,
+            "totalUserMs": 95.788,
+            "totalSystemMs": 7.172
+          },
+          "memory": {
+            "rssBeforeBytes": 174948352,
+            "peakRssBytes": 208011264,
+            "rssAfterBytes": 208011264,
+            "heapDeltaBytes": -978792,
+            "peakPendingEvents": 1000,
+            "peakEncodedPendingBytes": 555014
+          },
+          "eventLoop": {
+            "samples": 20,
+            "p95Ms": 6.975487,
+            "p99Ms": 8.978431,
+            "maxMs": 8.978431
+          },
+          "diagnostics": {
+            "observed": 1500,
+            "accepted": 1000,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 10,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 500,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 1000
+        },
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 10.456500000000005,
+          "lifecycleMs": 94.32229099999995,
+          "wallThroughputCallsPerSecond": 143451.44168698887,
+          "synchronousInvocation": {
+            "meanUs": 5.813885999993697,
+            "p50Us": 2.958000000035099,
+            "p95Us": 9.20799999994415,
+            "p99Us": 28.166000000055647,
+            "minUs": 2.6659999998628336,
+            "maxUs": 838.4590000000571
+          },
+          "cpu": {
+            "invocationUserMs": 6.167,
+            "invocationSystemMs": 0.365,
+            "totalUserMs": 57.105,
+            "totalSystemMs": 3.32
+          },
+          "memory": {
+            "rssBeforeBytes": 208388096,
+            "peakRssBytes": 211468288,
+            "rssAfterBytes": 211468288,
+            "heapDeltaBytes": -2990040,
+            "peakPendingEvents": 1000,
+            "peakEncodedPendingBytes": 554990
+          },
+          "eventLoop": {
+            "samples": 18,
+            "p95Ms": 16.646143,
+            "p99Ms": 28.868607,
+            "maxMs": 28.868607
+          },
+          "diagnostics": {
+            "observed": 1500,
+            "accepted": 1000,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 10,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 500,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 1000
+        },
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 5.07162500000004,
+          "lifecycleMs": 45.359624999999824,
+          "wallThroughputCallsPerSecond": 295763.1922707196,
+          "synchronousInvocation": {
+            "meanUs": 3.2130326666629117,
+            "p50Us": 2.7909999998882995,
+            "p95Us": 3.7079999999605207,
+            "p99Us": 6.624999999985448,
+            "minUs": 2.5410000000647415,
+            "maxUs": 313.2500000001528
+          },
+          "cpu": {
+            "invocationUserMs": 7.908,
+            "invocationSystemMs": 0.16,
+            "totalUserMs": 48.183,
+            "totalSystemMs": 2.461
+          },
+          "memory": {
+            "rssBeforeBytes": 211533824,
+            "peakRssBytes": 212975616,
+            "rssAfterBytes": 212975616,
+            "heapDeltaBytes": -2981344,
+            "peakPendingEvents": 1000,
+            "peakEncodedPendingBytes": 555254
+          },
+          "eventLoop": {
+            "samples": 17,
+            "p95Ms": 6.516735,
+            "p99Ms": 7.041023,
+            "maxMs": 7.041023
+          },
+          "diagnostics": {
+            "observed": 1500,
+            "accepted": 1000,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 10,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 500,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 1000
+        }
+      ],
+      "pooled": {
+        "meanUs": 4.6027451111093285,
+        "p95Us": 9.124999999812644,
+        "p99Us": 16.83299999990595
+      },
+      "ratioToAbsentMean": 37.00246714639503
+    },
+    {
+      "mode": "http_healthy",
+      "identity": false,
+      "workload": "sustained",
+      "calls": 600,
+      "runs": [
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 64.3314170000001,
+          "lifecycleMs": 0.5650839999998425,
+          "wallThroughputCallsPerSecond": 9326.702690226753,
+          "synchronousInvocation": {
+            "meanUs": 11.899463333339023,
+            "p50Us": 8.08299999994233,
+            "p95Us": 33.08300000003328,
+            "p99Us": 153.74999999994543,
+            "minUs": 2.5410000000647415,
+            "maxUs": 583.1670000000031
+          },
+          "cpu": {
+            "invocationUserMs": 29.861,
+            "invocationSystemMs": 2.428,
+            "totalUserMs": 30.573,
+            "totalSystemMs": 2.49
+          },
+          "memory": {
+            "rssBeforeBytes": 212992000,
+            "peakRssBytes": 214253568,
+            "rssAfterBytes": 214253568,
+            "heapDeltaBytes": -12359280,
+            "peakPendingEvents": 126,
+            "peakEncodedPendingBytes": 69948
+          },
+          "eventLoop": {
+            "samples": 27,
+            "p95Ms": 6.737919,
+            "p99Ms": 8.265727,
+            "maxMs": 8.265727
+          },
+          "diagnostics": {
+            "observed": 600,
+            "accepted": 600,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 6,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 600
+        },
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 67.17758400000002,
+          "lifecycleMs": 2.5750419999999394,
+          "wallThroughputCallsPerSecond": 8931.550738710695,
+          "synchronousInvocation": {
+            "meanUs": 8.372574999997747,
+            "p50Us": 2.8750000001309672,
+            "p95Us": 27.62499999994361,
+            "p99Us": 80.791999999974,
+            "minUs": 2.540999999837368,
+            "maxUs": 301.33299999988594
+          },
+          "cpu": {
+            "invocationUserMs": 25.793,
+            "invocationSystemMs": 1.667,
+            "totalUserMs": 27.993,
+            "totalSystemMs": 1.865
+          },
+          "memory": {
+            "rssBeforeBytes": 214253568,
+            "peakRssBytes": 214368256,
+            "rssAfterBytes": 214368256,
+            "heapDeltaBytes": 12708808,
+            "peakPendingEvents": 126,
+            "peakEncodedPendingBytes": 69969
+          },
+          "eventLoop": {
+            "samples": 26,
+            "p95Ms": 7.217151,
+            "p99Ms": 8.413183,
+            "maxMs": 8.413183
+          },
+          "diagnostics": {
+            "observed": 600,
+            "accepted": 600,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 7,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 600
+        },
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 52.578666999999996,
+          "lifecycleMs": 0.8718340000000353,
+          "wallThroughputCallsPerSecond": 11411.47226117391,
+          "synchronousInvocation": {
+            "meanUs": 9.531464999997374,
+            "p50Us": 8.083000000169704,
+            "p95Us": 28.375000000096406,
+            "p99Us": 66.45800000001145,
+            "minUs": 2.540999999837368,
+            "maxUs": 279.20799999992596
+          },
+          "cpu": {
+            "invocationUserMs": 30.321,
+            "invocationSystemMs": 1.826,
+            "totalUserMs": 31.445,
+            "totalSystemMs": 1.9
+          },
+          "memory": {
+            "rssBeforeBytes": 214466560,
+            "peakRssBytes": 215531520,
+            "rssAfterBytes": 215531520,
+            "heapDeltaBytes": -13303536,
+            "peakPendingEvents": 126,
+            "peakEncodedPendingBytes": 69971
+          },
+          "eventLoop": {
+            "samples": 26,
+            "p95Ms": 6.262783,
+            "p99Ms": 6.819839,
+            "maxMs": 6.819839
+          },
+          "diagnostics": {
+            "observed": 600,
+            "accepted": 600,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 6,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 600
+        }
+      ],
+      "pooled": {
+        "meanUs": 9.934501111111388,
+        "p95Us": 28.74999999994543,
+        "p99Us": 93.6669999998685
+      },
+      "ratioToAbsentMean": 111.04067908156289
+    },
+    {
+      "mode": "http_healthy",
+      "identity": true,
+      "workload": "burst",
+      "calls": 1500,
+      "runs": [
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 18.201416999999992,
+          "lifecycleMs": 56.19033399999989,
+          "wallThroughputCallsPerSecond": 82411.16611964886,
+          "synchronousInvocation": {
+            "meanUs": 11.812577333334639,
+            "p50Us": 7.790999999997439,
+            "p95Us": 25.99999999983993,
+            "p99Us": 37.91599999999562,
+            "minUs": 7.333999999900698,
+            "maxUs": 1099.5000000000346
+          },
+          "cpu": {
+            "invocationUserMs": 15.91,
+            "invocationSystemMs": 0.338,
+            "totalUserMs": 50.653,
+            "totalSystemMs": 2.841
+          },
+          "memory": {
+            "rssBeforeBytes": 215580672,
+            "peakRssBytes": 216809472,
+            "rssAfterBytes": 216809472,
+            "heapDeltaBytes": 3253104,
+            "peakPendingEvents": 1000,
+            "peakEncodedPendingBytes": 692205
+          },
+          "eventLoop": {
+            "samples": 18,
+            "p95Ms": 9.699327,
+            "p99Ms": 10.256383,
+            "maxMs": 10.256383
+          },
+          "diagnostics": {
+            "observed": 1500,
+            "accepted": 1000,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 10,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 500,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 1000
+        },
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 14.501999999999953,
+          "lifecycleMs": 23.37629199999992,
+          "wallThroughputCallsPerSecond": 103434.00910219314,
+          "synchronousInvocation": {
+            "meanUs": 9.414608666668755,
+            "p50Us": 7.834000000002561,
+            "p95Us": 10.915999999951964,
+            "p99Us": 47.50000000012733,
+            "minUs": 7.333000000016909,
+            "maxUs": 324.87500000002
+          },
+          "cpu": {
+            "invocationUserMs": 13.288,
+            "invocationSystemMs": 0.469,
+            "totalUserMs": 38.906,
+            "totalSystemMs": 2.045
+          },
+          "memory": {
+            "rssBeforeBytes": 216858624,
+            "peakRssBytes": 217776128,
+            "rssAfterBytes": 217776128,
+            "heapDeltaBytes": 3956736,
+            "peakPendingEvents": 1000,
+            "peakEncodedPendingBytes": 692246
+          },
+          "eventLoop": {
+            "samples": 15,
+            "p95Ms": 2.088959,
+            "p99Ms": 2.586623,
+            "maxMs": 2.586623
+          },
+          "diagnostics": {
+            "observed": 1500,
+            "accepted": 1000,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 10,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 500,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 1000
+        },
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 14.442250000000058,
+          "lifecycleMs": 23.416917000000012,
+          "wallThroughputCallsPerSecond": 103861.93287057031,
+          "synchronousInvocation": {
+            "meanUs": 9.407500666668966,
+            "p50Us": 7.750000000214641,
+            "p95Us": 10.874999999941792,
+            "p99Us": 45.29200000001765,
+            "minUs": 7.124999999859938,
+            "maxUs": 219.66699999984485
+          },
+          "cpu": {
+            "invocationUserMs": 14.576,
+            "invocationSystemMs": 0.691,
+            "totalUserMs": 39.43,
+            "totalSystemMs": 2.236
+          },
+          "memory": {
+            "rssBeforeBytes": 217907200,
+            "peakRssBytes": 223199232,
+            "rssAfterBytes": 223199232,
+            "heapDeltaBytes": -1427000,
+            "peakPendingEvents": 1000,
+            "peakEncodedPendingBytes": 692239
+          },
+          "eventLoop": {
+            "samples": 12,
+            "p95Ms": 2.285567,
+            "p99Ms": 2.813951,
+            "maxMs": 2.813951
+          },
+          "diagnostics": {
+            "observed": 1500,
+            "accepted": 1000,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 10,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 500,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 1000
+        }
+      ],
+      "pooled": {
+        "meanUs": 10.211562222224128,
+        "p95Us": 22.99999999991087,
+        "p99Us": 45.166999999992186
+      },
+      "ratioToAbsentMean": 82.0929655064364
+    },
+    {
+      "mode": "http_healthy",
+      "identity": true,
+      "workload": "sustained",
+      "calls": 600,
+      "runs": [
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 40.00629200000003,
+          "lifecycleMs": 0.2385420000000522,
+          "wallThroughputCallsPerSecond": 14997.640871090965,
+          "synchronousInvocation": {
+            "meanUs": 9.795161666659169,
+            "p50Us": 7.790999999997439,
+            "p95Us": 15.708000000131506,
+            "p99Us": 52.87500000008549,
+            "minUs": 7.166000000097483,
+            "maxUs": 319.29200000013225
+          },
+          "cpu": {
+            "invocationUserMs": 26.708,
+            "invocationSystemMs": 1.318,
+            "totalUserMs": 26.982,
+            "totalSystemMs": 1.332
+          },
+          "memory": {
+            "rssBeforeBytes": 223232000,
+            "peakRssBytes": 224788480,
+            "rssAfterBytes": 224788480,
+            "heapDeltaBytes": -10719208,
+            "peakPendingEvents": 126,
+            "peakEncodedPendingBytes": 87246
+          },
+          "eventLoop": {
+            "samples": 27,
+            "p95Ms": 3.065855,
+            "p99Ms": 3.725311,
+            "maxMs": 3.725311
+          },
+          "diagnostics": {
+            "observed": 600,
+            "accepted": 600,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 6,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 600
+        },
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 39.69858399999998,
+          "lifecycleMs": 0.5789999999999509,
+          "wallThroughputCallsPerSecond": 15113.889200682832,
+          "synchronousInvocation": {
+            "meanUs": 9.831871666668803,
+            "p50Us": 7.667000000083135,
+            "p95Us": 20.792000000028565,
+            "p99Us": 52.79200000018136,
+            "minUs": 7.124999999859938,
+            "maxUs": 97.66700000000128
+          },
+          "cpu": {
+            "invocationUserMs": 22.965,
+            "invocationSystemMs": 1.181,
+            "totalUserMs": 23.521,
+            "totalSystemMs": 1.23
+          },
+          "memory": {
+            "rssBeforeBytes": 224804864,
+            "peakRssBytes": 226066432,
+            "rssAfterBytes": 226066432,
+            "heapDeltaBytes": -9079224,
+            "peakPendingEvents": 126,
+            "peakEncodedPendingBytes": 87244
+          },
+          "eventLoop": {
+            "samples": 26,
+            "p95Ms": 3.037183,
+            "p99Ms": 3.735551,
+            "maxMs": 3.735551
+          },
+          "diagnostics": {
+            "observed": 600,
+            "accepted": 600,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 6,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 600
+        },
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 36.38237500000014,
+          "lifecycleMs": 0.24174999999991087,
+          "wallThroughputCallsPerSecond": 16491.501723018293,
+          "synchronousInvocation": {
+            "meanUs": 9.813530000001643,
+            "p50Us": 7.707999999865933,
+            "p95Us": 18.084000000044398,
+            "p99Us": 50.70799999998599,
+            "minUs": 7.2079999999914435,
+            "maxUs": 192.99999999998363
+          },
+          "cpu": {
+            "invocationUserMs": 21.414,
+            "invocationSystemMs": 0.852,
+            "totalUserMs": 21.697,
+            "totalSystemMs": 0.866
+          },
+          "memory": {
+            "rssBeforeBytes": 226115584,
+            "peakRssBytes": 226230272,
+            "rssAfterBytes": 226230272,
+            "heapDeltaBytes": 15663320,
+            "peakPendingEvents": 126,
+            "peakEncodedPendingBytes": 87249
+          },
+          "eventLoop": {
+            "samples": 25,
+            "p95Ms": 3.071999,
+            "p99Ms": 3.096575,
+            "maxMs": 3.096575
+          },
+          "diagnostics": {
+            "observed": 600,
+            "accepted": 600,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 6,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 600
+        }
+      ],
+      "pooled": {
+        "meanUs": 9.81352111110986,
+        "p95Us": 18.667000000050393,
+        "p99Us": 52.87500000008549
+      },
+      "ratioToAbsentMean": 109.68845200893898
+    },
+    {
+      "mode": "http_slow",
+      "identity": false,
+      "workload": "burst",
+      "calls": 1500,
+      "runs": [
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 4.839666999999963,
+          "lifecycleMs": 175.52933299999995,
+          "wallThroughputCallsPerSecond": 309938.6796653595,
+          "synchronousInvocation": {
+            "meanUs": 3.0570499999983745,
+            "p50Us": 2.624999999852662,
+            "p95Us": 4.042000000026746,
+            "p99Us": 9.20799999994415,
+            "minUs": 2.415999999811902,
+            "maxUs": 100.37499999998545
+          },
+          "cpu": {
+            "invocationUserMs": 4.57,
+            "invocationSystemMs": 0.17,
+            "totalUserMs": 29.067,
+            "totalSystemMs": 2.091
+          },
+          "memory": {
+            "rssBeforeBytes": 226230272,
+            "peakRssBytes": 229425152,
+            "rssAfterBytes": 229425152,
+            "heapDeltaBytes": -5602432,
+            "peakPendingEvents": 1000,
+            "peakEncodedPendingBytes": 555250
+          },
+          "eventLoop": {
+            "samples": 135,
+            "p95Ms": 1.725439,
+            "p99Ms": 1.893375,
+            "maxMs": 2.177023
+          },
+          "diagnostics": {
+            "observed": 1500,
+            "accepted": 1000,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 10,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 500,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 1000
+        },
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 4.772457999999915,
+          "lifecycleMs": 180.15475000000015,
+          "wallThroughputCallsPerSecond": 314303.4469868622,
+          "synchronousInvocation": {
+            "meanUs": 2.996323333336477,
+            "p50Us": 2.666999999746622,
+            "p95Us": 3.3749999997780833,
+            "p99Us": 9.7499999997126,
+            "minUs": 2.415999999811902,
+            "maxUs": 77.79100000016115
+          },
+          "cpu": {
+            "invocationUserMs": 4.605,
+            "invocationSystemMs": 0.125,
+            "totalUserMs": 34.097,
+            "totalSystemMs": 3.412
+          },
+          "memory": {
+            "rssBeforeBytes": 229457920,
+            "peakRssBytes": 230604800,
+            "rssAfterBytes": 230604800,
+            "heapDeltaBytes": -3085088,
+            "peakPendingEvents": 1000,
+            "peakEncodedPendingBytes": 555136
+          },
+          "eventLoop": {
+            "samples": 134,
+            "p95Ms": 1.798143,
+            "p99Ms": 2.928639,
+            "maxMs": 2.990079
+          },
+          "diagnostics": {
+            "observed": 1500,
+            "accepted": 1000,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 10,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 500,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 1000
+        },
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 6.6507910000000265,
+          "lifecycleMs": 177.69808299999977,
+          "wallThroughputCallsPerSecond": 225537.08273196287,
+          "synchronousInvocation": {
+            "meanUs": 4.190177999997407,
+            "p50Us": 2.708999999867956,
+            "p95Us": 9.000000000014552,
+            "p99Us": 34.79199999992488,
+            "minUs": 2.4999999995998223,
+            "maxUs": 134.37500000009095
+          },
+          "cpu": {
+            "invocationUserMs": 5.436,
+            "invocationSystemMs": 0.441,
+            "totalUserMs": 32.241,
+            "totalSystemMs": 2.667
+          },
+          "memory": {
+            "rssBeforeBytes": 230604800,
+            "peakRssBytes": 231669760,
+            "rssAfterBytes": 231669760,
+            "heapDeltaBytes": -3020584,
+            "peakPendingEvents": 1000,
+            "peakEncodedPendingBytes": 555108
+          },
+          "eventLoop": {
+            "samples": 134,
+            "p95Ms": 1.762303,
+            "p99Ms": 2.058239,
+            "maxMs": 2.211839
+          },
+          "diagnostics": {
+            "observed": 1500,
+            "accepted": 1000,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 10,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 500,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 1000
+        }
+      ],
+      "pooled": {
+        "meanUs": 3.4145171111107526,
+        "p95Us": 5.37499999973079,
+        "p99Us": 19.166999999924883
+      },
+      "ratioToAbsentMean": 27.450044305023045
+    },
+    {
+      "mode": "http_slow",
+      "identity": false,
+      "workload": "sustained",
+      "calls": 600,
+      "runs": [
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 35.04954199999975,
+          "lifecycleMs": 93.31637499999988,
+          "wallThroughputCallsPerSecond": 17118.625972345213,
+          "synchronousInvocation": {
+            "meanUs": 3.891885000017131,
+            "p50Us": 2.666999999746622,
+            "p95Us": 7.959000000028027,
+            "p99Us": 27.999999999792635,
+            "minUs": 2.415999999811902,
+            "maxUs": 103.41699999980847
+          },
+          "cpu": {
+            "invocationUserMs": 7.33,
+            "invocationSystemMs": 0.5,
+            "totalUserMs": 37.899,
+            "totalSystemMs": 3.863
+          },
+          "memory": {
+            "rssBeforeBytes": 231669760,
+            "peakRssBytes": 238501888,
+            "rssAfterBytes": 238518272,
+            "heapDeltaBytes": -40373976,
+            "peakPendingEvents": 500,
+            "peakEncodedPendingBytes": 277561
+          },
+          "eventLoop": {
+            "samples": 96,
+            "p95Ms": 1.809407,
+            "p99Ms": 2.881535,
+            "maxMs": 2.899967
+          },
+          "diagnostics": {
+            "observed": 600,
+            "accepted": 600,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 7,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 600
+        },
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 33.73808400000007,
+          "lifecycleMs": 76.36524999999983,
+          "wallThroughputCallsPerSecond": 17784.05673540912,
+          "synchronousInvocation": {
+            "meanUs": 4.098553333333257,
+            "p50Us": 2.58399999984249,
+            "p95Us": 8.250000000316504,
+            "p99Us": 27.375000000120053,
+            "minUs": 2.415999999811902,
+            "maxUs": 248.91600000000835
+          },
+          "cpu": {
+            "invocationUserMs": 9.581,
+            "invocationSystemMs": 0.785,
+            "totalUserMs": 23.419,
+            "totalSystemMs": 1.626
+          },
+          "memory": {
+            "rssBeforeBytes": 238518272,
+            "peakRssBytes": 238551040,
+            "rssAfterBytes": 238551040,
+            "heapDeltaBytes": 12697072,
+            "peakPendingEvents": 500,
+            "peakEncodedPendingBytes": 277565
+          },
+          "eventLoop": {
+            "samples": 83,
+            "p95Ms": 1.859583,
+            "p99Ms": 2.324479,
+            "maxMs": 3.448831
+          },
+          "diagnostics": {
+            "observed": 600,
+            "accepted": 600,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 6,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 600
+        },
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 33.54641700000002,
+          "lifecycleMs": 78.3337919999999,
+          "wallThroughputCallsPerSecond": 17885.665703136034,
+          "synchronousInvocation": {
+            "meanUs": 3.272185000007539,
+            "p50Us": 2.6250000000800355,
+            "p95Us": 6.083999999646039,
+            "p99Us": 18.66699999982302,
+            "minUs": 2.3749999995743565,
+            "maxUs": 56.665999999950145
+          },
+          "cpu": {
+            "invocationUserMs": 7,
+            "invocationSystemMs": 0.515,
+            "totalUserMs": 19.156,
+            "totalSystemMs": 1.301
+          },
+          "memory": {
+            "rssBeforeBytes": 238551040,
+            "peakRssBytes": 238551040,
+            "rssAfterBytes": 238551040,
+            "heapDeltaBytes": 12715312,
+            "peakPendingEvents": 500,
+            "peakEncodedPendingBytes": 277577
+          },
+          "eventLoop": {
+            "samples": 84,
+            "p95Ms": 2.034687,
+            "p99Ms": 2.396159,
+            "maxMs": 3.211263
+          },
+          "diagnostics": {
+            "observed": 600,
+            "accepted": 600,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 6,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 600
+        }
+      ],
+      "pooled": {
+        "meanUs": 3.7542077777859757,
+        "p95Us": 7.791999999881227,
+        "p99Us": 22.79099999987011
+      },
+      "ratioToAbsentMean": 41.96182338662037
+    },
+    {
+      "mode": "http_slow",
+      "identity": true,
+      "workload": "burst",
+      "calls": 1500,
+      "runs": [
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 18.254667000000154,
+          "lifecycleMs": 185.55124999999998,
+          "wallThroughputCallsPerSecond": 82170.767617946,
+          "synchronousInvocation": {
+            "meanUs": 11.918021999994684,
+            "p50Us": 11.25000000001819,
+            "p95Us": 14.666999999917607,
+            "p99Us": 24.750000000040018,
+            "minUs": 9.250000000065484,
+            "maxUs": 114.3329999999878
+          },
+          "cpu": {
+            "invocationUserMs": 16.911,
+            "invocationSystemMs": 1.38,
+            "totalUserMs": 51.96,
+            "totalSystemMs": 4.432
+          },
+          "memory": {
+            "rssBeforeBytes": 240664576,
+            "peakRssBytes": 258654208,
+            "rssAfterBytes": 258654208,
+            "heapDeltaBytes": -22490784,
+            "peakPendingEvents": 1000,
+            "peakEncodedPendingBytes": 692057
+          },
+          "eventLoop": {
+            "samples": 136,
+            "p95Ms": 2.639871,
+            "p99Ms": 2.965503,
+            "maxMs": 3.399679
+          },
+          "diagnostics": {
+            "observed": 1500,
+            "accepted": 1000,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 10,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 500,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 1000
+        },
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 20.66291599999977,
+          "lifecycleMs": 191.03687499999978,
+          "wallThroughputCallsPerSecond": 72593.8197687111,
+          "synchronousInvocation": {
+            "meanUs": 13.489048666669381,
+            "p50Us": 12.999999999919964,
+            "p95Us": 15.374999999949068,
+            "p99Us": 28.792000000066764,
+            "minUs": 10.541999999986729,
+            "maxUs": 100.04200000003038
+          },
+          "cpu": {
+            "invocationUserMs": 20.134,
+            "invocationSystemMs": 0.376,
+            "totalUserMs": 62.855,
+            "totalSystemMs": 4.527
+          },
+          "memory": {
+            "rssBeforeBytes": 258654208,
+            "peakRssBytes": 271204352,
+            "rssAfterBytes": 271958016,
+            "heapDeltaBytes": 29396240,
+            "peakPendingEvents": 1000,
+            "peakEncodedPendingBytes": 692012
+          },
+          "eventLoop": {
+            "samples": 137,
+            "p95Ms": 2.867199,
+            "p99Ms": 3.702783,
+            "maxMs": 3.731455
+          },
+          "diagnostics": {
+            "observed": 1500,
+            "accepted": 1000,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 10,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 500,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 1000
+        },
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 21.76458300000013,
+          "lifecycleMs": 190.20970899999975,
+          "wallThroughputCallsPerSecond": 68919.3080336063,
+          "synchronousInvocation": {
+            "meanUs": 14.1834686666701,
+            "p50Us": 13.332999999875028,
+            "p95Us": 18.250000000080036,
+            "p99Us": 43.791999999939435,
+            "minUs": 10.124999999788997,
+            "maxUs": 132.04200000018318
+          },
+          "cpu": {
+            "invocationUserMs": 19.719,
+            "invocationSystemMs": 1.847,
+            "totalUserMs": 58.887,
+            "totalSystemMs": 4.539
+          },
+          "memory": {
+            "rssBeforeBytes": 274595840,
+            "peakRssBytes": 287162368,
+            "rssAfterBytes": 287162368,
+            "heapDeltaBytes": -25428280,
+            "peakPendingEvents": 1000,
+            "peakEncodedPendingBytes": 692012
+          },
+          "eventLoop": {
+            "samples": 138,
+            "p95Ms": 2.625535,
+            "p99Ms": 3.336191,
+            "maxMs": 3.545087
+          },
+          "diagnostics": {
+            "observed": 1500,
+            "accepted": 1000,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 10,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 500,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 1000
+        }
+      ],
+      "pooled": {
+        "meanUs": 13.196846444444702,
+        "p95Us": 16.62499999974898,
+        "p99Us": 31.70799999998053
+      },
+      "ratioToAbsentMean": 106.09231343659911
+    },
+    {
+      "mode": "http_slow",
+      "identity": true,
+      "workload": "sustained",
+      "calls": 600,
+      "runs": [
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 49.10883300000023,
+          "lifecycleMs": 89.23191599999973,
+          "wallThroughputCallsPerSecond": 12217.76131393709,
+          "synchronousInvocation": {
+            "meanUs": 15.01661333334217,
+            "p50Us": 13.374999999996362,
+            "p95Us": 22.4169999996775,
+            "p99Us": 37.58400000015172,
+            "minUs": 12.6669999999649,
+            "maxUs": 111.45800000031159
+          },
+          "cpu": {
+            "invocationUserMs": 20.894,
+            "invocationSystemMs": 1.031,
+            "totalUserMs": 33.861,
+            "totalSystemMs": 1.853
+          },
+          "memory": {
+            "rssBeforeBytes": 287178752,
+            "peakRssBytes": 287227904,
+            "rssAfterBytes": 287227904,
+            "heapDeltaBytes": 15647064,
+            "peakPendingEvents": 476,
+            "peakEncodedPendingBytes": 329401
+          },
+          "eventLoop": {
+            "samples": 89,
+            "p95Ms": 2.732031,
+            "p99Ms": 4.108287,
+            "maxMs": 5.316607
+          },
+          "diagnostics": {
+            "observed": 600,
+            "accepted": 600,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 7,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 600
+        },
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 43.70308399999976,
+          "lifecycleMs": 94.97570799999994,
+          "wallThroughputCallsPerSecond": 13729.008232004939,
+          "synchronousInvocation": {
+            "meanUs": 16.241241666675705,
+            "p50Us": 13.625000000047294,
+            "p95Us": 25.750000000243745,
+            "p99Us": 54.37499999970896,
+            "minUs": 10.208000000147877,
+            "maxUs": 183.6249999996653
+          },
+          "cpu": {
+            "invocationUserMs": 51.87,
+            "invocationSystemMs": 1.631,
+            "totalUserMs": 68.835,
+            "totalSystemMs": 2.654
+          },
+          "memory": {
+            "rssBeforeBytes": 287244288,
+            "peakRssBytes": 287342592,
+            "rssAfterBytes": 287342592,
+            "heapDeltaBytes": -32637224,
+            "peakPendingEvents": 500,
+            "peakEncodedPendingBytes": 345986
+          },
+          "eventLoop": {
+            "samples": 92,
+            "p95Ms": 3.006463,
+            "p99Ms": 4.202495,
+            "maxMs": 4.333567
+          },
+          "diagnostics": {
+            "observed": 600,
+            "accepted": 600,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 7,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 600
+        },
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 42.59725000000026,
+          "lifecycleMs": 92.56491600000027,
+          "wallThroughputCallsPerSecond": 14085.416312085788,
+          "synchronousInvocation": {
+            "meanUs": 15.34235499999871,
+            "p50Us": 13.29200000009223,
+            "p95Us": 23.20899999995163,
+            "p99Us": 40.54200000018682,
+            "minUs": 12.791000000106578,
+            "maxUs": 107.70800000000236
+          },
+          "cpu": {
+            "invocationUserMs": 17.132,
+            "invocationSystemMs": 0.736,
+            "totalUserMs": 33.134,
+            "totalSystemMs": 1.748
+          },
+          "memory": {
+            "rssBeforeBytes": 287342592,
+            "peakRssBytes": 287342592,
+            "rssAfterBytes": 287342592,
+            "heapDeltaBytes": 15789632,
+            "peakPendingEvents": 500,
+            "peakEncodedPendingBytes": 346010
+          },
+          "eventLoop": {
+            "samples": 91,
+            "p95Ms": 1.996799,
+            "p99Ms": 3.379199,
+            "maxMs": 3.457023
+          },
+          "diagnostics": {
+            "observed": 600,
+            "accepted": 600,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 7,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 600
+        }
+      ],
+      "pooled": {
+        "meanUs": 15.53340333333886,
+        "p95Us": 24.499999999989086,
+        "p99Us": 44.75000000002183
+      },
+      "ratioToAbsentMean": 173.6211647963467
+    },
+    {
+      "mode": "http_unreachable",
+      "identity": false,
+      "workload": "burst",
+      "calls": 1500,
+      "runs": [
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 7.42779100000007,
+          "lifecycleMs": 73.78570799999943,
+          "wallThroughputCallsPerSecond": 201944.29272444337,
+          "synchronousInvocation": {
+            "meanUs": 4.70988133333655,
+            "p50Us": 4.540999999335327,
+            "p95Us": 5.37499999973079,
+            "p99Us": 8.958999999777006,
+            "minUs": 4.29100000019389,
+            "maxUs": 33.75000000050932
+          },
+          "cpu": {
+            "invocationUserMs": 7.292,
+            "invocationSystemMs": 0.131,
+            "totalUserMs": 60.138,
+            "totalSystemMs": 2.628
+          },
+          "memory": {
+            "rssBeforeBytes": 287342592,
+            "peakRssBytes": 287358976,
+            "rssAfterBytes": 287358976,
+            "heapDeltaBytes": -13469064,
+            "peakPendingEvents": 1000,
+            "peakEncodedPendingBytes": 554706
+          },
+          "eventLoop": {
+            "samples": 40,
+            "p95Ms": 3.846143,
+            "p99Ms": 4.007935,
+            "maxMs": 4.007935
+          },
+          "diagnostics": {
+            "observed": 1500,
+            "accepted": 0,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 20,
+            "retries": 10,
+            "exporterFailures": 20,
+            "droppedOverflow": 500,
+            "droppedOversize": 0,
+            "droppedRetries": 1000,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 0
+        },
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 7.234792000000198,
+          "lifecycleMs": 60.7529999999997,
+          "wallThroughputCallsPerSecond": 207331.46163703932,
+          "synchronousInvocation": {
+            "meanUs": 4.590133999993365,
+            "p50Us": 4.415999999764608,
+            "p95Us": 5.291999999826658,
+            "p99Us": 10.457999999744061,
+            "minUs": 3.832999999758613,
+            "maxUs": 63.33399999948597
+          },
+          "cpu": {
+            "invocationUserMs": 7.025,
+            "invocationSystemMs": 0.197,
+            "totalUserMs": 50.989,
+            "totalSystemMs": 2.336
+          },
+          "memory": {
+            "rssBeforeBytes": 287358976,
+            "peakRssBytes": 287637504,
+            "rssAfterBytes": 287637504,
+            "heapDeltaBytes": -7754872,
+            "peakPendingEvents": 1000,
+            "peakEncodedPendingBytes": 554960
+          },
+          "eventLoop": {
+            "samples": 39,
+            "p95Ms": 3.340287,
+            "p99Ms": 3.436543,
+            "maxMs": 3.436543
+          },
+          "diagnostics": {
+            "observed": 1500,
+            "accepted": 0,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 20,
+            "retries": 10,
+            "exporterFailures": 20,
+            "droppedOverflow": 500,
+            "droppedOversize": 0,
+            "droppedRetries": 1000,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 0
+        },
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 5.629540999999335,
+          "lifecycleMs": 56.65254199999981,
+          "wallThroughputCallsPerSecond": 266451.5632802349,
+          "synchronousInvocation": {
+            "meanUs": 3.5691440000100556,
+            "p50Us": 3.290999999990163,
+            "p95Us": 3.9170000000012806,
+            "p99Us": 7.499999999708962,
+            "minUs": 3.1249999992724042,
+            "maxUs": 92.8329999997004
+          },
+          "cpu": {
+            "invocationUserMs": 5.409,
+            "invocationSystemMs": 0.16,
+            "totalUserMs": 38.107,
+            "totalSystemMs": 1.647
+          },
+          "memory": {
+            "rssBeforeBytes": 287637504,
+            "peakRssBytes": 287637504,
+            "rssAfterBytes": 287637504,
+            "heapDeltaBytes": 37599480,
+            "peakPendingEvents": 1000,
+            "peakEncodedPendingBytes": 555124
+          },
+          "eventLoop": {
+            "samples": 41,
+            "p95Ms": 2.672639,
+            "p99Ms": 2.799615,
+            "maxMs": 2.799615
+          },
+          "diagnostics": {
+            "observed": 1500,
+            "accepted": 0,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 20,
+            "retries": 10,
+            "exporterFailures": 20,
+            "droppedOverflow": 500,
+            "droppedOversize": 0,
+            "droppedRetries": 1000,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 0
+        }
+      ],
+      "pooled": {
+        "meanUs": 4.28971977777999,
+        "p95Us": 5.20799999958399,
+        "p99Us": 8.958999999777006
+      },
+      "ratioToAbsentMean": 34.48598853788989
+    },
+    {
+      "mode": "http_unreachable",
+      "identity": false,
+      "workload": "sustained",
+      "calls": 600,
+      "runs": [
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 41.905666000000565,
+          "lifecycleMs": 3.3705419999996593,
+          "wallThroughputCallsPerSecond": 14317.87291007359,
+          "synchronousInvocation": {
+            "meanUs": 4.2069250000001075,
+            "p50Us": 3.0419999993682723,
+            "p95Us": 8.541000000150234,
+            "p99Us": 33.625000000029104,
+            "minUs": 2.6659999994080863,
+            "maxUs": 55.041999999957625
+          },
+          "cpu": {
+            "invocationUserMs": 26.067,
+            "invocationSystemMs": 1.265,
+            "totalUserMs": 28.103,
+            "totalSystemMs": 1.354
+          },
+          "memory": {
+            "rssBeforeBytes": 287784960,
+            "peakRssBytes": 287817728,
+            "rssAfterBytes": 287817728,
+            "heapDeltaBytes": 21716256,
+            "peakPendingEvents": 176,
+            "peakEncodedPendingBytes": 97724
+          },
+          "eventLoop": {
+            "samples": 27,
+            "p95Ms": 3.719167,
+            "p99Ms": 3.803135,
+            "maxMs": 3.803135
+          },
+          "diagnostics": {
+            "observed": 600,
+            "accepted": 0,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 12,
+            "retries": 6,
+            "exporterFailures": 12,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 600,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 0
+        },
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 41.92645900000025,
+          "lifecycleMs": 4.414375000000291,
+          "wallThroughputCallsPerSecond": 14310.772106940785,
+          "synchronousInvocation": {
+            "meanUs": 3.9298600000074657,
+            "p50Us": 3.2499999997526174,
+            "p95Us": 6.87500000003638,
+            "p99Us": 22.541999999702966,
+            "minUs": 2.8339999998934218,
+            "maxUs": 35.83299999991141
+          },
+          "cpu": {
+            "invocationUserMs": 22.429,
+            "invocationSystemMs": 1.032,
+            "totalUserMs": 24.223,
+            "totalSystemMs": 1.116
+          },
+          "memory": {
+            "rssBeforeBytes": 287817728,
+            "peakRssBytes": 287817728,
+            "rssAfterBytes": 287817728,
+            "heapDeltaBytes": 21609880,
+            "peakPendingEvents": 176,
+            "peakEncodedPendingBytes": 97712
+          },
+          "eventLoop": {
+            "samples": 30,
+            "p95Ms": 3.559423,
+            "p99Ms": 4.272127,
+            "maxMs": 4.272127
+          },
+          "diagnostics": {
+            "observed": 600,
+            "accepted": 0,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 12,
+            "retries": 6,
+            "exporterFailures": 12,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 600,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 0
+        },
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 38.7709590000004,
+          "lifecycleMs": 3.7798750000001746,
+          "wallThroughputCallsPerSecond": 15475.500618903798,
+          "synchronousInvocation": {
+            "meanUs": 3.975055000014436,
+            "p50Us": 3.291999999419204,
+            "p95Us": 6.6660000002229935,
+            "p99Us": 20.000000000436557,
+            "minUs": 3.1249999992724042,
+            "maxUs": 30.082999999649473
+          },
+          "cpu": {
+            "invocationUserMs": 25.951,
+            "invocationSystemMs": 1.246,
+            "totalUserMs": 28.481,
+            "totalSystemMs": 1.397
+          },
+          "memory": {
+            "rssBeforeBytes": 287817728,
+            "peakRssBytes": 287817728,
+            "rssAfterBytes": 287817728,
+            "heapDeltaBytes": -25760496,
+            "peakPendingEvents": 176,
+            "peakEncodedPendingBytes": 97719
+          },
+          "eventLoop": {
+            "samples": 28,
+            "p95Ms": 3.674111,
+            "p99Ms": 4.853759,
+            "maxMs": 4.853759
+          },
+          "diagnostics": {
+            "observed": 600,
+            "accepted": 0,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 12,
+            "retries": 6,
+            "exporterFailures": 12,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 600,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 0
+        }
+      ],
+      "pooled": {
+        "meanUs": 4.037280000007336,
+        "p95Us": 7.832999999664025,
+        "p99Us": 24.166000000150234
+      },
+      "ratioToAbsentMean": 45.125800262060125
+    },
+    {
+      "mode": "http_unreachable",
+      "identity": true,
+      "workload": "burst",
+      "calls": 1500,
+      "runs": [
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 14.054917000000387,
+          "lifecycleMs": 60.52745799999957,
+          "wallThroughputCallsPerSecond": 106724.21615865527,
+          "synchronousInvocation": {
+            "meanUs": 9.163189999990815,
+            "p50Us": 8.667000000059488,
+            "p95Us": 10.334000000511878,
+            "p99Us": 18.417000000226835,
+            "minUs": 7.916999999906693,
+            "maxUs": 136.583000000428
+          },
+          "cpu": {
+            "invocationUserMs": 13.747,
+            "invocationSystemMs": 0.21,
+            "totalUserMs": 53.486,
+            "totalSystemMs": 2.013
+          },
+          "memory": {
+            "rssBeforeBytes": 287817728,
+            "peakRssBytes": 287817728,
+            "rssAfterBytes": 287817728,
+            "heapDeltaBytes": 763128,
+            "peakPendingEvents": 1000,
+            "peakEncodedPendingBytes": 692133
+          },
+          "eventLoop": {
+            "samples": 41,
+            "p95Ms": 2.822143,
+            "p99Ms": 3.340287,
+            "maxMs": 3.340287
+          },
+          "diagnostics": {
+            "observed": 1500,
+            "accepted": 0,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 20,
+            "retries": 10,
+            "exporterFailures": 20,
+            "droppedOverflow": 500,
+            "droppedOversize": 0,
+            "droppedRetries": 1000,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 0
+        },
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 13.480749999999716,
+          "lifecycleMs": 58.92637500000001,
+          "wallThroughputCallsPerSecond": 111269.77356601313,
+          "synchronousInvocation": {
+            "meanUs": 8.786611333342686,
+            "p50Us": 8.37500000034197,
+            "p95Us": 9.70800000050076,
+            "p99Us": 12.917000000015832,
+            "minUs": 7.999999999810825,
+            "maxUs": 107.33299999992596
+          },
+          "cpu": {
+            "invocationUserMs": 13.277,
+            "invocationSystemMs": 0.181,
+            "totalUserMs": 51.6,
+            "totalSystemMs": 1.926
+          },
+          "memory": {
+            "rssBeforeBytes": 287817728,
+            "peakRssBytes": 287817728,
+            "rssAfterBytes": 287817728,
+            "heapDeltaBytes": -1085016,
+            "peakPendingEvents": 1000,
+            "peakEncodedPendingBytes": 692181
+          },
+          "eventLoop": {
+            "samples": 41,
+            "p95Ms": 2.895871,
+            "p99Ms": 3.282943,
+            "maxMs": 3.282943
+          },
+          "diagnostics": {
+            "observed": 1500,
+            "accepted": 0,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 20,
+            "retries": 10,
+            "exporterFailures": 20,
+            "droppedOverflow": 500,
+            "droppedOversize": 0,
+            "droppedRetries": 1000,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 0
+        },
+        {
+          "calls": 1500,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 14.07562499999949,
+          "lifecycleMs": 58.38774999999987,
+          "wallThroughputCallsPerSecond": 106567.2039429904,
+          "synchronousInvocation": {
+            "meanUs": 9.180368666652308,
+            "p50Us": 8.708000000297034,
+            "p95Us": 10.166999999455584,
+            "p99Us": 20.62500000010914,
+            "minUs": 7.958000000144239,
+            "maxUs": 101.91699999995762
+          },
+          "cpu": {
+            "invocationUserMs": 14.133,
+            "invocationSystemMs": 0.279,
+            "totalUserMs": 52.902,
+            "totalSystemMs": 2.028
+          },
+          "memory": {
+            "rssBeforeBytes": 287817728,
+            "peakRssBytes": 287965184,
+            "rssAfterBytes": 287965184,
+            "heapDeltaBytes": -571040,
+            "peakPendingEvents": 1000,
+            "peakEncodedPendingBytes": 692151
+          },
+          "eventLoop": {
+            "samples": 40,
+            "p95Ms": 2.760703,
+            "p99Ms": 2.965503,
+            "maxMs": 2.965503
+          },
+          "diagnostics": {
+            "observed": 1500,
+            "accepted": 0,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 20,
+            "retries": 10,
+            "exporterFailures": 20,
+            "droppedOverflow": 500,
+            "droppedOversize": 0,
+            "droppedRetries": 1000,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 0
+        }
+      ],
+      "pooled": {
+        "meanUs": 9.04338999999527,
+        "p95Us": 10.084000000460946,
+        "p99Us": 17.29200000045239
+      },
+      "ratioToAbsentMean": 72.70177541641279
+    },
+    {
+      "mode": "http_unreachable",
+      "identity": true,
+      "workload": "sustained",
+      "calls": 600,
+      "runs": [
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 46.45841599999949,
+          "lifecycleMs": 3.081583000000137,
+          "wallThroughputCallsPerSecond": 12914.775226086198,
+          "synchronousInvocation": {
+            "meanUs": 10.075468333328294,
+            "p50Us": 8.915999999771884,
+            "p95Us": 15.875000000050932,
+            "p99Us": 31.833000000005995,
+            "minUs": 8.041999999477412,
+            "maxUs": 81.16699999936827
+          },
+          "cpu": {
+            "invocationUserMs": 26.933,
+            "invocationSystemMs": 1.304,
+            "totalUserMs": 28.675,
+            "totalSystemMs": 1.362
+          },
+          "memory": {
+            "rssBeforeBytes": 287965184,
+            "peakRssBytes": 287981568,
+            "rssAfterBytes": 287981568,
+            "heapDeltaBytes": 24415456,
+            "peakPendingEvents": 151,
+            "peakEncodedPendingBytes": 104536
+          },
+          "eventLoop": {
+            "samples": 27,
+            "p95Ms": 3.540991,
+            "p99Ms": 4.108287,
+            "maxMs": 4.108287
+          },
+          "diagnostics": {
+            "observed": 600,
+            "accepted": 0,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 12,
+            "retries": 6,
+            "exporterFailures": 12,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 600,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 0
+        },
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 42.0464579999998,
+          "lifecycleMs": 4.594082999999955,
+          "wallThroughputCallsPerSecond": 14269.929704899349,
+          "synchronousInvocation": {
+            "meanUs": 9.774311666695516,
+            "p50Us": 8.792000000539701,
+            "p95Us": 14.250000000174623,
+            "p99Us": 24.915999999393534,
+            "minUs": 8.499999999912689,
+            "maxUs": 63.33400000039546
+          },
+          "cpu": {
+            "invocationUserMs": 24.787,
+            "invocationSystemMs": 0.989,
+            "totalUserMs": 26.842,
+            "totalSystemMs": 1.123
+          },
+          "memory": {
+            "rssBeforeBytes": 288047104,
+            "peakRssBytes": 288079872,
+            "rssAfterBytes": 288079872,
+            "heapDeltaBytes": 24450984,
+            "peakPendingEvents": 176,
+            "peakEncodedPendingBytes": 121833
+          },
+          "eventLoop": {
+            "samples": 30,
+            "p95Ms": 3.573759,
+            "p99Ms": 3.700735,
+            "maxMs": 3.700735
+          },
+          "diagnostics": {
+            "observed": 600,
+            "accepted": 0,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 12,
+            "retries": 6,
+            "exporterFailures": 12,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 600,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 0
+        },
+        {
+          "calls": 600,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 46.69895799999995,
+          "lifecycleMs": 4.3284169999997175,
+          "wallThroughputCallsPerSecond": 12848.252417109621,
+          "synchronousInvocation": {
+            "meanUs": 10.449161666692817,
+            "p50Us": 9.375000000545697,
+            "p95Us": 15.4579999998532,
+            "p99Us": 33.875000000080036,
+            "minUs": 8.541000000150234,
+            "maxUs": 112.00000000008004
+          },
+          "cpu": {
+            "invocationUserMs": 32.07,
+            "invocationSystemMs": 1.623,
+            "totalUserMs": 33.836,
+            "totalSystemMs": 1.704
+          },
+          "memory": {
+            "rssBeforeBytes": 288079872,
+            "peakRssBytes": 289095680,
+            "rssAfterBytes": 289095680,
+            "heapDeltaBytes": -18951944,
+            "peakPendingEvents": 176,
+            "peakEncodedPendingBytes": 121823
+          },
+          "eventLoop": {
+            "samples": 29,
+            "p95Ms": 3.907583,
+            "p99Ms": 4.018175,
+            "maxMs": 4.018175
+          },
+          "diagnostics": {
+            "observed": 600,
+            "accepted": 0,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 12,
+            "retries": 6,
+            "exporterFailures": 12,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 600,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 0
+        }
+      ],
+      "pooled": {
+        "meanUs": 10.099647222238875,
+        "p95Us": 15.000000000327418,
+        "p99Us": 29.79200000027049
+      },
+      "ratioToAbsentMean": 112.88656304918005
+    },
+    {
+      "mode": "memory",
+      "identity": false,
+      "workload": "full_queue",
+      "calls": 2000,
+      "runs": [
+        {
+          "calls": 2000,
+          "queueSettings": {
+            "maxEvents": 64,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 6.519125000000713,
+          "lifecycleMs": 0.8263749999996435,
+          "wallThroughputCallsPerSecond": 306789.6381799369,
+          "synchronousInvocation": {
+            "meanUs": 3.10268399999768,
+            "p50Us": 2.9999999997016857,
+            "p95Us": 3.499999999803549,
+            "p99Us": 5.458000000544416,
+            "minUs": 2.8749999992214725,
+            "maxUs": 15.084000000570086
+          },
+          "cpu": {
+            "invocationUserMs": 6.393,
+            "invocationSystemMs": 0.128,
+            "totalUserMs": 7.598,
+            "totalSystemMs": 0.157
+          },
+          "memory": {
+            "rssBeforeBytes": 289095680,
+            "peakRssBytes": 289374208,
+            "rssAfterBytes": 289374208,
+            "heapDeltaBytes": 7118848,
+            "peakPendingEvents": 64,
+            "peakEncodedPendingBytes": 35565
+          },
+          "eventLoop": {
+            "samples": 1,
+            "p95Ms": 1.295359,
+            "p99Ms": 1.295359,
+            "maxMs": 1.295359
+          },
+          "diagnostics": {
+            "observed": 2000,
+            "accepted": 64,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 1,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 1936,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": null
+        },
+        {
+          "calls": 2000,
+          "queueSettings": {
+            "maxEvents": 64,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 6.185625000000073,
+          "lifecycleMs": 0.7753329999995913,
+          "wallThroughputCallsPerSecond": 323330.3021117472,
+          "synchronousInvocation": {
+            "meanUs": 2.941880999992918,
+            "p50Us": 2.7919999993173406,
+            "p95Us": 4.08400000014808,
+            "p99Us": 5.417000000306871,
+            "minUs": 2.6659999994080863,
+            "maxUs": 17.708000000311586
+          },
+          "cpu": {
+            "invocationUserMs": 5.978,
+            "invocationSystemMs": 0.212,
+            "totalUserMs": 6.78,
+            "totalSystemMs": 0.224
+          },
+          "memory": {
+            "rssBeforeBytes": 289439744,
+            "peakRssBytes": 290914304,
+            "rssAfterBytes": 290914304,
+            "heapDeltaBytes": 7108648,
+            "peakPendingEvents": 64,
+            "peakEncodedPendingBytes": 35568
+          },
+          "eventLoop": {
+            "samples": 1,
+            "p95Ms": 1.272831,
+            "p99Ms": 1.272831,
+            "maxMs": 1.272831
+          },
+          "diagnostics": {
+            "observed": 2000,
+            "accepted": 64,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 1,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 1936,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": null
+        },
+        {
+          "calls": 2000,
+          "queueSettings": {
+            "maxEvents": 64,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 6.270916999999827,
+          "lifecycleMs": 0.7661669999997684,
+          "wallThroughputCallsPerSecond": 318932.62181592506,
+          "synchronousInvocation": {
+            "meanUs": 2.9707395000068573,
+            "p50Us": 2.7919999993173406,
+            "p95Us": 4.124999999476131,
+            "p99Us": 6.957999999940512,
+            "minUs": 2.458999999362277,
+            "maxUs": 41.20899999998073
+          },
+          "cpu": {
+            "invocationUserMs": 5.993,
+            "invocationSystemMs": 0.269,
+            "totalUserMs": 6.78,
+            "totalSystemMs": 0.298
+          },
+          "memory": {
+            "rssBeforeBytes": 290979840,
+            "peakRssBytes": 292634624,
+            "rssAfterBytes": 292634624,
+            "heapDeltaBytes": 7112040,
+            "peakPendingEvents": 64,
+            "peakEncodedPendingBytes": 35570
+          },
+          "eventLoop": {
+            "samples": 1,
+            "p95Ms": 1.271807,
+            "p99Ms": 1.271807,
+            "maxMs": 1.271807
+          },
+          "diagnostics": {
+            "observed": 2000,
+            "accepted": 64,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 1,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 1936,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": null
+        }
+      ],
+      "pooled": {
+        "meanUs": 3.0051014999991517,
+        "p95Us": 3.584000000046217,
+        "p99Us": 5.624999999781721
+      },
+      "ratioToAbsentMean": 24.158663328306947
+    },
+    {
+      "mode": "http_slow",
+      "identity": false,
+      "workload": "full_queue",
+      "calls": 2000,
+      "runs": [
+        {
+          "calls": 2000,
+          "queueSettings": {
+            "maxEvents": 64,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 6.724707999999737,
+          "lifecycleMs": 17.236665999999786,
+          "wallThroughputCallsPerSecond": 297410.68311071326,
+          "synchronousInvocation": {
+            "meanUs": 3.198363999992125,
+            "p50Us": 2.9999999997016857,
+            "p95Us": 4.3750000004365575,
+            "p99Us": 7.375000000138243,
+            "minUs": 2.8330000004643807,
+            "maxUs": 34.91599999961181
+          },
+          "cpu": {
+            "invocationUserMs": 6.445,
+            "invocationSystemMs": 0.285,
+            "totalUserMs": 8.418,
+            "totalSystemMs": 0.435
+          },
+          "memory": {
+            "rssBeforeBytes": 292732928,
+            "peakRssBytes": 294387712,
+            "rssAfterBytes": 294387712,
+            "heapDeltaBytes": 7344120,
+            "peakPendingEvents": 64,
+            "peakEncodedPendingBytes": 35566
+          },
+          "eventLoop": {
+            "samples": 15,
+            "p95Ms": 1.439743,
+            "p99Ms": 1.492991,
+            "maxMs": 1.492991
+          },
+          "diagnostics": {
+            "observed": 2000,
+            "accepted": 64,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 1,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 1936,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 64
+        },
+        {
+          "calls": 2000,
+          "queueSettings": {
+            "maxEvents": 64,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 7.839000000000851,
+          "lifecycleMs": 18.51299999999992,
+          "wallThroughputCallsPerSecond": 255134.58349276477,
+          "synchronousInvocation": {
+            "meanUs": 3.721527000016067,
+            "p50Us": 3.499999999803549,
+            "p95Us": 4.958000000442553,
+            "p99Us": 8.667000000059488,
+            "minUs": 3.0829999996058177,
+            "maxUs": 59.5419999999649
+          },
+          "cpu": {
+            "invocationUserMs": 7.792,
+            "invocationSystemMs": 0.411,
+            "totalUserMs": 13.061,
+            "totalSystemMs": 1.697
+          },
+          "memory": {
+            "rssBeforeBytes": 294469632,
+            "peakRssBytes": 301105152,
+            "rssAfterBytes": 301105152,
+            "heapDeltaBytes": -40636080,
+            "peakPendingEvents": 64,
+            "peakEncodedPendingBytes": 35563
+          },
+          "eventLoop": {
+            "samples": 14,
+            "p95Ms": 1.566719,
+            "p99Ms": 1.693695,
+            "maxMs": 1.693695
+          },
+          "diagnostics": {
+            "observed": 2000,
+            "accepted": 64,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 1,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 1936,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 64
+        },
+        {
+          "calls": 2000,
+          "queueSettings": {
+            "maxEvents": 64,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 7.540165999999772,
+          "lifecycleMs": 17.351583000000574,
+          "wallThroughputCallsPerSecond": 265246.1497532097,
+          "synchronousInvocation": {
+            "meanUs": 3.576275999988866,
+            "p50Us": 3.250000000662112,
+            "p95Us": 3.9170000000012806,
+            "p99Us": 7.999999999810825,
+            "minUs": 3.1249999992724042,
+            "maxUs": 92.54200000032142
+          },
+          "cpu": {
+            "invocationUserMs": 7.194,
+            "invocationSystemMs": 0.213,
+            "totalUserMs": 9.326,
+            "totalSystemMs": 0.396
+          },
+          "memory": {
+            "rssBeforeBytes": 301121536,
+            "peakRssBytes": 301121536,
+            "rssAfterBytes": 301121536,
+            "heapDeltaBytes": 7356008,
+            "peakPendingEvents": 64,
+            "peakEncodedPendingBytes": 35562
+          },
+          "eventLoop": {
+            "samples": 15,
+            "p95Ms": 1.460223,
+            "p99Ms": 1.465343,
+            "maxMs": 1.465343
+          },
+          "diagnostics": {
+            "observed": 2000,
+            "accepted": 64,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 1,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 1936,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "ready",
+          "collectorObservedAfterWarmup": 64
+        }
+      ],
+      "pooled": {
+        "meanUs": 3.4987223333323527,
+        "p95Us": 4.29100000019389,
+        "p99Us": 8.082999999714957
+      },
+      "ratioToAbsentMean": 28.126988366359235
+    },
+    {
+      "mode": "memory",
+      "identity": false,
+      "workload": "shutdown",
+      "calls": 200,
+      "runs": [
+        {
+          "calls": 200,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 1.6412920000002487,
+          "lifecycleMs": 2.645832999999584,
+          "wallThroughputCallsPerSecond": 121855.22137436221,
+          "synchronousInvocation": {
+            "meanUs": 7.587305000001834,
+            "p50Us": 7.999999999810825,
+            "p95Us": 11.666000000332133,
+            "p99Us": 41.29099999954633,
+            "minUs": 2.749999999650754,
+            "maxUs": 63.250000000152795
+          },
+          "cpu": {
+            "invocationUserMs": 1.499,
+            "invocationSystemMs": 0.071,
+            "totalUserMs": 4.085,
+            "totalSystemMs": 0.139
+          },
+          "memory": {
+            "rssBeforeBytes": 301137920,
+            "peakRssBytes": 301154304,
+            "rssAfterBytes": 301154304,
+            "heapDeltaBytes": 3602128,
+            "peakPendingEvents": 200,
+            "peakEncodedPendingBytes": 111028
+          },
+          "eventLoop": {
+            "samples": 0,
+            "p95Ms": null,
+            "p99Ms": null,
+            "maxMs": null
+          },
+          "diagnostics": {
+            "observed": 200,
+            "accepted": 200,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 2,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "shutdown",
+          "collectorObservedAfterWarmup": null
+        },
+        {
+          "calls": 200,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 0.9282499999999345,
+          "lifecycleMs": 2.2764579999993657,
+          "wallThroughputCallsPerSecond": 215459.19741450483,
+          "synchronousInvocation": {
+            "meanUs": 4.272310000014841,
+            "p50Us": 2.666999999746622,
+            "p95Us": 8.915999999771884,
+            "p99Us": 35.83299999991141,
+            "minUs": 2.4999999995998223,
+            "maxUs": 99.33300000011513
+          },
+          "cpu": {
+            "invocationUserMs": 0.809,
+            "invocationSystemMs": 0.045,
+            "totalUserMs": 3.104,
+            "totalSystemMs": 0.08
+          },
+          "memory": {
+            "rssBeforeBytes": 301154304,
+            "peakRssBytes": 301154304,
+            "rssAfterBytes": 301154304,
+            "heapDeltaBytes": 3572992,
+            "peakPendingEvents": 200,
+            "peakEncodedPendingBytes": 111064
+          },
+          "eventLoop": {
+            "samples": 1,
+            "p95Ms": 1.277951,
+            "p99Ms": 1.277951,
+            "maxMs": 1.277951
+          },
+          "diagnostics": {
+            "observed": 200,
+            "accepted": 200,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 2,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "shutdown",
+          "collectorObservedAfterWarmup": null
+        },
+        {
+          "calls": 200,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 100,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 0.6159159999997428,
+          "lifecycleMs": 2.2224590000005264,
+          "wallThroughputCallsPerSecond": 324719.604621545,
+          "synchronousInvocation": {
+            "meanUs": 2.907525000032365,
+            "p50Us": 2.7920000002268353,
+            "p95Us": 3.3329999996567494,
+            "p99Us": 3.875000000334694,
+            "minUs": 2.7079999999841675,
+            "maxUs": 7.708000000093307
+          },
+          "cpu": {
+            "invocationUserMs": 0.608,
+            "invocationSystemMs": 0.009,
+            "totalUserMs": 2.842,
+            "totalSystemMs": 0.017
+          },
+          "memory": {
+            "rssBeforeBytes": 301170688,
+            "peakRssBytes": 301187072,
+            "rssAfterBytes": 301187072,
+            "heapDeltaBytes": 3569192,
+            "peakPendingEvents": 200,
+            "peakEncodedPendingBytes": 111061
+          },
+          "eventLoop": {
+            "samples": 1,
+            "p95Ms": 1.270783,
+            "p99Ms": 1.270783,
+            "maxMs": 1.270783
+          },
+          "diagnostics": {
+            "observed": 200,
+            "accepted": 200,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 2,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "shutdown",
+          "collectorObservedAfterWarmup": null
+        }
+      ],
+      "pooled": {
+        "meanUs": 4.9223800000163465,
+        "p95Us": 9.874999999738066,
+        "p99Us": 33.12499999992724
+      },
+      "ratioToAbsentMean": 39.57208140704067
+    },
+    {
+      "mode": "http_stalled",
+      "identity": false,
+      "workload": "shutdown",
+      "calls": 200,
+      "runs": [
+        {
+          "calls": 200,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 20,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 0.6736250000003565,
+          "lifecycleMs": 8.619166999999834,
+          "wallThroughputCallsPerSecond": 296901.09482263,
+          "synchronousInvocation": {
+            "meanUs": 3.169375000002219,
+            "p50Us": 2.7920000002268353,
+            "p95Us": 3.416999999899417,
+            "p99Us": 5.9999999994033715,
+            "minUs": 2.7079999999841675,
+            "maxUs": 37.3329999993075
+          },
+          "cpu": {
+            "invocationUserMs": 0.666,
+            "invocationSystemMs": 0.014,
+            "totalUserMs": 3.272,
+            "totalSystemMs": 0.363
+          },
+          "memory": {
+            "rssBeforeBytes": 301236224,
+            "peakRssBytes": 301252608,
+            "rssAfterBytes": 301252608,
+            "heapDeltaBytes": 2295832,
+            "peakPendingEvents": 200,
+            "peakEncodedPendingBytes": 111056
+          },
+          "eventLoop": {
+            "samples": 9,
+            "p95Ms": 1.353727,
+            "p99Ms": 1.353727,
+            "maxMs": 1.353727
+          },
+          "diagnostics": {
+            "observed": 200,
+            "accepted": 0,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 1,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 200,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "shutdown",
+          "collectorObservedAfterWarmup": 0
+        },
+        {
+          "calls": 200,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 20,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 0.9182920000002923,
+          "lifecycleMs": 8.867290999999568,
+          "wallThroughputCallsPerSecond": 217795.64670054443,
+          "synchronousInvocation": {
+            "meanUs": 4.32231999999658,
+            "p50Us": 3.584000000046217,
+            "p95Us": 6.166999999550171,
+            "p99Us": 14.958000000660832,
+            "minUs": 3.416999999899417,
+            "maxUs": 66.29199999952107
+          },
+          "cpu": {
+            "invocationUserMs": 0.883,
+            "invocationSystemMs": 0.044,
+            "totalUserMs": 3.512,
+            "totalSystemMs": 0.32
+          },
+          "memory": {
+            "rssBeforeBytes": 301301760,
+            "peakRssBytes": 301318144,
+            "rssAfterBytes": 301318144,
+            "heapDeltaBytes": 2300168,
+            "peakPendingEvents": 200,
+            "peakEncodedPendingBytes": 111041
+          },
+          "eventLoop": {
+            "samples": 7,
+            "p95Ms": 1.952767,
+            "p99Ms": 1.952767,
+            "maxMs": 1.952767
+          },
+          "diagnostics": {
+            "observed": 200,
+            "accepted": 0,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 1,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 200,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "shutdown",
+          "collectorObservedAfterWarmup": 0
+        },
+        {
+          "calls": 200,
+          "queueSettings": {
+            "maxEvents": 1000,
+            "maxBytes": 1048576,
+            "batchMaxEvents": 100,
+            "batchMaxBytes": 262144,
+            "flushIntervalMs": 10,
+            "requestTimeoutMs": 20,
+            "maxRetries": 1,
+            "retryBaseMs": 2,
+            "retryMaxMs": 20
+          },
+          "invocationLoopMs": 0.9616660000001502,
+          "lifecycleMs": 9.510874999999942,
+          "wallThroughputCallsPerSecond": 207972.41453890307,
+          "synchronousInvocation": {
+            "meanUs": 4.538549999952011,
+            "p50Us": 3.9999999999054126,
+            "p95Us": 4.958999999871594,
+            "p99Us": 19.209000000046217,
+            "minUs": 3.832999999758613,
+            "maxUs": 38.66699999980483
+          },
+          "cpu": {
+            "invocationUserMs": 0.917,
+            "invocationSystemMs": 0.05,
+            "totalUserMs": 4.337,
+            "totalSystemMs": 0.429
+          },
+          "memory": {
+            "rssBeforeBytes": 301334528,
+            "peakRssBytes": 301350912,
+            "rssAfterBytes": 301350912,
+            "heapDeltaBytes": 2311208,
+            "peakPendingEvents": 200,
+            "peakEncodedPendingBytes": 111016
+          },
+          "eventLoop": {
+            "samples": 7,
+            "p95Ms": 1.654783,
+            "p99Ms": 1.654783,
+            "maxMs": 1.654783
+          },
+          "diagnostics": {
+            "observed": 200,
+            "accepted": 0,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 1,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 200,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          },
+          "finalPendingEvents": 0,
+          "finalStatus": "shutdown",
+          "collectorObservedAfterWarmup": 0
+        }
+      ],
+      "pooled": {
+        "meanUs": 4.01008166665027,
+        "p95Us": 4.750000000058208,
+        "p99Us": 19.209000000046217
+      },
+      "ratioToAbsentMean": 32.237917056594334
+    }
+  ],
+  "realMcpRequests": [
+    {
+      "mode": "absent",
+      "identity": false,
+      "scope": "real Streamable HTTP MCP request latency, including local HTTP protocol and handler",
+      "runs": [
+        {
+          "calls": 50,
+          "elapsedMs": 31.527500000000146,
+          "throughputCallsPerSecond": 1585.9170565379357,
+          "p95Us": 831.9170000004306,
+          "p99Us": 1563.5830000001079,
+          "cpuUserMs": 44.705,
+          "cpuSystemMs": 2.68,
+          "diagnostics": null
+        },
+        {
+          "calls": 50,
+          "elapsedMs": 27.04649999999947,
+          "throughputCallsPerSecond": 1848.6680346810485,
+          "p95Us": 838.6669999999867,
+          "p99Us": 1270.6669999997757,
+          "cpuUserMs": 33.699,
+          "cpuSystemMs": 2.036,
+          "diagnostics": null
+        },
+        {
+          "calls": 50,
+          "elapsedMs": 27.662874999999985,
+          "throughputCallsPerSecond": 1807.4766270678672,
+          "p95Us": 807.292000000416,
+          "p99Us": 4351.916000000529,
+          "cpuUserMs": 40.321,
+          "cpuSystemMs": 3.009,
+          "diagnostics": null
+        }
+      ],
+      "pooled": {
+        "p95Us": 831.9170000004306,
+        "p99Us": 1563.5830000001079
+      }
+    },
+    {
+      "mode": "disabled",
+      "identity": false,
+      "scope": "real Streamable HTTP MCP request latency, including local HTTP protocol and handler",
+      "runs": [
+        {
+          "calls": 50,
+          "elapsedMs": 22.157500000000255,
+          "throughputCallsPerSecond": 2256.572266726816,
+          "p95Us": 642.1669999999722,
+          "p99Us": 755.792000000838,
+          "cpuUserMs": 27.876,
+          "cpuSystemMs": 1.797,
+          "diagnostics": {
+            "observed": 0,
+            "accepted": 0,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 0,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          }
+        },
+        {
+          "calls": 50,
+          "elapsedMs": 22.637166999999863,
+          "throughputCallsPerSecond": 2208.75695266993,
+          "p95Us": 539.1250000002401,
+          "p99Us": 1615.2919999994992,
+          "cpuUserMs": 32.118,
+          "cpuSystemMs": 2.154,
+          "diagnostics": {
+            "observed": 0,
+            "accepted": 0,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 0,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          }
+        },
+        {
+          "calls": 50,
+          "elapsedMs": 24.159208000000035,
+          "throughputCallsPerSecond": 2069.604268484295,
+          "p95Us": 678.834000000279,
+          "p99Us": 4033.374999999978,
+          "cpuUserMs": 32.629,
+          "cpuSystemMs": 3.142,
+          "diagnostics": {
+            "observed": 0,
+            "accepted": 0,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 0,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          }
+        }
+      ],
+      "pooled": {
+        "p95Us": 642.1669999999722,
+        "p99Us": 1615.2919999994992
+      }
+    },
+    {
+      "mode": "memory",
+      "identity": false,
+      "scope": "real Streamable HTTP MCP request latency, including local HTTP protocol and handler",
+      "runs": [
+        {
+          "calls": 50,
+          "elapsedMs": 22.452540999999655,
+          "throughputCallsPerSecond": 2226.919438650653,
+          "p95Us": 749.2919999995138,
+          "p99Us": 916.08400000041,
+          "cpuUserMs": 30.92,
+          "cpuSystemMs": 1.961,
+          "diagnostics": {
+            "observed": 50,
+            "accepted": 50,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 3,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          }
+        },
+        {
+          "calls": 50,
+          "elapsedMs": 22.211957999999868,
+          "throughputCallsPerSecond": 2251.0397327421697,
+          "p95Us": 754.8329999999623,
+          "p99Us": 798.041999999441,
+          "cpuUserMs": 26.246,
+          "cpuSystemMs": 1.989,
+          "diagnostics": {
+            "observed": 50,
+            "accepted": 50,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 3,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          }
+        },
+        {
+          "calls": 50,
+          "elapsedMs": 27.614958000000115,
+          "throughputCallsPerSecond": 1810.6129294131024,
+          "p95Us": 923.6250000003565,
+          "p99Us": 4444.041000000652,
+          "cpuUserMs": 58.372,
+          "cpuSystemMs": 4.435,
+          "diagnostics": {
+            "observed": 50,
+            "accepted": 50,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 3,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          }
+        }
+      ],
+      "pooled": {
+        "p95Us": 769.666999999572,
+        "p99Us": 1939.875000000029
+      }
+    },
+    {
+      "mode": "http_healthy",
+      "identity": false,
+      "scope": "real Streamable HTTP MCP request latency, including local HTTP protocol and handler",
+      "runs": [
+        {
+          "calls": 50,
+          "elapsedMs": 18.430374999999913,
+          "throughputCallsPerSecond": 2712.9127866362046,
+          "p95Us": 660.9579999994821,
+          "p99Us": 769.2499999993743,
+          "cpuUserMs": 19.045,
+          "cpuSystemMs": 1.637,
+          "diagnostics": {
+            "observed": 50,
+            "accepted": 50,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 2,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          }
+        },
+        {
+          "calls": 50,
+          "elapsedMs": 17.48241599999983,
+          "throughputCallsPerSecond": 2860.016601824398,
+          "p95Us": 658.292000000074,
+          "p99Us": 714.2919999996593,
+          "cpuUserMs": 26.812,
+          "cpuSystemMs": 1.646,
+          "diagnostics": {
+            "observed": 50,
+            "accepted": 50,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 2,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          }
+        },
+        {
+          "calls": 50,
+          "elapsedMs": 23.949792000000343,
+          "throughputCallsPerSecond": 2087.7008034140454,
+          "p95Us": 1174.8340000003736,
+          "p99Us": 4862.333000000035,
+          "cpuUserMs": 32.726,
+          "cpuSystemMs": 3.101,
+          "diagnostics": {
+            "observed": 50,
+            "accepted": 50,
+            "duplicates": 0,
+            "rejected": 0,
+            "requests": 3,
+            "retries": 0,
+            "exporterFailures": 0,
+            "droppedOverflow": 0,
+            "droppedOversize": 0,
+            "droppedRetries": 0,
+            "droppedAuth": 0,
+            "droppedQuota": 0,
+            "droppedInvalid": 0,
+            "droppedShutdown": 0,
+            "droppedPaused": 0,
+            "droppedTimeout": 0
+          }
+        }
+      ],
+      "pooled": {
+        "p95Us": 691.7499999999563,
+        "p99Us": 1797.750000000633
+      }
+    }
+  ]
+}

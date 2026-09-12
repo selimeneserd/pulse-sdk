@@ -1,5 +1,15 @@
 # Compatibility evidence / Uyumluluk kanıtı
 
+0.2.1 retains the Node 24.11.1/24.20.0, MCP 2.0.0 and ESM support matrix. Correctness regressions passed locally on macOS with **205/205** tests on both runtimes, together with the extended clean packed consumer gate. Those pre-release runs used 0.2.0-labelled development archives; their exact evidence is `evidence/correctness-check-node*.txt` and `correctness-packed-node*.json`. Final 0.2.1 archive validation, CI and post-publication registry status are tracked in [BUILD_STATUS.md](../BUILD_STATUS.md); they must not be inferred from the historical receipts below.
+
+Final release receipts use `evidence/release-0.2.1-check-node24.11.1.txt`, `release-0.2.1-check-node24.20.0.txt`, `release-0.2.1-packed-node*.json` and `release-0.2.1-registry-node24.20.0.json`. Completed status and the release CI run belong to BUILD_STATUS.md.
+
+The CLI's default Node ESM resolution is tested with real installed MCP 2.0.0, hoisted workspace consumers and synthetic package/symlink fixtures. Custom loaders, bundler aliases and pnpm end-to-end support are not claimed. No support range changed.
+
+TR: 0.2.1, iki Node sürümü, MCP 2.0.0 ve ESM destek matrisini korur. Düzeltme regresyonları iki runtime'da 205 test ve genişletilmiş temiz paket tüketicisiyle macOS üzerinde geçti. Bu ilk arşivler 0.2.0 etiketlidir; son 0.2.1 arşivleri, CI ve registry doğrulamasının durumu BUILD_STATUS.md içindedir. Aşağıdaki geçmiş kayıtlar yeni yayın başarısını kanıtlamaz. Hoisted kurulumlar test edilir; custom loader, bundler alias veya pnpm uçtan uca desteği iddia edilmez.
+
+## Historical 0.2.0 baseline / Geçmiş 0.2.0 temeli
+
 Research and local verification date: 2026-09-11. Both complete checks and packed gates passed locally on macOS arm64; both Node versions also passed the full Ubuntu 24.04 matrix in [GitHub CI run 34625143572](https://github.com/selimeneserd/pulse-sdk/actions/runs/34625143572). The installed package metadata and README identify `@modelcontextprotocol/server`, `client`, `node` and `core` as **2.0.0** (upstream package engines `node >=20`). Pulse's narrower support is determined by its own tests, not inherited from upstream's engine range. The exact peer pin remains because no second MCP release has been installed and tested. This is a support declaration, not a runtime package-version lock.
 
 Araştırma ve yerel doğrulama tarihi: 2026-09-11. İki runtime için tam kontrol ve paket testleri macOS arm64 üzerinde geçti; iki Node sürümü için Ubuntu 24.04 CI matrisi de başarıyla çalıştı. Kurulu MCP paketleri **2.0.0**. Pulse desteği upstream'in geniş runtime aralığından değil, kendi testlerinden gelir. Başka MCP sürümü gerçekten kurulup test edilmediği için peer sürümü 2.0.0 kalır; çalışma zamanında paket sürümü kilidi uygulanmaz.

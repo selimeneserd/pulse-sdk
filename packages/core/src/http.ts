@@ -1,7 +1,7 @@
 import { isWireDateTime } from './conformance.js';
 import { snapshotExportInput } from './export-input.js';
 import { PulseConfigurationError } from './config.js';
-import { validResult } from './exporter.js';
+import { snapshotExportResult } from './export-result.js';
 import type { PulseEvent, PulseExporter, PulseExportResult, PulseExportContext } from './types.js';
 
 export interface HttpExporterOptions {
@@ -35,10 +35,11 @@ function retryAfter(value: string | null): number | undefined {
   if (value === null || value.length > 100) return undefined;
   if (/^\d+(?:\.\d+)?$/.test(value)) {
     const delay = Number(value) * 1000;
-    return Number.isFinite(delay) ? Math.min(60_000, Math.max(0, delay)) : undefined;
+    return Number.isFinite(delay) ? Math.max(0, delay) : undefined;
   }
   const date = Date.parse(value);
-  return Number.isFinite(date) ? Math.min(60_000, Math.max(0, date - Date.now())) : undefined;
+  // Preserve the server minimum; the dispatcher decides whether it fits its delay cap.
+  return Number.isFinite(date) ? Math.max(0, date - Date.now()) : undefined;
 }
 function acknowledgement(body: unknown, events: readonly PulseEvent[]): PulseExportResult | null {
   if (!object(body) || Object.keys(body).some(key => !['accepted', 'duplicates', 'rejected', 'server_time', 'next_retry_after_ms'].includes(key))) return null;
@@ -48,7 +49,7 @@ function acknowledgement(body: unknown, events: readonly PulseEvent[]): PulseExp
     accepted: body.accepted, duplicates: body.duplicates, rejected: body.rejected,
     ...(body.next_retry_after_ms === undefined ? {} : { retryAfterMs: body.next_retry_after_ms }),
   };
-  return validResult(result, events) ? result : null;
+  return snapshotExportResult(result, events);
 }
 
 /** One HTTP delivery attempt. No queue, retry, default endpoint, or product-plan policy. */
@@ -101,8 +102,7 @@ export function createHttpExporter(options: HttpExporterOptions): PulseExporter 
             }
             return { accepted: [], duplicates: [], rejected: events.map(event => ({ event_id: event.event_id, code: 'HTTP_REJECTED', retryable: false })) };
           }
-          const parsed = acknowledgement(await readBoundedJson(response), events);
-          if (!parsed) return retry();
+          const parsed = acknowledgement(await readBoundedJson(response), events) ?? retry();
           const headerDelay = retryAfter(response.headers.get('retry-after'));
           return headerDelay === undefined ? parsed : { ...parsed, retryAfterMs: Math.max(headerDelay, parsed.retryAfterMs ?? 0) };
         } catch { return retry(); }

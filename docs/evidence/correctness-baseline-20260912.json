@@ -1,0 +1,185 @@
+{
+  "checked_at": "2026-09-12T05:16:09.761Z",
+  "starting_sha": "e304c641f0e09b91b401366e247f73f22550ccfa",
+  "starting_worktree": "clean",
+  "node": "v24.11.1",
+  "lock_sha256": "08a981acaa104f278d62279fc1510e491a305cf3b3ae181cbf59c9ac699b4b82",
+  "installed": {
+    "@modelcontextprotocol/server": {
+      "version": "2.0.0",
+      "engines": {
+        "node": ">=20"
+      }
+    },
+    "@modelcontextprotocol/client": {
+      "version": "2.0.0",
+      "engines": {
+        "node": ">=20"
+      }
+    },
+    "@modelcontextprotocol/node": {
+      "version": "2.0.0",
+      "engines": {
+        "node": ">=20"
+      }
+    },
+    "@modelcontextprotocol/core": {
+      "version": "2.0.0",
+      "engines": {
+        "node": ">=20"
+      }
+    },
+    "typescript": {
+      "version": "7.0.2",
+      "engines": {
+        "node": ">=16.20.0"
+      }
+    },
+    "vitest": {
+      "version": "5.0.0",
+      "engines": {
+        "node": "^22.12.0 || ^24.0.0 || >=26.0.0"
+      }
+    },
+    "zod": {
+      "version": "4.6.1",
+      "engines": null
+    },
+    "ajv": {
+      "version": "8.20.0",
+      "engines": null
+    },
+    "ajv-formats": {
+      "version": "3.0.1",
+      "engines": null
+    },
+    "@types/node": {
+      "version": "24.13.4",
+      "engines": null
+    },
+    "@reviseflow/pulse-core": {
+      "version": "0.2.0",
+      "engines": {
+        "node": ">=24.11.1 <25"
+      }
+    },
+    "@reviseflow/pulse": {
+      "version": "0.2.0",
+      "engines": {
+        "node": ">=24.11.1 <25"
+      }
+    },
+    "@opentelemetry/api": {
+      "version": "1.9.1",
+      "engines": {
+        "node": ">=8.0.0"
+      }
+    },
+    "@opentelemetry/sdk-trace-base": {
+      "version": "2.11.0",
+      "engines": {
+        "node": "^18.19.0 || >=20.6.0"
+      }
+    },
+    "@reviseflow/pulse-otel": {
+      "version": "0.2.0",
+      "engines": {
+        "node": ">=24.11.1 <25"
+      }
+    },
+    "tsx": {
+      "version": "4.23.13",
+      "engines": {
+        "node": ">=18.0.0"
+      }
+    },
+    "esbuild": {
+      "version": "0.28.2",
+      "engines": {
+        "node": ">=18"
+      }
+    }
+  },
+  "registry": [
+    {
+      "name": "@reviseflow/pulse-core",
+      "dist_tags": {
+        "latest": "0.2.0"
+      },
+      "versions": [
+        "0.1.0",
+        "0.2.0"
+      ],
+      "published_at": "2026-09-11T17:48:07.863Z"
+    },
+    {
+      "name": "@reviseflow/pulse",
+      "dist_tags": {
+        "latest": "0.2.0"
+      },
+      "versions": [
+        "0.1.0",
+        "0.2.0"
+      ],
+      "published_at": "2026-09-11T17:51:05.372Z"
+    },
+    {
+      "name": "@reviseflow/pulse-otel",
+      "dist_tags": {
+        "latest": "0.2.0"
+      },
+      "versions": [
+        "0.2.0"
+      ],
+      "published_at": "2026-09-11T17:49:50.944Z"
+    }
+  ],
+  "baseline_registry_archive_comparison": [
+    {
+      "name": "@reviseflow/pulse-core",
+      "version": "0.2.0",
+      "baseline_archive_matches_published": true
+    },
+    {
+      "name": "@reviseflow/pulse",
+      "version": "0.2.0",
+      "baseline_archive_matches_published": true
+    },
+    {
+      "name": "@reviseflow/pulse-otel",
+      "version": "0.2.0",
+      "baseline_archive_matches_published": true
+    }
+  ],
+  "baseline_gates": {
+    "node": "v24.11.1",
+    "check": {
+      "exit_code": 0,
+      "tests_passed": 133
+    },
+    "packed_consumer": {
+      "exit_code": 0,
+      "status": "PASSED"
+    },
+    "lint": "No script configured"
+  },
+  "final_gates": {
+    "node_versions": [
+      "v24.11.1",
+      "v24.20.0"
+    ],
+    "tests_passed_each": 205,
+    "check_exit_code_each": 0,
+    "packed_status_each": "PASSED",
+    "audit_production": "No known vulnerabilities found",
+    "benchmark_node": "v24.11.1",
+    "benchmark_measurements": 84,
+    "publication_performed": false,
+    "deployment_performed": false,
+    "new_ci_run_observed": false,
+    "corrected_registry_smoke": "pending publication",
+    "human_acceptance": "pending",
+    "pnpm_workspace_e2e_claimed": false
+  },
+  "source_manifest_and_lock_changed": false
+}
