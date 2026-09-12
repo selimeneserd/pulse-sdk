@@ -2,13 +2,13 @@
 
 ## Owner-authorized 0.2.1 release / Sahip yetkili yayın — 2026-09-12
 
-The follow-up request authorizes Git delivery, npm updates, SDK README refresh and production deployment. The synchronized patch is **0.2.1** (verified unused before preparation). Exact-version `pnpm check` passed205 tests on each declared Node runtime; frozen offline installation passed with no lockfile dependency change. README, changelog and release instructions now target0.2.1. Current execution and final external evidence are tracked in [BUILD_STATUS.md](../BUILD_STATUS.md); the local-only0.2.0-labelled checkpoint below remains historical evidence, not the final release candidate. Independent human pilots remain unperformed.
+The follow-up request authorizes Git delivery, npm updates, SDK README refresh and production deployment. The synchronized patch is **0.2.1** (verified unused before preparation). Exact-version `pnpm check` passed205 tests on each declared Node runtime; frozen offline installation passed with no lockfile dependency change. README, changelog and release instructions now target0.2.1. All three exact packages are published as npm `latest`; clean registry consumers passed on both runtimes and CI 34676226310 passed. Final external evidence is tracked in [BUILD_STATUS.md](../BUILD_STATUS.md); the local-only0.2.0-labelled checkpoint below remains historical evidence, not the final release candidate. Independent human pilots remain unperformed.
 
-TR: Yeni talep Git/npm/README/deploy işlemlerini yetkilendirdi. Sürüm0.2.1 olarak hizalandı ve iki runtime'da205 test geçti. Son dış işlem kanıtları BUILD_STATUS.md içinde tutulur; aşağıdaki yayımlanmamış0.2.0 etiketli kayıt önceki kontrol noktasıdır.
+TR: Yeni talep Git/npm/README/deploy işlemlerini yetkilendirdi. Sürüm0.2.1 olarak hizalandı ve iki runtime'da205 test geçti. Üç npm paketi yayımlandı, iki runtime registry tüketicisi ve CI geçti; son dış işlem kanıtları BUILD_STATUS.md içinde tutulur; aşağıdaki yayımlanmamış0.2.0 etiketli kayıt önceki kontrol noktasıdır.
 
-## Correctness task — 2026-09-12
+## Historical pre-release correctness task — 2026-09-12
 
-**Complete locally, unreleased.** Work started on clean `e304c641f0e09b91b401366e247f73f22550ccfa`; the review SHA was not used as HEAD or a reset target. SDK MIT LICENSE and AGENTS.md read; Cloud remained untouched. No review-probe archive was found in the workspace/attachments searched; all permanent regressions call the actual implementation. Installed dependency/lock/runtime/registry baseline: [correctness-baseline-20260912.json](evidence/correctness-baseline-20260912.json). The declared Node 24.11.1/24.20.0 and MCP 2.0.0 pins are unchanged.
+**Historical snapshot before the 0.2.1 publication: complete locally, unreleased at that checkpoint.** Work started on clean `e304c641f0e09b91b401366e247f73f22550ccfa`; the review SHA was not used as HEAD or a reset target. SDK MIT LICENSE and AGENTS.md read; Cloud remained untouched. No review-probe archive was found in the workspace/attachments searched; all permanent regressions call the actual implementation. Installed dependency/lock/runtime/registry baseline: [correctness-baseline-20260912.json](evidence/correctness-baseline-20260912.json). The declared Node 24.11.1/24.20.0 and MCP 2.0.0 pins are unchanged.
 
 Applied plan: capture existing gates and red regressions; share a safe internal result snapshot; correct target-project dependency resolution; preserve HTTP minimums with bounded dispatcher policy; run both runtime gates and independent packed consumers; update existing contract/release/pilot documents. No public/cloud architecture redesign or runtime dependency was needed.
 
@@ -42,7 +42,7 @@ TR: Başlangıç temiz HEAD ve133 testle kaydedildi; üç hata gerçek uygulamad
 
 ## Historical independent-SDK implementation / Önceki bağımsız SDK uygulaması
 
-2026-09-11. SDK starting SHA `9f17526705be0ca4bbabe5a7b65e3de6f9c83dc3`; the worktree was initially clean. The owner authorized GitHub delivery and the separate Cloud rollout. **0.2.0 is now published on npm with owner authorization.** No Cloud source was copied into the SDK. Current delivery receipts are recorded in [BUILD_STATUS.md](../BUILD_STATUS.md); the local implementation and test evidence below describes preparation before deployment.
+2026-09-11. SDK starting SHA `9f17526705be0ca4bbabe5a7b65e3de6f9c83dc3`; the worktree was initially clean. The owner authorized GitHub delivery and the separate Cloud rollout. **0.2.0 was published on npm with owner authorization on 2026-09-11.** No Cloud source was copied into the SDK. Current delivery receipts are recorded in [BUILD_STATUS.md](../BUILD_STATUS.md); the local implementation and test evidence below describes preparation before deployment.
 
 ## Phases / Fazlar
 

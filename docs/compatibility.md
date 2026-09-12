@@ -1,12 +1,12 @@
 # Compatibility evidence / Uyumluluk kanıtı
 
-0.2.1 retains the Node 24.11.1/24.20.0, MCP 2.0.0 and ESM support matrix. Correctness regressions passed locally on macOS with **205/205** tests on both runtimes, together with the extended clean packed consumer gate. Those pre-release runs used 0.2.0-labelled development archives; their exact evidence is `evidence/correctness-check-node*.txt` and `correctness-packed-node*.json`. Final 0.2.1 archive validation, CI and post-publication registry status are tracked in [BUILD_STATUS.md](../BUILD_STATUS.md); they must not be inferred from the historical receipts below.
+0.2.1 retains the Node 24.11.1/24.20.0, MCP 2.0.0 and ESM support matrix. The final exact release passed **205/205** tests and clean packed consumers locally on both runtimes. [GitHub CI 34676226310](https://github.com/selimeneserd/pulse-sdk/actions/runs/34676226310) passed both Node versions on Ubuntu. After npm publication, exact archive integrity and **106 clean registry consumer commands per runtime** passed. [BUILD_STATUS.md](../BUILD_STATUS.md) links the source and publication ledger.
 
-Final release receipts use `evidence/release-0.2.1-check-node24.11.1.txt`, `release-0.2.1-check-node24.20.0.txt`, `release-0.2.1-packed-node*.json` and `release-0.2.1-registry-node24.20.0.json`. Completed status and the release CI run belong to BUILD_STATUS.md.
+Final release receipts use `evidence/release-0.2.1-check-node24.11.1.txt`, `release-0.2.1-check-node24.20.0.txt`, `release-0.2.1-packed-node*.json` and `release-0.2.1-registry-node*.json`. Earlier `correctness-check-node*.txt` and `correctness-packed-node*.json` describe 0.2.0-labelled development archives before the version bump; they are historical evidence.
 
 The CLI's default Node ESM resolution is tested with real installed MCP 2.0.0, hoisted workspace consumers and synthetic package/symlink fixtures. Custom loaders, bundler aliases and pnpm end-to-end support are not claimed. No support range changed.
 
-TR: 0.2.1, iki Node sürümü, MCP 2.0.0 ve ESM destek matrisini korur. Düzeltme regresyonları iki runtime'da 205 test ve genişletilmiş temiz paket tüketicisiyle macOS üzerinde geçti. Bu ilk arşivler 0.2.0 etiketlidir; son 0.2.1 arşivleri, CI ve registry doğrulamasının durumu BUILD_STATUS.md içindedir. Aşağıdaki geçmiş kayıtlar yeni yayın başarısını kanıtlamaz. Hoisted kurulumlar test edilir; custom loader, bundler alias veya pnpm uçtan uca desteği iddia edilmez.
+TR: Son 0.2.1 sürümü Node 24.11.1/24.20.0, MCP 2.0.0 ve ESM destek matrisini korur. İki runtime'da 205 kaynak testi ve temiz tarball tüketicileri, Ubuntu üzerinde iki Node sürümlü CI ve npm yayını sonrasında her runtime'da 106 registry tüketici komutu geçti. Exact arşiv bütünlükleri eşleşir. Önceki 0.2.0 etiketli geliştirme arşivlerinin kanıtları tarihsel olarak korunur. Hoisted kurulumlar test edilir; custom loader, bundler alias veya pnpm uçtan uca desteği iddia edilmez.
 
 ## Historical 0.2.0 baseline / Geçmiş 0.2.0 temeli
 

@@ -1,0 +1,78 @@
+{
+  "date": "2026-09-12",
+  "status": "PUBLISHED_AND_VERIFIED",
+  "artifactSourceCommit": "2756fcd6310636632c4c7c0b8e244a6e0d601ae8",
+  "authorization": "Owner explicitly requested commit/push, npm update, README update and deployment.",
+  "packages": [
+    {
+      "name": "@reviseflow/pulse-core",
+      "version": "0.2.1",
+      "archive": "artifacts/packed-k60JEF/reviseflow-pulse-core-0.2.1.tgz",
+      "sha256": "0da5228f07da104d40faaeb0ac086b65c1d10fd1641098327ccba83114180a83",
+      "integrity": "sha512-Miu1vP8L2qxOE9CV1q5peQ7grHLg4RqNADy31VkVPVxRE9cM3+fcx45SKmGsgPPbY2EOWINCXgWpD9/JQTd3wA==",
+      "published": true,
+      "publishedAt": "2026-09-12T05:43:35.846Z",
+      "tarball": "https://registry.npmjs.org/@reviseflow/pulse-core/-/pulse-core-0.2.1.tgz",
+      "tag": "latest"
+    },
+    {
+      "name": "@reviseflow/pulse",
+      "version": "0.2.1",
+      "archive": "artifacts/packed-k60JEF/reviseflow-pulse-0.2.1.tgz",
+      "sha256": "1be8f8a5132d9d9187449a1733085e4f947cd2dd02087795ade2c7ff00c23a46",
+      "integrity": "sha512-LQnaGI/dBDwNh0uaMl9PvCNwLahYn0l4Yfyk8+fo/CPwZL7YmPQesrNtNcmET8AqhZScLQ+R4G4frZfKBGgxOg==",
+      "published": true,
+      "publishedAt": "2026-09-12T05:46:10.879Z",
+      "tarball": "https://registry.npmjs.org/@reviseflow/pulse/-/pulse-0.2.1.tgz",
+      "tag": "latest"
+    },
+    {
+      "name": "@reviseflow/pulse-otel",
+      "version": "0.2.1",
+      "archive": "artifacts/packed-k60JEF/reviseflow-pulse-otel-0.2.1.tgz",
+      "sha256": "eae5163c4fe5b114330ac3e73a4ad19e591d1b279de9be8786eaa07c032b945b",
+      "integrity": "sha512-znWuJQw7txh8rnOzNUB66nTDsnAKExlGMpH3E6l2c8mv/1H1rsPWTnGf7q+yefTKrkGZTZPWyeiJtYczDWp7Ww==",
+      "published": true,
+      "publishedAt": "2026-09-12T05:44:50.736Z",
+      "tarball": "https://registry.npmjs.org/@reviseflow/pulse-otel/-/pulse-otel-0.2.1.tgz",
+      "tag": "latest"
+    }
+  ],
+  "localNodeMatrix": [
+    "24.11.1",
+    "24.20.0"
+  ],
+  "localTestsPassedEach": 205,
+  "registryConsumerStatus": "PASSED",
+  "credentialsOrSecuritySettingsChanged": false,
+  "ci": {
+    "conclusion": "success",
+    "headSha": "2756fcd6310636632c4c7c0b8e244a6e0d601ae8",
+    "id": 34676226310,
+    "jobs": [
+      {
+        "conclusion": "success",
+        "name": "sdk (24.11.1)"
+      },
+      {
+        "conclusion": "success",
+        "name": "sdk (24.20.0)"
+      }
+    ],
+    "status": "completed",
+    "url": "https://github.com/selimeneserd/pulse-sdk/actions/runs/34676226310"
+  },
+  "registryConsumers": [
+    {
+      "node": "24.11.1",
+      "commandsPassed": 106,
+      "evidence": "release-0.2.1-registry-node24.11.1.json"
+    },
+    {
+      "node": "24.20.0",
+      "commandsPassed": 106,
+      "evidence": "release-0.2.1-registry-node24.20.0.json"
+    }
+  ],
+  "githubRelease": "https://github.com/selimeneserd/pulse-sdk/releases/tag/v0.2.1"
+}

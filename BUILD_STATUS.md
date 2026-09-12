@@ -1,18 +1,22 @@
 # SDK delivery status / SDK teslim durumu
 
-## 0.2.1 release execution — 2026-09-12 / Yayın işlemi
+## 0.2.1 published and verified — 2026-09-12 / Yayımlandı ve doğrulandı
 
-The owner authorized commit/push, npm publication, README updates and production deployment. All three SDK manifests and generated provenance now use **0.2.1**; no dependency/support range changed. Frozen offline installation passes with the existing workspace-link lockfile. EN/TR and package README installation commands target the exact patch version.
+**All three MIT packages are published on npm as 0.2.1 (`latest`).** The owner authorized Git delivery, publication, README updates and deployment. [Source commit `2756fcd`](https://github.com/selimeneserd/pulse-sdk/commit/2756fcd6310636632c4c7c0b8e244a6e0d601ae8) is pushed; [CI 34676226310](https://github.com/selimeneserd/pulse-sdk/actions/runs/34676226310) passed on Ubuntu with Node 24.11.1 and 24.20.0. The [v0.2.1 release](https://github.com/selimeneserd/pulse-sdk/releases/tag/v0.2.1) includes the final documentation and receipts; package bytes derive from that tested source commit.
 
-`pnpm check` passed **205/205 on Node 24.11.1 and 24.20.0** for this exact version. Packed consumers passed on both runtimes; source commit/CI and npm/registry verification are in progress. The owner completed the existing npm passkey authentication; no security setting or credential was replaced. Cloud0.2.1 integration/deployment is being prepared separately. Final receipts will be recorded here after actual completion.
+- `pnpm check`: **205/205 tests on each supported Node runtime**, with build, types, contracts, boundaries, conformance and identity vectors. Final logs: [24.11.1](docs/evidence/release-0.2.1-check-node24.11.1.txt), [24.20.0](docs/evidence/release-0.2.1-check-node24.20.0.txt).
+- Packed consumers passed on both runtimes; all three archive hashes match across the matrix. The npm release used those exact archives in core → MCP → optional OTel order.
+- `pnpm verify:registry`: **106 commands passed per runtime**, comparing exact registry integrity before clean npm installation and testing real offline MCP memory/JSONL, installed CLI normal/hoisted/nested resolution, public types, ESM/duplicate packages, OTel and explicit loopback HTTP. [24.11.1 receipt](docs/evidence/release-0.2.1-registry-node24.11.1.json), [24.20.0 receipt](docs/evidence/release-0.2.1-registry-node24.20.0.json), [publication ledger](docs/evidence/npm-release-0.2.1-20260912.json).
 
-TR: Sahip commit/push, npm yayını, README ve deploy işlemini yetkilendirdi. Üç paket ve üretilen sürüm bilgileri0.2.1; iki Node sürümünde205 test geçti. Yayın/CI/registry ve ayrı Cloud dağıtımı sürüyor; yalnızca gerçek tamamlanma kanıtı başarılı sayılacak.
+EN/TR root and all package READMEs describe exact 0.2.1 installation. No third-party dependency, supported runtime, public signature or wire contract changed; no migration is needed from 0.2.0. The workspace-link lockfile is unchanged and frozen offline installation passed. Existing npm passkey authentication was used; no credential or security setting was replaced. The separate proprietary Cloud repository owns its deployment and live evidence. Independent human/workspace pilots remain pending; automated checks do not establish human acceptance.
+
+TR: Üç MIT paketi npm üzerinde **0.2.1 (`latest`)** olarak yayımlandı; kaynak commit'i pushlandı ve iki Node sürümlü GitHub CI geçti. Her runtime'da205 kaynak testi, gerçek paket tüketimi ve yayın sonrası registry'den temiz kurulumun106 komutu geçti. Arşivler yayımlanan baytlarla eşleşir. EN/TR ve paket README'leri güncellendi. Yeni bağımlılık, destek aralığı veya migration yoktur. Ayrı Cloud deposu kendi deploy/canlı kanıtlarını kaydeder; bağımsız insan pilotları yapılmış sayılmaz.
 
 ## Historical local correctness checkpoint / Önceki yerel düzeltme kaydı
 
-## Correctness fixes — 2026-09-12 / Doğruluk düzeltmeleri
+### Correctness fixes — 2026-09-12 / Doğruluk düzeltmeleri
 
-**Local work complete; these fixes are not published, pushed or deployed.** Starting HEAD `e304c641f0e09b91b401366e247f73f22550ccfa`, clean working tree. All three reported issues reproduced against real repository code and are fixed with regressions. Source manifests remain 0.2.0; live registry metadata still reports published 0.2.0. Changed local tarballs are development artifacts, not that registry release. See [current implementation evidence](docs/implementation-status.md#correctness-task--2026-09-12).
+**Historical snapshot before the owner-authorized 0.2.1 release: local work was complete; these fixes had not yet been published, pushed or deployed.** Starting HEAD `e304c641f0e09b91b401366e247f73f22550ccfa`, clean working tree. All three reported issues reproduced against real repository code and are fixed with regressions. Source manifests remain 0.2.0; live registry metadata still reports published 0.2.0. Changed local tarballs are development artifacts, not that registry release. See [current implementation evidence](docs/implementation-status.md#correctness-task--2026-09-12).
 
 - `pnpm check`: **205/205 tests on each of Node 24.11.1 and 24.20.0**, plus build, typecheck, public contracts/conformance, strict core import boundaries and 12 identity vectors. No standalone lint script is configured.
 - `pnpm verify:pack --evidence …`: **passed on both runtimes**, three packages each; real npm CLI normal/hoisted/nested layouts, offline real MCP memory/JSONL, public types, ESM bundle/duplicate copies, explicit loopback HTTP and pack/publish dry-runs. [24.11.1 evidence](docs/evidence/correctness-packed-node24.11.1.json), [24.20.0 evidence](docs/evidence/correctness-packed-node24.20.0.json). Package hashes match across both runtimes.
@@ -25,7 +29,7 @@ TR: Üç hata güncel kodda yeniden üretildi ve kapatıldı. İki Node sürüm�
 
 ## Historical 0.2.0 delivery / Önceki 0.2.0 teslimi
 
-Updated 2026-09-11. **All three MIT packages are published on npm as 0.2.0 (`latest`).** See the [registry consumer evidence](docs/evidence/registry-consumer.json). Release commit [`99d635a`](https://github.com/selimeneserd/pulse-sdk/commit/99d635a57c7d4279ad55b92615ed0ded05a68eb3) is pushed and tagged [`v0.2.0`](https://github.com/selimeneserd/pulse-sdk/releases/tag/v0.2.0). [GitHub CI](https://github.com/selimeneserd/pulse-sdk/actions/runs/34630503040) passed on Ubuntu 24.04 with Node 24.11.1 and 24.20.0, including clean packed consumers. The optional Cloud collector accepted both SDK versions through real public HTTPS, with durable storage and preserved original MCP results.
+Updated 2026-09-11. **At the 2026-09-11 release, all three MIT packages were published on npm as 0.2.0 (`latest` at that time).** See the [registry consumer evidence](docs/evidence/registry-consumer.json). Release commit [`99d635a`](https://github.com/selimeneserd/pulse-sdk/commit/99d635a57c7d4279ad55b92615ed0ded05a68eb3) is pushed and tagged [`v0.2.0`](https://github.com/selimeneserd/pulse-sdk/releases/tag/v0.2.0). [GitHub CI](https://github.com/selimeneserd/pulse-sdk/actions/runs/34630503040) passed on Ubuntu 24.04 with Node 24.11.1 and 24.20.0, including clean packed consumers. The optional Cloud collector accepted both SDK versions through real public HTTPS, with durable storage and preserved original MCP results.
 
 ## Verified implementation
 
@@ -43,8 +47,8 @@ GitHub source and npm publication are separate. The 0.2.0 constructor requires a
 
 No Python SDK, browser/Edge/CJS support, arbitrary MCP versions, external host certification or successful human pilots are claimed. GitHub private vulnerability reporting is enabled and verified; see [SECURITY.md](SECURITY.md). Real customer pilots remain pending.
 
-## Türkçe
+## Historical 0.2.0 Turkish summary / Önceki Türkçe özet
 
-**Üç MIT paketi npm üzerinde 0.2.0 (`latest`) olarak yayımlandı.** SDK kaynakları GitHub’a gönderildi; Ubuntu üzerinde iki Node sürümünün CI kontrolleri geçti. Ayrı Cloud servisi dağıtıldı; iki SDK sürümüyle gerçek genel HTTPS akışı, kalıcı kayıt ve özgün MCP sonucu doğrulandı.
+**11 Eylül 2026 kaydında üç MIT paketi npm üzerinde 0.2.0 olarak yayımlandı; o tarihte `latest` buydu.** SDK kaynakları GitHub’a gönderildi; Ubuntu üzerinde iki Node sürümünün CI kontrolleri geçti. Ayrı Cloud servisi dağıtıldı; iki SDK sürümüyle gerçek genel HTTPS akışı, kalıcı kayıt ve özgün MCP sonucu doğrulandı.
 
 İki Node sürümünde 133 test, tip/build kontrolleri, üç gerçek paket tüketicisi, çevrimdışı MCP, HTTP, CLI ve kimlik vektörleri geçti. Yerel kullanım Cloud hesabı veya anahtarı istemez. Yeni kurucu açık exporter gerektirir; Daha geniş runtime desteği ve kullanıcı pilotları doğrulanmış sayılmaz.
