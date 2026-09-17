@@ -40,5 +40,15 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "description": "Optional allowlisted Pulse handler completion spans for OpenTelemetry."
+  "description": "Optional content-free MCP handler spans for OpenTelemetry. / OpenTelemetry için isteğe bağlı, içeriksiz MCP handler span’leri.",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "analytics",
+    "monitoring",
+    "observability",
+    "typescript",
+    "telemetry",
+    "opentelemetry"
+  ]
 }

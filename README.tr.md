@@ -1,4 +1,4 @@
-# Pulse SDK
+# Pulse SDK — TypeScript için MCP analitiği
 
 MCP araç handler'ları için açık kaynak analiz altyapısı. Çağrıları yerelde gözlemleyin; aynı metadata'yı kendi collector'ınıza veya isteğe bağlı yönetilen bir servise gönderin.
 
@@ -101,6 +101,15 @@ Zorunlu yapılandırmayı uygulamanızda doğrulayın; write key'i tarayıcıya 
 Ham argüman, sonuç, prompt, hata mesajı, stack, header veya keyfi properties toplanmaz. Araç ve sürüm adları yine de iş bilgisi taşıyabilir; hassas etiketleri eşleyin veya hariç bırakın. İsteğe bağlı HMAC kimliği ilişkilendirilebilir; anonimlik garantisi vermez.
 
 Kuyruk, bayt bütçesi ve yeniden denemeler sınırlıdır. Exporter hatası handler sonucunu değiştirmez. Kimlik doğrulama düzeltildikten sonra aynı instance üzerinde `reconfigure({ exporter })` veya `resume()` kullanılabilir; atılmış olaylar geri gelmez. Pulse best-effort analiz sağlar; kalıcı audit ledger veya exactly-once teslim sistemi değildir.
+
+## Gerçek MCP akışıyla öğrenin
+
+- [İlk TypeScript MCP sunucunuzu kurun ve doğrulayın](https://pulse.reviseflow.io/tr/blog/what-is-mcp): sabit bağımlılıklar, gerçek istemci çağrısı ve yerel JSONL.
+- [MCP Inspector ile hata ayıklayın](https://pulse.reviseflow.io/tr/blog/mcp-inspector-guide): protokol keşfini gözlemlenen handler kullanımından ayırın.
+- [Handler gecikmesini inceleyin](https://pulse.reviseflow.io/tr/blog/mcp-latency): süreleri sonuç ve örnek sayısıyla birlikte karşılaştırın.
+- [OpenTelemetry’ye aktarın](https://pulse.reviseflow.io/tr/blog/mcp-opentelemetry): handler span’ini ve provider yaşam döngüsünü ayrı doğrulayın.
+
+[Pulse blogunda](https://pulse.reviseflow.io/tr/blog) uygulama rehberleri bulunur. [Cloud demosu](https://pulse.reviseflow.io/tr/demo) etiketlenmiş sentetik veri kullanır ve hesap gerektirmez. Yönetilen saklama ve ekip erişimi için [Cloud kurulumunu](https://pulse.reviseflow.io/tr/docs) ve [güncel fiyatları](https://pulse.reviseflow.io/tr/pricing) inceleyin. Yerel SDK kullanımı ücretsiz ve bağımsız kalır; paket kurulumu Cloud aboneliği başlatmaz.
 
 ## Belgeler
 

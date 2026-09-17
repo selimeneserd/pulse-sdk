@@ -27,14 +27,17 @@
   "peerDependencies": {
     "@modelcontextprotocol/server": "2.0.0"
   },
-  "description": "Cloud-optional metadata-only analytics for observed MCP tool handlers.",
+  "description": "MIT TypeScript SDK for content-free MCP tool analytics and monitoring. / İçerik toplamayan MCP araç analitiği ve izleme SDK’sı.",
   "homepage": "https://github.com/selimeneserd/pulse-sdk#readme",
   "keywords": [
     "mcp",
     "analytics",
     "model-context-protocol",
     "pulse",
-    "telemetry"
+    "telemetry",
+    "monitoring",
+    "observability",
+    "typescript"
   ],
   "publishConfig": {
     "access": "public",

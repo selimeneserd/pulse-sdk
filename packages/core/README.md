@@ -55,3 +55,11 @@ Yukarıdaki npm komutuyla tam 0.2.1 sürümünü kurun. Bellek örneği açıkç
 Exporter açıkça seçilir; yerel kullanım için hesap, anahtar veya ağ gerekmez. Eksik exporter diagnostics'te görünür. Kuyruk ve yeniden denemeler sınırlıdır; handler tamamlanması tam MCP veya iş başarısı değildir. Ham içerik alınmaz, HMAC anonimlik sağlamaz ve atılan olaylar geri getirilemez.
 
 0.2.1, dispatcher, conformance ve normalize HTTP yanıtında aynı güvenli exporter sonucu doğrulamasını kullanır. `Retry-After` alt sınırı korunur; dispatcher sınırını aşan beklemede olaylar erken yeniden denenmek yerine sınırlı politikayla atılır. Kısmi kabul ve yinelenen olayların anlamı değişmez. 0.2.0’dan geçişte migration gerekmez.
+
+## Practical guides / Uygulamalı rehberler
+
+[English guides](https://pulse.reviseflow.io/en/blog) · [Türkçe rehberler](https://pulse.reviseflow.io/tr/blog) · [Local SDK source / Yerel SDK kaynağı](https://github.com/selimeneserd/pulse-sdk#run-locally)
+
+The MIT SDK works independently of the proprietary Cloud service. Explore the [labelled Cloud demo](https://pulse.reviseflow.io/en/demo) when shared views and managed retention become useful; package installation does not create a subscription.
+
+MIT SDK, kapalı kaynak Cloud servisinden bağımsızdır. Ortak görünümler ve yönetilen saklama gerektiğinde [etiketlenmiş Cloud demosunu](https://pulse.reviseflow.io/tr/demo) inceleyin; paket kurulumu abonelik oluşturmaz.

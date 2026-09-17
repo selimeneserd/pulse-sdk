@@ -61,3 +61,11 @@ Sunucuyu araç kaydından **önce** sarmalayın; mevcut transport ile bağlayın
 Kurulum hataları varsayılan olarak uygulamayı bozmaz; `strict: true` ile geliştirme sırasında hata alınabilir. `enabled: false` sunucuyu yamalamaz. Ölçüm, handler tamamlanmasını temsil eder; tam MCP veya iş başarısı iddia etmez. CLI stderr kullanır, dosyaları habersiz ezmez ve `--locale tr` seçeneğini destekler.
 
 [Türkçe başlangıç](https://github.com/selimeneserd/pulse-sdk/blob/main/README.tr.md) · [Gizlilik ve yaşam döngüsü](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/privacy-lifecycle.md)
+
+## Practical guides / Uygulamalı rehberler
+
+[English guides](https://pulse.reviseflow.io/en/blog) · [Türkçe rehberler](https://pulse.reviseflow.io/tr/blog) · [Local SDK source / Yerel SDK kaynağı](https://github.com/selimeneserd/pulse-sdk#run-locally)
+
+The MIT SDK works independently of the proprietary Cloud service. Explore the [labelled Cloud demo](https://pulse.reviseflow.io/en/demo) when shared views and managed retention become useful; package installation does not create a subscription.
+
+MIT SDK, kapalı kaynak Cloud servisinden bağımsızdır. Ortak görünümler ve yönetilen saklama gerektiğinde [etiketlenmiş Cloud demosunu](https://pulse.reviseflow.io/tr/demo) inceleyin; paket kurulumu abonelik oluşturmaz.

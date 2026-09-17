@@ -41,14 +41,17 @@
     "build": "node ../../scripts/generate-contracts.mjs && tsc -p tsconfig.json",
     "prepack": "pnpm run build"
   },
-  "description": "Bounded, metadata-only analytics exporter for observed MCP tool handler calls.",
+  "description": "Explicit local and HTTP exporters for bounded MCP metadata analytics. / Sınırlı MCP metaveri analitiği için yerel ve HTTP exporter’ları.",
   "homepage": "https://github.com/selimeneserd/pulse-sdk#readme",
   "keywords": [
     "mcp",
     "analytics",
     "model-context-protocol",
     "pulse",
-    "telemetry"
+    "telemetry",
+    "monitoring",
+    "observability",
+    "typescript"
   ],
   "publishConfig": {
     "access": "public",

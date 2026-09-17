@@ -53,3 +53,11 @@ Yalnızca izinli handler metadata'sı INTERNAL span olarak aktarılır. Handler 
 Tekrar önbelleği varsayılan olarak son 1.000 ID ile sınırlıdır. Aynı ID/gövde tekrar sayılır; farklı gövde `EVENT_ID_CONFLICT` döndürür. Başarısız teslimin tekrarı başarılı alındı sayılmaz. Olay gövdeleri yerine Node kripto API'siyle sabit boyutlu SHA-256 parmak izleri tutulur.
 
 JavaScript'in temsil edemediği zamanlar, artık saniye dahil, `INVALID_EVENT` döndürür; güncel saatle yedek veri üretilmez. Bu paket Node.js içindir, mevcut span'lardan ters veri alımı uygulanmamıştır. Kalıcı veya exactly-once teslim garantisi yoktur.
+
+## Practical guides / Uygulamalı rehberler
+
+[English guides](https://pulse.reviseflow.io/en/blog) · [Türkçe rehberler](https://pulse.reviseflow.io/tr/blog) · [Local SDK source / Yerel SDK kaynağı](https://github.com/selimeneserd/pulse-sdk#run-locally)
+
+The MIT SDK works independently of the proprietary Cloud service. Explore the [labelled Cloud demo](https://pulse.reviseflow.io/en/demo) when shared views and managed retention become useful; package installation does not create a subscription.
+
+MIT SDK, kapalı kaynak Cloud servisinden bağımsızdır. Ortak görünümler ve yönetilen saklama gerektiğinde [etiketlenmiş Cloud demosunu](https://pulse.reviseflow.io/tr/demo) inceleyin; paket kurulumu abonelik oluşturmaz.

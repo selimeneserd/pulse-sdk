@@ -1,5 +1,28 @@
 # SDK delivery status / SDK teslim durumu
 
+## Organic discovery implementation — 2026-09-17 / Organik keşif çalışması
+
+EN/TR README paths now explain the local SDK, verified tutorials and optional
+Cloud handoff. Package descriptions and keywords identify MCP analytics,
+monitoring, TypeScript and optional OpenTelemetry. GitHub About/topics were
+updated with the same scope. Existing live guide URLs are used; no README points
+to the new Cloud SDK route before deployment. No runtime, dependency, version,
+license or public API changed; no Cloud source was copied into this public repo.
+
+- Node 24.20.0 / pnpm 11.22.0: `pnpm check` passed **205 tests**, build/typecheck,
+  core boundaries, conformance and **12 identity vectors**.
+- `pnpm verify:pack` passed **106 commands** against all three packages, including
+  package contents, metadata, real consumer examples, CLI and offline publication
+  dry-runs. [Sanitized evidence](docs/evidence/seo-pack-20260917.json).
+- npm publication and production deployment were not performed. Registry 0.2.1
+  retains its previously published bytes; edited package metadata requires a
+  separately authorized future release. The supported Node matrix is unchanged;
+  this task's local run used 24.20.0, with the CI matrix checked after push.
+
+**TR:** EN/TR rehber bağlantıları, paket açıklamaları/anahtar kelimeleri ve GitHub
+keşif bilgileri güncellendi. 205 test ve 106 paket tüketim komutu geçti. SDK MIT
+ve Cloud’dan bağımsız kaldı. npm yayını veya üretim deploy’u yapılmadı.
+
 ## 0.2.1 published and verified — 2026-09-12 / Yayımlandı ve doğrulandı
 
 **All three MIT packages are published on npm as 0.2.1 (`latest`).** The owner authorized Git delivery, publication, README updates and deployment. [Source commit `2756fcd`](https://github.com/selimeneserd/pulse-sdk/commit/2756fcd6310636632c4c7c0b8e244a6e0d601ae8) is pushed; [CI 34676226310](https://github.com/selimeneserd/pulse-sdk/actions/runs/34676226310) passed on Ubuntu with Node 24.11.1 and 24.20.0. The [v0.2.1 release](https://github.com/selimeneserd/pulse-sdk/releases/tag/v0.2.1) includes the final documentation and receipts; package bytes derive from that tested source commit.

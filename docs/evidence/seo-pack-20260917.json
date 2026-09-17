@@ -1,0 +1,48 @@
+{
+  "gate": "LOCAL_PACKED_CONSUMER",
+  "status": "PASSED",
+  "started_at": "2026-09-17T12:53:39.788Z",
+  "finished_at": "2026-09-17T12:53:57.371Z",
+  "node": "v24.20.0",
+  "platform": "darwin",
+  "arch": "arm64",
+  "package_manager": "11.22.0",
+  "npm": "11.19.0",
+  "publication_performed": false,
+  "production_deployment_performed": false,
+  "collector_boundary": "Ephemeral loopback HTTP test collector and local memory/JSONL; no Cloud ingestion claim.",
+  "commands_passed": 106,
+  "packages": [
+    {
+      "name": "@reviseflow/pulse-core",
+      "version": "0.2.1",
+      "sha256": "a4d246c36c69fc0dd41519a99db5cbecb2eb097231f491c1e0c49e68cc163f76",
+      "dry_run_matches_archive": true,
+      "publish_dry_run_offline_passed": true,
+      "entrypoints_types_bin_and_metadata_passed": true,
+      "allowlist_passed": true,
+      "scoped_secret_and_private_source_scan_passed": true
+    },
+    {
+      "name": "@reviseflow/pulse",
+      "version": "0.2.1",
+      "sha256": "d95b1cb00de9a1f54659a49d29cbfa0a4d646f960bca2bbfd1cc01a40d60509f",
+      "dry_run_matches_archive": true,
+      "publish_dry_run_offline_passed": true,
+      "entrypoints_types_bin_and_metadata_passed": true,
+      "allowlist_passed": true,
+      "scoped_secret_and_private_source_scan_passed": true
+    },
+    {
+      "name": "@reviseflow/pulse-otel",
+      "version": "0.2.1",
+      "sha256": "224b58077c4b95fbedb7139c53e2305b818978d84cd8921f656697898057e02a",
+      "dry_run_matches_archive": true,
+      "publish_dry_run_offline_passed": true,
+      "entrypoints_types_bin_and_metadata_passed": true,
+      "allowlist_passed": true,
+      "scoped_secret_and_private_source_scan_passed": true
+    }
+  ],
+  "note": "Local source packaging proof. These archives were not published and are not the previously published npm 0.2.1 bytes."
+}

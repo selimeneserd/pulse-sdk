@@ -1,4 +1,4 @@
-# Pulse SDK
+# Pulse SDK — MCP analytics for TypeScript
 
 Open-source analytics for MCP tool handlers. Observe calls locally, then send the same metadata to your own collector or an optional managed backend.
 
@@ -101,6 +101,15 @@ Validate required configuration in your application and keep write keys out of t
 Pulse does not collect raw arguments, results, prompts, error messages, stacks, headers or arbitrary properties. Tool and release names can still reveal business information: map or exclude sensitive labels. Optional HMAC identity is pseudonymous and linkable, not anonymous.
 
 Queues, byte budgets and retries are bounded. Export failure does not replace a handler result. Auth recovery uses `reconfigure({ exporter })` or `resume()` on the existing instance; dropped events do not return. Pulse is best-effort analytics, not a durable audit ledger or an exactly-once delivery system.
+
+## Learn through a real MCP workflow
+
+- [Build and verify a first TypeScript MCP server](https://pulse.reviseflow.io/en/blog/what-is-mcp): pinned dependencies, a real client call and local JSONL.
+- [Debug with MCP Inspector](https://pulse.reviseflow.io/en/blog/mcp-inspector-guide): distinguish protocol discovery from observed handler usage.
+- [Investigate handler latency](https://pulse.reviseflow.io/en/blog/mcp-latency): compare durations with outcomes and sample counts.
+- [Export to OpenTelemetry](https://pulse.reviseflow.io/en/blog/mcp-opentelemetry): verify the handler span and provider lifecycle separately.
+
+The [Pulse journal](https://pulse.reviseflow.io/en/blog) has implementation guides. The [Cloud demo](https://pulse.reviseflow.io/en/demo) uses labelled synthetic data and needs no account. For managed retention and team access, review [Cloud setup](https://pulse.reviseflow.io/en/docs) and [current pricing](https://pulse.reviseflow.io/en/pricing). Local SDK use remains free and independent; installing a package does not start a Cloud subscription.
 
 ## Documentation
 
