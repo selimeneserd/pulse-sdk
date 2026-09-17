@@ -1,29 +1,38 @@
 # SDK delivery status / SDK teslim durumu
 
 
-## 0.2.2 release prepared — 2026-09-17 / Yayın hazırlandı
+## 0.2.2 published and verified — 2026-09-17 / Yayımlandı ve doğrulandı
 
-Owner authorized npm publication and the separate Cloud deployment. EN/TR root
-and package READMEs, package manifests and generated version metadata now align
-at **0.2.2**. Runtime behavior, public API, wire schema, dependencies and the
-supported matrix are unchanged from 0.2.1, apart from reported package versions.
+**All three MIT packages are published as 0.2.2 (`latest`).** Artifact source
+`f4b77537dacb8aa9cea0a06bc6eca3aee8afa289` passed
+[CI 35235187160](https://github.com/selimeneserd/pulse-sdk/actions/runs/35235187160)
+on Node 24.11.1 and 24.20.0. The [v0.2.2 release](https://github.com/selimeneserd/pulse-sdk/releases/tag/v0.2.2)
+points to that exact source. [Publication and integrity ledger](docs/evidence/npm-release-0.2.2-20260917.json).
 
-- Node **24.11.1 and 24.20.0**: **205 tests each**, build, types, contracts,
-  boundaries, conformance and 12 identity vectors passed.
-- **106 packed-consumer commands per runtime** passed; all three archive hashes
-  are identical across runtimes. Archive allowlists, metadata, MIT boundaries,
-  CLI, real MCP, OTel and offline publish dry-runs passed.
-- [Preparation receipt](docs/evidence/release-0.2.2-preparation-20260917.json).
-  CI, npm authentication/publication and registry consumer verification are the
-  remaining release gates. The existing npm session expired; the owner completes
-  npm's security-key authentication. No security settings are weakened.
-- The lower Node runtime was not initially installed on this Mac; the first
-  invocation stopped before testing. After installing official Node 24.11.1,
-  its complete check and packed-consumer run passed.
+- **205 tests per runtime**, build, types, contracts, boundaries, conformance and
+  12 identity vectors passed. The lower Node runtime was initially absent on this
+  Mac; its full checks passed after official Node 24.11.1 was installed.
+- **106 packed-consumer commands and 106 registry-consumer commands per runtime**
+  passed. All three archive hashes are identical across the runtime matrix and
+  match npm. Both registry `latest` tags and exact versions were independently read.
+- Publication submissions used the verified core, MCP and optional OTel archives.
+  Core became registry-accessible with matching integrity before dependent
+  publication authentication. npm asynchronously processed core/MCP; no duplicate
+  publication was attempted while waiting for registry availability.
+- The existing npm owner session was renewed with its existing passkey. Normal
+  package MFA was retained; the optional challenge cooldown was not enabled.
+  No Cloud source, credentials or private telemetry were published.
 
-**TR:** 0.2.2 yayını yetkilendirildi; iki Node sürümünde 205'er test ve 106'şar
-paket tüketim komutu geçti. API veya bağımlılık değişikliği yoktur. Bu kayıt
-hazırlık kanıtıdır; npm yayını ve Cloud deploy'u ayrı sonuçlarla doğrulanır.
+EN/TR guidance and npm discovery metadata are updated. Runtime behavior, public
+API, wire schema, third-party dependencies and the compatibility matrix are
+unchanged from 0.2.1, apart from reported package-version values. No migration is
+required. Cloud deployment evidence belongs to the separate private repository.
+This receipt-only follow-up changes no published archive bytes.
+
+**TR:** Üç MIT paket npm'de **0.2.2 / latest** olarak yayımlandı. İki Node
+sürümünde 205'er test, 106'şar paket ve 106'şar registry tüketim komutu geçti;
+arşiv bütünlükleri eşleşti. GitHub sürümü doğrulanan kaynağa işaret eder. Mevcut
+geçiş anahtarı kullanıldı; güvenlik ayarları ve API değişmedi. Cloud ayrı ve özeldir.
 
 ## Organic discovery implementation — 2026-09-17 / Organik keşif çalışması
 

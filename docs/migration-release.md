@@ -2,6 +2,10 @@
 
 ## 0.2.2 documentation release / 0.2.2 belge yayını
 
+**Published and registry-verified on both supported Node versions.** See the
+[release ledger](evidence/npm-release-0.2.2-20260917.json). **TR:** Yayımlandı;
+iki Node sürümünde gerçek registry tüketicileri ve arşiv bütünlükleri doğrulandı.
+
 Owner-authorized release preparation on 2026-09-17. All three package versions
 align at 0.2.2. This patch updates EN/TR documentation and discovery metadata;
 only generated package-version values change in runtime code. There is no API,

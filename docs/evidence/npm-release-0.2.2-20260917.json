@@ -1,0 +1,68 @@
+{
+  "date": "2026-09-17",
+  "status": "PUBLISHED_AND_VERIFIED",
+  "artifactSourceCommit": "f4b77537dacb8aa9cea0a06bc6eca3aee8afa289",
+  "authorization": "Owner explicitly requested deployment and npm publication.",
+  "packages": [
+    {
+      "name": "@reviseflow/pulse-core",
+      "version": "0.2.2",
+      "archive": "artifacts/packed-77OEHB/reviseflow-pulse-core-0.2.2.tgz",
+      "sha256": "13580fb5d0ccffb2d5f8d6b4be844d6266247e85613cc39a7af848e42dd0c5f6",
+      "integrity": "sha512-0KLmUV3zE3SYXh5Qn1CWz3o9lb2OhBmHYIUt+We1Ju8S+Bh/ffLzRICo8xvKHJUjbYDpqU8hctGDpc+IkFW0hQ==",
+      "tarball": "https://registry.npmjs.org/@reviseflow/pulse-core/-/pulse-core-0.2.2.tgz",
+      "publishedAt": "2026-09-17T14:45:41.603Z",
+      "tag": "latest",
+      "published": true
+    },
+    {
+      "name": "@reviseflow/pulse",
+      "version": "0.2.2",
+      "archive": "artifacts/packed-77OEHB/reviseflow-pulse-0.2.2.tgz",
+      "sha256": "b207f60c0d5ce5b58671f20f7261e11b665346be1fc11280866bd6373ccde18e",
+      "integrity": "sha512-KKgx4eVXxRWHPdA5mYaZbUI6TwKvngx1Sf65nN4ZqUziDEs7EHoKRUII7vJik4pEi9Iqsw5I3Q/dquasBs4RjQ==",
+      "tarball": "https://registry.npmjs.org/@reviseflow/pulse/-/pulse-0.2.2.tgz",
+      "publishedAt": "2026-09-17T14:50:39.798Z",
+      "tag": "latest",
+      "published": true
+    },
+    {
+      "name": "@reviseflow/pulse-otel",
+      "version": "0.2.2",
+      "archive": "artifacts/packed-77OEHB/reviseflow-pulse-otel-0.2.2.tgz",
+      "sha256": "a95e21cc0326699132ad23bc27d83719d8a109ef0e69ddc934a28a03d944e3ed",
+      "integrity": "sha512-TovI5/Llu7zF5Q8T0APfMfqR5GW3QxNo1DkITFvU8Fo7Xf943kdlh+GK3YTFkMiMZaNNyffXOVYRR0q6Q2uV5A==",
+      "tarball": "https://registry.npmjs.org/@reviseflow/pulse-otel/-/pulse-otel-0.2.2.tgz",
+      "publishedAt": "2026-09-17T14:47:59.396Z",
+      "tag": "latest",
+      "published": true
+    }
+  ],
+  "localTestsPassedEach": 205,
+  "localPackedCommandsPassedEach": 106,
+  "registryConsumers": [
+    {
+      "node": "24.11.1",
+      "commandsPassed": 106,
+      "exactRegistryIntegrityPassed": true
+    },
+    {
+      "node": "24.20.0",
+      "commandsPassed": 106,
+      "exactRegistryIntegrityPassed": true
+    }
+  ],
+  "ci": {
+    "url": "https://github.com/selimeneserd/pulse-sdk/actions/runs/35235187160",
+    "headSha": "f4b77537dacb8aa9cea0a06bc6eca3aee8afa289",
+    "conclusion": "success",
+    "nodeMatrix": [
+      "24.11.1",
+      "24.20.0"
+    ]
+  },
+  "authentication": "Existing npm owner session renewed with existing passkey; normal package publication MFA; cooldown opt-in not selected.",
+  "securitySettingsChanged": false,
+  "cloudSourcePublished": false,
+  "githubRelease": "https://github.com/selimeneserd/pulse-sdk/releases/tag/v0.2.2"
+}
