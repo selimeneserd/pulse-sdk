@@ -1,5 +1,13 @@
 # Changelog / Değişiklik günlüğü
 
+## 0.2.2 — 2026-09-17
+
+- Improve English/Turkish package guides, practical MCP learning links and the optional Cloud handoff.
+- Expand npm descriptions and keywords for MCP analytics, monitoring and observability discovery.
+- Align all three packages and generated version metadata at 0.2.2. Runtime behavior, APIs, wire schema, dependencies and the exact compatibility matrix are unchanged from 0.2.1; no migration is required.
+
+TR: EN/TR paket rehberleri, uygulamalı MCP bağlantıları, isteğe bağlı Cloud geçişi ve npm keşif bilgileri geliştirildi. Üç paket 0.2.2 sürümünde hizalandı. Bildirilen sürüm dışında çalışma zamanı davranışı, API, wire şeması, bağımlılıklar ve uyumluluk matrisi değişmedi; migration gerekmez.
+
 ## 0.2.1 — 2026-09-12
 
 - Share one safe exporter-result snapshot between dispatcher, conformance smoke and normalized HTTP acknowledgements. Smoke no longer passes results already invalid at runtime; partial/duplicate semantics are unchanged.

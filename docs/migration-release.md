@@ -1,5 +1,20 @@
 # Migration and release preparation / Geçiş ve yayın hazırlığı
 
+## 0.2.2 documentation release / 0.2.2 belge yayını
+
+Owner-authorized release preparation on 2026-09-17. All three package versions
+align at 0.2.2. This patch updates EN/TR documentation and discovery metadata;
+only generated package-version values change in runtime code. There is no API,
+wire, dependency or compatibility-matrix change from 0.2.1 and no migration.
+Publish the exact verified archives in core → MCP → optional OTel order, then
+verify registry integrity and clean consumers on Node 24.11.1 and 24.20.0.
+Publication status is recorded in BUILD_STATUS.md; preparation is not publication.
+
+**TR:** 17 Eylül 2026 tarihinde sahibi tarafından yetkilendirilen 0.2.2 yayını,
+EN/TR belgeleri ve keşif bilgilerini günceller. Paket sürümü dışında çalışma zamanı
+değişmez; 0.2.1'den migration gerekmez. Doğrulanmış arşivler sırayla yayımlanır;
+registry bütünlüğü ve iki Node sürümündeki gerçek tüketiciler ayrıca doğrulanır.
+
 ## 0.2.1 correctness patch / Doğruluk yaması — 2026-09-12
 
 0.2.1 is published on npm as `latest` for core, MCP and optional OpenTelemetry with owner authorization. Exact archive integrity and clean registry consumers passed on Node 24.11.1 and 24.20.0; [BUILD_STATUS.md](../BUILD_STATUS.md) records the release's exact source, local gates, CI and publication evidence. The earlier `evidence/correctness-baseline-20260912.json` records the starting registry state, when all three packages were 0.2.0; it is historical evidence, not the current release status.

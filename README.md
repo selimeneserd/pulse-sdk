@@ -4,12 +4,12 @@ Open-source analytics for MCP tool handlers. Observe calls locally, then send th
 
 [**Türkçe**](README.tr.md) · [Local quickstart](#run-locally) · [Documentation](#documentation) · [Contributing](CONTRIBUTING.md)
 
-> **Version 0.2.1:** `@reviseflow/pulse`, `@reviseflow/pulse-core` and optional `@reviseflow/pulse-otel`. This patch keeps the 0.2 API; no migration is needed from 0.2.0. Upgrading from 0.1.0 requires an explicit exporter: read the [migration guide](docs/migration-release.md).
+> **Version 0.2.2:** `@reviseflow/pulse`, `@reviseflow/pulse-core` and optional `@reviseflow/pulse-otel`. This patch keeps the 0.2 API; no migration is needed from 0.2.0. Upgrading from 0.1.0 requires an explicit exporter: read the [migration guide](docs/migration-release.md).
 
-0.2.1 aligns conformance with runtime exporter validation, fixes the installed CLI and hoisted MCP resolution, and preserves collector `Retry-After` minimums. If the minimum exceeds the dispatcher's configured delay limit, the pending events are dropped under its bounded policy instead of retried early. See the [changelog](CHANGELOG.md).
+0.2.2 improves the English/Turkish package guides, practical learning paths and npm discovery metadata. Runtime behavior, public APIs, wire contracts and dependencies are unchanged from 0.2.1, apart from the reported package version. See the [changelog](CHANGELOG.md).
 
 ```sh
-npm install --save-exact @reviseflow/pulse@0.2.1 @reviseflow/pulse-core@0.2.1 @modelcontextprotocol/server@2.0.0
+npm install --save-exact @reviseflow/pulse@0.2.2 @reviseflow/pulse-core@0.2.2 @modelcontextprotocol/server@2.0.0
 ```
 
 ## Run locally

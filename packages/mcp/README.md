@@ -2,14 +2,14 @@
 
 The MIT-licensed MCP adapter for Pulse. Observe tool handlers through the official MCP **2.0.0** public registration API, with a local or explicitly selected exporter.
 
-**Version 0.2.1 · MIT · Node.js 24 ESM.** The API requires an explicit exporter. [Migrate from 0.1.0](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/migration-release.md) before upgrading an existing integration.
+**Version 0.2.2 · MIT · Node.js 24 ESM.** The API requires an explicit exporter. [Migrate from 0.1.0](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/migration-release.md) before upgrading an existing integration.
 
-**TR:** **0.2.1 · MIT · Node.js 24 ESM.** API açık bir exporter gerektirir; mevcut 0.1.0 kurulumu için önce geçiş rehberini okuyun.
+**TR:** **0.2.2 · MIT · Node.js 24 ESM.** API açık bir exporter gerektirir; mevcut 0.1.0 kurulumu için önce geçiş rehberini okuyun.
 
 ## Install / Kurulum
 
 ```sh
-npm install --save-exact @reviseflow/pulse@0.2.1 @reviseflow/pulse-core@0.2.1 @modelcontextprotocol/server@2.0.0
+npm install --save-exact @reviseflow/pulse@0.2.2 @reviseflow/pulse-core@0.2.2 @modelcontextprotocol/server@2.0.0
 ```
 
 Check the [compatibility guide](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/compatibility.md) before changing an existing project's MCP version. Pulse does not upgrade it for you.
@@ -40,9 +40,9 @@ Events describe observed **handler completions**, not full MCP request outcomes 
 
 ## Local CLI
 
-Version 0.2.1 provides the `pulse` executable through npm's installed bin symlink. MCP checks use the target project's default Node ESM resolution, including hoisted installations and import-only exports. A broken or unsupported nearest package stays visible as a diagnostic; Pulse does not silently select another version.
+Version 0.2.2 provides the `pulse` executable through npm's installed bin symlink. MCP checks use the target project's default Node ESM resolution, including hoisted installations and import-only exports. A broken or unsupported nearest package stays visible as a diagnostic; Pulse does not silently select another version.
 
-TR: 0.2.1, npm'nin kurduğu komut symlink'i üzerinden `pulse` komutunu çalıştırır. MCP kontrolü, hoisted kurulumlar ve yalnız import export'ları dahil hedef projenin varsayılan Node ESM çözümlemesini kullanır. En yakın paket bozuksa veya desteklenmiyorsa bu durum diagnostics'te gösterilir; başka sürüm sessizce seçilmez.
+TR: 0.2.2, npm'nin kurduğu komut symlink'i üzerinden `pulse` komutunu çalıştırır. MCP kontrolü, hoisted kurulumlar ve yalnız import export'ları dahil hedef projenin varsayılan Node ESM çözümlemesini kullanır. En yakın paket bozuksa veya desteklenmiyorsa bu durum diagnostics'te gösterilir; başka sürüm sessizce seçilmez.
 
 ```sh
 npx --no-install pulse init --dry-run

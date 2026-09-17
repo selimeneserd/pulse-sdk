@@ -1,0 +1,92 @@
+{
+  "recordedAt": "2026-09-17",
+  "status": "LOCAL_RELEASE_GATES_PASSED",
+  "publicationPerformed": false,
+  "authorization": "Owner explicitly requested deployment and npm publication.",
+  "checks": [
+    {
+      "node": "24.11.1",
+      "testsPassed": 205,
+      "contractsBuildTypesBoundariesConformanceIdentityPassed": true,
+      "packedConsumerCommandsPassed": 106,
+      "packages": [
+        {
+          "name": "@reviseflow/pulse-core",
+          "version": "0.2.2",
+          "archive": "artifacts/packed-HeaHUK/reviseflow-pulse-core-0.2.2.tgz",
+          "sha256": "13580fb5d0ccffb2d5f8d6b4be844d6266247e85613cc39a7af848e42dd0c5f6",
+          "dry_run_matches_archive": true,
+          "publish_dry_run_offline_passed": true,
+          "entrypoints_types_bin_and_metadata_passed": true,
+          "allowlist_passed": true,
+          "scoped_secret_and_private_source_scan_passed": true
+        },
+        {
+          "name": "@reviseflow/pulse",
+          "version": "0.2.2",
+          "archive": "artifacts/packed-HeaHUK/reviseflow-pulse-0.2.2.tgz",
+          "sha256": "b207f60c0d5ce5b58671f20f7261e11b665346be1fc11280866bd6373ccde18e",
+          "dry_run_matches_archive": true,
+          "publish_dry_run_offline_passed": true,
+          "entrypoints_types_bin_and_metadata_passed": true,
+          "allowlist_passed": true,
+          "scoped_secret_and_private_source_scan_passed": true
+        },
+        {
+          "name": "@reviseflow/pulse-otel",
+          "version": "0.2.2",
+          "archive": "artifacts/packed-HeaHUK/reviseflow-pulse-otel-0.2.2.tgz",
+          "sha256": "a95e21cc0326699132ad23bc27d83719d8a109ef0e69ddc934a28a03d944e3ed",
+          "dry_run_matches_archive": true,
+          "publish_dry_run_offline_passed": true,
+          "entrypoints_types_bin_and_metadata_passed": true,
+          "allowlist_passed": true,
+          "scoped_secret_and_private_source_scan_passed": true
+        }
+      ]
+    },
+    {
+      "node": "24.20.0",
+      "testsPassed": 205,
+      "contractsBuildTypesBoundariesConformanceIdentityPassed": true,
+      "packedConsumerCommandsPassed": 106,
+      "packages": [
+        {
+          "name": "@reviseflow/pulse-core",
+          "version": "0.2.2",
+          "archive": "artifacts/packed-77OEHB/reviseflow-pulse-core-0.2.2.tgz",
+          "sha256": "13580fb5d0ccffb2d5f8d6b4be844d6266247e85613cc39a7af848e42dd0c5f6",
+          "dry_run_matches_archive": true,
+          "publish_dry_run_offline_passed": true,
+          "entrypoints_types_bin_and_metadata_passed": true,
+          "allowlist_passed": true,
+          "scoped_secret_and_private_source_scan_passed": true
+        },
+        {
+          "name": "@reviseflow/pulse",
+          "version": "0.2.2",
+          "archive": "artifacts/packed-77OEHB/reviseflow-pulse-0.2.2.tgz",
+          "sha256": "b207f60c0d5ce5b58671f20f7261e11b665346be1fc11280866bd6373ccde18e",
+          "dry_run_matches_archive": true,
+          "publish_dry_run_offline_passed": true,
+          "entrypoints_types_bin_and_metadata_passed": true,
+          "allowlist_passed": true,
+          "scoped_secret_and_private_source_scan_passed": true
+        },
+        {
+          "name": "@reviseflow/pulse-otel",
+          "version": "0.2.2",
+          "archive": "artifacts/packed-77OEHB/reviseflow-pulse-otel-0.2.2.tgz",
+          "sha256": "a95e21cc0326699132ad23bc27d83719d8a109ef0e69ddc934a28a03d944e3ed",
+          "dry_run_matches_archive": true,
+          "publish_dry_run_offline_passed": true,
+          "entrypoints_types_bin_and_metadata_passed": true,
+          "allowlist_passed": true,
+          "scoped_secret_and_private_source_scan_passed": true
+        }
+      ]
+    }
+  ],
+  "archivesIdenticalAcrossNodeMatrix": true,
+  "scope": "EN/TR documentation and discovery metadata; generated reported package version only, no API, behavior, wire or dependency change."
+}

@@ -1,5 +1,30 @@
 # SDK delivery status / SDK teslim durumu
 
+
+## 0.2.2 release prepared — 2026-09-17 / Yayın hazırlandı
+
+Owner authorized npm publication and the separate Cloud deployment. EN/TR root
+and package READMEs, package manifests and generated version metadata now align
+at **0.2.2**. Runtime behavior, public API, wire schema, dependencies and the
+supported matrix are unchanged from 0.2.1, apart from reported package versions.
+
+- Node **24.11.1 and 24.20.0**: **205 tests each**, build, types, contracts,
+  boundaries, conformance and 12 identity vectors passed.
+- **106 packed-consumer commands per runtime** passed; all three archive hashes
+  are identical across runtimes. Archive allowlists, metadata, MIT boundaries,
+  CLI, real MCP, OTel and offline publish dry-runs passed.
+- [Preparation receipt](docs/evidence/release-0.2.2-preparation-20260917.json).
+  CI, npm authentication/publication and registry consumer verification are the
+  remaining release gates. The existing npm session expired; the owner completes
+  npm's security-key authentication. No security settings are weakened.
+- The lower Node runtime was not initially installed on this Mac; the first
+  invocation stopped before testing. After installing official Node 24.11.1,
+  its complete check and packed-consumer run passed.
+
+**TR:** 0.2.2 yayını yetkilendirildi; iki Node sürümünde 205'er test ve 106'şar
+paket tüketim komutu geçti. API veya bağımlılık değişikliği yoktur. Bu kayıt
+hazırlık kanıtıdır; npm yayını ve Cloud deploy'u ayrı sonuçlarla doğrulanır.
+
 ## Organic discovery implementation — 2026-09-17 / Organik keşif çalışması
 
 EN/TR README paths now explain the local SDK, verified tutorials and optional
