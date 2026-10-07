@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-07",
+  "package": "@reviseflow/pulse-core@0.3.0",
+  "status": "PASSED",
+  "runtimes": [
+    {
+      "runtime": "24.11.1",
+      "passed": true,
+      "memory": true,
+      "jsonl": true,
+      "missingPreserved": true,
+      "zeroPreserved": true,
+      "handlerCountUnaffected": true
+    },
+    {
+      "runtime": "24.20.0",
+      "passed": true,
+      "memory": true,
+      "jsonl": true,
+      "missingPreserved": true,
+      "zeroPreserved": true,
+      "handlerCountUnaffected": true
+    }
+  ],
+  "mcpInstalled": false,
+  "cloudAccountOrKeyRequired": false,
+  "providerSdkRequired": false
+}

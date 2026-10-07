@@ -1,0 +1,67 @@
+{
+  "date": "2026-10-07",
+  "status": "PUBLISHED_AND_CLEAN_REGISTRY_CONSUMERS_VERIFIED",
+  "ownerAuthorizedPublication": true,
+  "sourceCommit": "3684011d71e93021a29e86d500aa428afcfb5ae2",
+  "sourceCi": "https://github.com/selimeneserd/pulse-sdk/actions/runs/37579498833",
+  "ciStatus": "PASSED",
+  "releaseOrder": [
+    "@reviseflow/pulse-core",
+    "@reviseflow/pulse",
+    "@reviseflow/pulse-otel"
+  ],
+  "packages": [
+    {
+      "name": "@reviseflow/pulse-core",
+      "version": "0.3.0",
+      "archive": "artifacts/packed-1NkXet/reviseflow-pulse-core-0.3.0.tgz",
+      "sha256": "17d1bb1a2ab048de35f8d8368552b4c506bd1ccc6379c96637d3d671b0529cb6",
+      "integrity": "sha512-fSSC8nI7nrw+uNAA3yZybvBHRcp7Us9oqKBSH6zafR9mexc5AU9sWvXzCx06awDDCYfknV/QVtuLaC7eKGxk4A==",
+      "status": "REGISTRY_VERIFIED",
+      "verifiedAt": "2026-10-07T06:18:20.261Z",
+      "latest": "0.3.0"
+    },
+    {
+      "name": "@reviseflow/pulse",
+      "version": "0.3.0",
+      "archive": "artifacts/packed-1NkXet/reviseflow-pulse-0.3.0.tgz",
+      "sha256": "24a231e66dae9edc07d5e5c124c728edc7c0e01200e7e510802b714ba36f1ab5",
+      "integrity": "sha512-aeb7y9mi19KqgbDnNtEZjgN6YLv7dLLlJDlhSd4YwmcTs6bizO4A1ud6MA5KXsPajr1y3B5SpHQbempTdsin0w==",
+      "status": "REGISTRY_VERIFIED",
+      "verifiedAt": "2026-10-07T06:18:20.807Z",
+      "latest": "0.3.0"
+    },
+    {
+      "name": "@reviseflow/pulse-otel",
+      "version": "0.3.0",
+      "archive": "artifacts/packed-1NkXet/reviseflow-pulse-otel-0.3.0.tgz",
+      "sha256": "8909c1354b7a7bfec7b7ad5ce28e39c9b038a988d0eb4daf534e318e6c8c604c",
+      "integrity": "sha512-+CnSRICopy6x201qsem85t4mVDpo3ylegdcFN8Q3331KYTVe3KfYFcwhcoHt4sZW7vQhOPWSspbHqDFjQ2zbPw==",
+      "status": "REGISTRY_VERIFIED",
+      "verifiedAt": "2026-10-07T06:18:21.357Z",
+      "latest": "0.3.0"
+    }
+  ],
+  "privateCloudPublished": false,
+  "thirdPartyDependenciesChanged": false,
+  "authentication": {
+    "existingOwnerSessionRenewed": true,
+    "securityKeyUsed": true,
+    "unexpectedTemporaryChallengeCooldownObserved": true,
+    "followupPublicationWaitsForCooldownExpiry": true,
+    "persistentSecuritySettingsChanged": false
+  },
+  "githubRelease": "https://github.com/selimeneserd/pulse-sdk/releases/tag/v0.3.0",
+  "registryConsumers": {
+    "24.11.1": {
+      "status": "PASSED",
+      "commands": 106,
+      "receipt": "docs/evidence/token-usage-registry-node24.11.1.json"
+    },
+    "24.20.0": {
+      "status": "PASSED",
+      "commands": 106,
+      "receipt": "docs/evidence/token-usage-registry-node24.20.0.json"
+    }
+  }
+}

@@ -95,6 +95,7 @@ Zorunlu yapılandırmayı uygulamanızda doğrulayın; write key'i tarayıcıya 
 ## Pulse neyi ölçer?
 
 - **Gözlemlenen handler tamamlanmalarını** ölçer. Bütün MCP isteklerinin veya iş işlemlerinin başarılı olduğunu söylemez. Handler öncesi doğrulamalar ve handler döndükten sonraki hatalar bu sınırın dışındadır.
+- `recordUsage` ile isteğe bağlı sağlayıcı token kullanımını ayrı kaydeder; bilinmeyen sayılara sıfır atanmaz.
 - Handler süresini monotonic milisaniye olarak, tamamlanma zamanını ayrı bir wall-clock alanında tutar.
 - İsteğe bağlı, proje kapsamlı hesap pseudonym'leri üretir. Hesap bir insan demek değildir; client'ın kendi bildirdiği etiket, doğrulanmış host kimliği değildir.
 
@@ -115,6 +116,7 @@ Kuyruk, bayt bütçesi ve yeniden denemeler sınırlıdır. Exporter hatası han
 
 | Konu | Rehber |
 | --- | --- |
+| Bildirilen model token kullanımı | [Token kullanımı](docs/token-usage.md) |
 | Yerel geliştirme ve CLI | [Araçlar](docs/tooling.md) |
 | Runtime, MCP ve modül desteği | [Uyumluluk](docs/compatibility.md) |
 | Olay/collector sözleşmesi ve yeni entegrasyonlar | [Sözleşmeler](docs/contracts.md) |

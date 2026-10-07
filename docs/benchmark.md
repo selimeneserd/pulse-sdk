@@ -1,5 +1,9 @@
 # Benchmark evidence / Benchmark kanıtı
 
+0.3.0 also ran the existing 84-measurement handler/HTTP benchmark on Node 24.20.0: [receipt](evidence/token-usage-benchmark-node24.20.0.json). This checks the changed handler scope path; it does not benchmark provider calls or establish usage-event throughput. Source fingerprints are recorded, with pending receipt/docs changes explicitly dirty. Historical numeric tables below describe their original release.
+
+TR: 0.3.0 için Node 24.20.0 üzerinde mevcut 84 ölçümlü handler/HTTP benchmark çalıştı. Sağlayıcı çağrısı veya usage throughput ölçümü iddia edilmez. Eski tablolar kendi sürümlerine aittir.
+
 ## English
 
 Measured on 2026-09-11T16:31:51.892Z: Node **v24.20.0**, macOS `25.1.0`, Apple M1 arm64, 8 logical CPUs, 16 GiB RAM. The base Git SHA is `9f17526705be0ca4bbabe5a7b65e3de6f9c83dc3` with uncommitted implementation changes. The [machine-readable artifact](evidence/benchmark-20260911.json) records exact dependency versions and SHA-256 fingerprints of the benchmark and loaded SDK modules. The runner refuses to save evidence if those files change during its run.

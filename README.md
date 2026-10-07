@@ -116,6 +116,7 @@ The [Pulse journal](https://pulse.reviseflow.io/en/blog) has implementation guid
 
 | Topic | Guide |
 | --- | --- |
+| Reported model token usage | [Token usage](docs/token-usage.md) |
 | Local development and CLI | [Tooling](docs/tooling.md) |
 | Supported runtime, MCP and module formats | [Compatibility](docs/compatibility.md) |
 | Event/collector contracts and extension authoring | [Contracts](docs/contracts.md) |

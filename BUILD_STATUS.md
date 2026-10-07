@@ -1,43 +1,54 @@
 # SDK delivery status / SDK teslim durumu
 
-## 0.3.0 reported model usage — 2026-10-07 / Bildirilen model kullanımı
+## 0.3.0 published and verified — 2026-10-07 / Yayımlandı ve doğrulandı
 
-**Local final matrix passed; npm publication and registry verification pending.** The owner
-explicitly requested independent SDK implementation and npm publication, followed
-by a separate Cloud update. SDK LICENSE is MIT; Cloud LICENSE was reviewed and
-no Cloud source, credential, DB query, UI or proprietary package is included.
+**All three MIT packages are published as 0.3.0 (`latest`).** Artifact source
+`3684011d71e93021a29e86d500aa428afcfb5ae2` passed
+[CI 37579498833](https://github.com/selimeneserd/pulse-sdk/actions/runs/37579498833)
+on Node 24.11.1 and 24.20.0. [v0.3.0](https://github.com/selimeneserd/pulse-sdk/releases/tag/v0.3.0)
+points to that source. [Publication ledger](docs/evidence/npm-release-0.3.0-20261007.json).
+The owner authorized independent SDK implementation and npm publication before
+updating the separate private Cloud consumer. No Cloud source, credential,
+DB query, UI or proprietary package is included in the public SDK.
 
-- `recordUsage` accepts explicitly reported numeric usage; missing stays null,
-  cache/reasoning remain subsets, and one usage record represents one model call.
-- Handler observation/count/outcome/percentiles stay separate. Async tool scopes
-  correlate local usage without reading args/results/prompts or host usage.
-- Independent memory/JSONL/generic HTTP and optional OTel paths remain available;
-  no Cloud account, key, default collector, provider SDK or new runtime dependency.
-- Exact installed dependency baseline and planned fixtures:
-  `docs/evidence/token-usage-baseline-20261007.json`.
-- Custom exporters must narrow the new event union. Independent collectors need
-  the updated schema and sibling comparisons before enabling usage; older
-  handler records remain valid. `docs/token-usage.md` and migration guidance are EN/TR.
+- Optional `recordUsage` accepts explicitly reported numeric usage. Missing stays
+  null; cache/reasoning remain subsets. Each usage record represents one reported
+  model call, separate from handler counts, outcomes and percentiles.
+- Async tool scopes correlate local usage without inspecting args/results/prompts
+  or inferring host usage. Custom exporters must narrow the event union; collectors
+  adopt the new schema plus sibling comparisons before enabling usage.
+- Core memory/JSONL/generic HTTP and optional OTel work independently of Cloud.
+  No Cloud account, key, default collector, provider SDK or new runtime dependency.
+  A core-only registry consumer without MCP passed on both Node versions with
+  network disabled during execution.
+- **216 tests, 106 packed-consumer commands and 106 registry-consumer commands per
+  runtime** passed, including build/types/contracts/conformance, 12 identity
+  vectors, source boundaries, standalone usage, real MCP, HTTP, OTel, CLI and bundling.
+  All three archive hashes are identical across the matrix and match npm.
+- Exact installed baseline and receipts are in `docs/evidence/token-usage-*`.
+  The dated benchmark measures the handler path; it makes no usage/provider
+  throughput claim. The independent contract/semantics audit found no blocker.
+- Initial packed verification found a test-owned JSONL fixture reused across runs;
+  resetting it fixed the harness, and both final full runs passed. Two registry
+  attempts happened during npm asynchronous processing (exact metadata, then
+  install availability); failures are preserved and final clean consumers passed.
+- Existing owner authentication was renewed with its existing security key. A
+  temporary five-minute challenge cooldown was inadvertently selected during core
+  MFA. Follow-up publication waited for expiry and used normal MFA with the option
+  unchecked. No persistent security setting or credential was changed.
 
-Final local checks: **216 tests and 106 packed-consumer commands per runtime**
-on Node 24.11.1 and 24.20.0 passed, including build/types/contracts/conformance,
-12 identity vectors, source boundaries, typed public API, offline standalone
-usage through memory/JSONL, real MCP, generic loopback HTTP, OTel, CLI and bundling.
-All three archives have identical hashes across the matrix. Receipts:
-`docs/evidence/token-usage-check-node*.txt` and `token-usage-packed-node*.json`.
-The first packed run failed because the new JSONL fixture file was reused by the
-normal/bundled runs; the harness now resets that test-owned file. The first
-failure is preserved; both final full runs passed.
+There are no SDK publication blockers. EN/TR guides explain provider-reported
+usage, missing/zero semantics, exporter migration and independence. Cloud remains
+private and is updated separately after these publication gates. This receipt-only
+follow-up changes no published archive bytes and claims no Cloud production deployment.
 
-Release blockers at this checkpoint: publication, exact registry integrity and
-clean registry consumers. No npm or Cloud deployment success is
-claimed by this preparation record. Cloud remains a separate private consumer.
-
-**TR:** Bağımsız MIT SDK iki runtime üzerinde 216 test ve 106 paket tüketim
-komutunu geçti; arşiv hash’leri aynı. npm yayını ve registry doğrulaması bekliyor. Yeni kullanım isteğe bağlıdır; eksik sayılar null, handler ölçümleri
-ayrıdır. Ham içerik ve Cloud bağımlılığı eklenmedi. Yayın/registry kanıtı henüz
-iddia edilmiyor; Cloud ayrı ve özeldir.
-
+**TR:** Üç MIT paket npm'de **0.3.0 / latest** olarak yayımlandı. İki Node sürümünde
+216 test, 106 paket ve 106 registry tüketim komutu geçti; arşivler npm ile eşleşti.
+MCP olmadan core kullanım testi de geçti. Usage isteğe bağlı; eksik sayılar null,
+handler ölçümleri ayrıdır. Ham içerik veya Cloud bağımlılığı eklenmedi. MFA'da
+yanlışlıkla seçilen geçici beş dakikalık ertelemenin dolması beklendi; sonraki yayınlar
+normal MFA ile yapıldı. Kalıcı güvenlik ayarı değişmedi. Cloud ayrı ve özeldir;
+bu belge Cloud üretim deploy'u iddia etmez.
 
 ## 0.2.2 published and verified — 2026-09-17 / Yayımlandı ve doğrulandı
 

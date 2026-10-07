@@ -2,8 +2,8 @@
 
 ## 0.3.0 reported usage / Bildirilen kullanım — 2026-10-07
 
-Owner-authorized npm release in preparation; publication evidence belongs to
-BUILD_STATUS.md. All three packages align at 0.3.0; pinned third-party dependency
+Published and registry-verified on both supported Node versions; exact publication
+evidence belongs to BUILD_STATUS.md. All three packages align at 0.3.0; pinned third-party dependency
 and Node/MCP compatibility baselines remain unchanged. This is a new event kind
 and public type-union change, not an automatic update to any managed collector.
 
