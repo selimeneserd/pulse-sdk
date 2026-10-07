@@ -12,6 +12,8 @@ const valid=ajv.compile(schema);
 const events=read('contracts/fixtures/events.json').events;
 for (const event of events) { assert.equal(valid(event),true); assert.equal(validatePulseEvent(event),true); }
 for (const {event} of read('contracts/fixtures/negative-events.json')) { assert.equal(valid(event),false); assert.equal(validatePulseEvent(event),false); }
+for (const event of read('contracts/fixtures/usage-events.json').events) { assert.equal(valid(event),true); assert.equal(validatePulseEvent(event),true); }
+for (const fixture of read('contracts/fixtures/negative-usage-events.json')) { assert.equal(valid(fixture.event),fixture.schema_valid===true); assert.equal(validatePulseEvent(fixture.event),false); }
 const seen = new Set<string>();
 // Independent sink uses only the open batch interface; no core factory/private imports.
 const exporter: PulseExporter = { export(batch) { const accepted: string[]=[]; const duplicates: string[]=[]; for(const event of batch) { if(seen.has(event.event_id)) duplicates.push(event.event_id); else { seen.add(event.event_id); accepted.push(event.event_id); } } return {accepted,duplicates,rejected:[]}; } };

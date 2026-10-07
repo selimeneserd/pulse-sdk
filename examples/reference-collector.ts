@@ -29,7 +29,10 @@ export async function startReferenceCollector() {
    const accepted:string[]=[],duplicates:string[]=[],rejected:{event_id:string;code:string;retryable:false}[]=[];
    for(const event of body.events){
     const eventId=event.event_id as string;
-    if(!validate(event)){rejected.push({event_id:eventId,code:'INVALID_EVENT',retryable:false});continue;}
+    // JSON Schema validates static fields; sibling numeric subset comparisons
+    // are explicit here so this collector remains independent of Pulse runtime.
+    const subsetsValid=event.kind!=='model_usage.recorded'||((event.cached_input_tokens===null||(typeof event.input_tokens==='number'&&typeof event.cached_input_tokens==='number'&&event.cached_input_tokens<=event.input_tokens))&&(event.reasoning_output_tokens===null||(typeof event.output_tokens==='number'&&typeof event.reasoning_output_tokens==='number'&&event.reasoning_output_tokens<=event.output_tokens)));
+    if(!validate(event)||!subsetsValid){rejected.push({event_id:eventId,code:'INVALID_EVENT',retryable:false});continue;}
     const digest=createHash('sha256').update(canonical(event)).digest('hex');
     if(seen.has(eventId)){if(seen.get(eventId)===digest)duplicates.push(eventId);else rejected.push({event_id:eventId,code:'EVENT_ID_CONFLICT',retryable:false});continue;}
     if(seen.size>=MAX_IDS)seen.delete(seen.keys().next().value!);seen.set(eventId,digest);accepted.push(eventId);

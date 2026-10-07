@@ -4,7 +4,7 @@ import { SpanKind } from '@opentelemetry/api';
 import { runOtelExample } from '../examples/otel.js';
 import { createOtelExporter } from '../packages/otel/src/index.js';
 import events from '../contracts/fixtures/events.json' with {type:'json'};
-import type { PulseEvent } from '../packages/core/src/types.js';
+import type { PulseEvent, PulseHandlerEvent } from '../packages/core/src/types.js';
 describe('optional real OTel handoff',()=>{
  it('real MCP -> handler -> one INTERNAL span, no request-latency or client/delegation counts',async()=>{
   const result=await runOtelExample(); expect(result.spans).toHaveLength(1);expect(result.diagnostics.accepted).toBe(1);
@@ -62,7 +62,7 @@ describe('OTel acknowledgement integrity and foreign metadata boundary',()=>{
  it('rejects conflicting bodies for one immutable ID while key-order-only replay remains a duplicate',async()=>{
   const sink=new InMemorySpanExporter();const provider=new BasicTracerProvider({spanProcessors:[new SimpleSpanProcessor(sink)]});
   try{
-   const exporter=createOtelExporter({tracer:provider.getTracer('test')}),event=events.events[0] as PulseEvent,context={signal:new AbortController().signal};
+   const exporter=createOtelExporter({tracer:provider.getTracer('test')}),event=events.events[0] as PulseHandlerEvent,context={signal:new AbortController().signal};
    expect((await exporter.export([event],context)).accepted).toEqual([event.event_id]);
    expect((await exporter.export([Object.fromEntries(Object.entries(event).reverse()) as unknown as PulseEvent],context)).duplicates).toEqual([event.event_id]);
    expect((await exporter.export([{...event,duration_ms:event.duration_ms+1}],context)).rejected).toEqual([{event_id:event.event_id,code:'EVENT_ID_CONFLICT',retryable:false}]);
@@ -71,7 +71,7 @@ describe('OTel acknowledgement integrity and foreign metadata boundary',()=>{
  });
  it('does not invent a successful duplicate receipt after foreign tracer failure',async()=>{
   let attempts=0;const tracer={startSpan(){attempts++;throw Error('PRIVATE_TRACER_SENTINEL');}} as unknown as Parameters<typeof createOtelExporter>[0]['tracer'];
-  const exporter=createOtelExporter({tracer}),event=events.events[0] as PulseEvent,context={signal:new AbortController().signal};
+  const exporter=createOtelExporter({tracer}),event=events.events[0] as PulseHandlerEvent,context={signal:new AbortController().signal};
   for(let i=0;i<2;i++)expect(await exporter.export([event],context)).toEqual({accepted:[],duplicates:[],rejected:[{event_id:event.event_id,code:'OTEL_LOCAL_FAILURE',retryable:false}]});
   expect(attempts).toBe(1);
  });

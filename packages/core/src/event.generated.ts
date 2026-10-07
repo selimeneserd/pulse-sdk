@@ -1,5 +1,5 @@
 // Generated from contracts/event-v1.schema.json; do not edit.
-export type PulseEvent = {
+export type PulseHandlerEvent = {
   readonly schema_version: 1;
   readonly event_id: string;
   readonly kind: "tool_handler.completed";
@@ -21,4 +21,34 @@ export type PulseEvent = {
   readonly sdk_version?: string;
   readonly adapter?: string;
   readonly adapter_version?: string;
+  readonly invocation_id?: string;
 };
+export type PulseUsageEvent = {
+  readonly schema_version: 1;
+  readonly event_id: string;
+  readonly kind: "model_usage.recorded";
+  readonly occurred_at: string;
+  readonly identity_source: "none" | "app_account" | "host_subject";
+  readonly identity_epoch?: string | null;
+  readonly actor_id: string | null;
+  readonly conversation_id?: string | null;
+  readonly client_name: string | null;
+  readonly client_version?: string | null;
+  readonly client_source: "unknown" | "handshake" | "reported_metadata" | "configured";
+  readonly environment: "production" | "staging" | "development" | "test";
+  readonly release: string | null;
+  readonly sdk_name?: string;
+  readonly sdk_version?: string;
+  readonly adapter?: string;
+  readonly adapter_version?: string;
+  readonly tool_name: string | null;
+  readonly invocation_id: string | null;
+  readonly usage_source: "provider_reported";
+  readonly provider: string;
+  readonly model: string;
+  readonly input_tokens: number | null;
+  readonly output_tokens: number | null;
+  readonly cached_input_tokens: number | null;
+  readonly reasoning_output_tokens: number | null;
+};
+export type PulseEvent = PulseHandlerEvent | PulseUsageEvent;

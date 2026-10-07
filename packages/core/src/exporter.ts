@@ -3,7 +3,7 @@ import { snapshotExportResult } from './export-result.js';
 import type { PulseDiagnostics, PulseEvent, PulseExporter, PulseExportResult } from './types.js';
 
 type Entry = Readonly<{ event: PulseEvent; bytes: number; sequence: number }>;
-type Counter = 'observed' | 'accepted' | 'duplicates' | 'rejected' | 'requests' | 'retries' | 'exporterFailures' | 'droppedOverflow' | 'droppedOversize' | 'droppedRetries' | 'droppedAuth' | 'droppedQuota' | 'droppedInvalid' | 'droppedShutdown' | 'droppedPaused' | 'droppedTimeout';
+type Counter = 'observedUsage' | 'observed' | 'accepted' | 'duplicates' | 'rejected' | 'requests' | 'retries' | 'exporterFailures' | 'droppedOverflow' | 'droppedOversize' | 'droppedRetries' | 'droppedAuth' | 'droppedQuota' | 'droppedInvalid' | 'droppedShutdown' | 'droppedPaused' | 'droppedTimeout';
 // Byte accounting covers the public JSON HTTP envelope, even for local exporters.
 const envelopeBytes = Buffer.byteLength('{"schema_version":1,"events":[]}');
 const encoder = new TextEncoder();
@@ -31,7 +31,7 @@ export function createDispatcher(options: ResolvedOptions) {
   let shutdownTask: Promise<void> | undefined;
   let notifying = false;
   const counts: Record<Counter, number> = {
-    observed: 0, accepted: 0, duplicates: 0, rejected: 0, requests: 0, retries: 0,
+    observed: 0, observedUsage: 0, accepted: 0, duplicates: 0, rejected: 0, requests: 0, retries: 0,
     exporterFailures: 0, droppedOverflow: 0, droppedOversize: 0, droppedRetries: 0,
     droppedAuth: 0, droppedQuota: 0, droppedInvalid: 0, droppedShutdown: 0,
     droppedPaused: 0, droppedTimeout: 0,
@@ -229,7 +229,8 @@ export function createDispatcher(options: ResolvedOptions) {
     invalid() { counts.droppedInvalid++; notify(); },
     enqueue(event: PulseEvent) {
       if (!options.enabled) return;
-      counts.observed++;
+      if (event.kind === 'tool_handler.completed') counts.observed++;
+      else counts.observedUsage++;
       if (closing || stopped) { counts.droppedShutdown++; notify(); return; }
       if (blocked) { counts[blocked === 'auth' ? 'droppedAuth' : 'droppedTimeout']++; notify(); return; }
       if (paused) { counts.droppedPaused++; notify(); return; }

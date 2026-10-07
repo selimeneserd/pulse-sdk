@@ -4,7 +4,7 @@ import { createDispatcher } from './exporter.js';
 import type { PulseCore, PulseCoreOptions } from './types.js';
 
 export { PulseConfigurationError, configurationMessages } from './config.js';
-export type { ClientSource, Completion, Environment, Locale, Outcome, PulseContext, PulseCore, PulseCoreOptions, PulseDiagnostics, PulseEvent, PulseExporter, PulseExportResult, PulseExportContext } from './types.js';
+export type { ClientSource, Completion, UsageRecord, Environment, Locale, Outcome, PulseContext, PulseToolContext, PulseCore, PulseCoreOptions, PulseDiagnostics, PulseEvent, PulseHandlerEvent, PulseUsageEvent, PulseExporter, PulseExportResult, PulseExportContext } from './types.js';
 
 function timeout(value: number | undefined, fallback = 2000): number {
   const result = value ?? fallback;
@@ -25,7 +25,16 @@ export function createPulseCore(options: PulseCoreOptions): PulseCore {
         else dispatcher.invalid();
       } catch { dispatcher.invalid(); }
     },
+    recordUsage(input) {
+      if (!settings.enabled) return;
+      try {
+        const event = events.makeUsage(input);
+        if (event) dispatcher.enqueue(event);
+        else dispatcher.invalid();
+      } catch { dispatcher.invalid(); }
+    },
     withContext: events.withContext,
+    withToolContext: events.withToolContext,
     async flush(options = {}) { await dispatcher.flush(timeout(options.timeoutMs)); },
     pause: dispatcher.pause,
     resume: dispatcher.resume,

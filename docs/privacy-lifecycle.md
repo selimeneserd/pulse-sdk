@@ -9,7 +9,8 @@
 |sdk_name/sdk_version/adapter/adapter_version|Provenance; package-generated versions, adapter-supplied bounded labels|
 |client_name/version/source|Off by default; only known normalized labels, semver hints. Self-reported, not certified host identity|
 |identity_source/epoch/actor_id/conversation_id|Off by default/null. Account pseudonyms, not persons. Epoch changes continuity|
-|args/results/errors/stacks/prompts/headers/tokens/properties/PII|Forbidden, never copied. Public exporter boundaries reject extra fields|
+|provider/model/input_tokens/output_tokens/cached_input_tokens/reasoning_output_tokens|Opt-in safe labels and provider-reported integer counts only; missing is null; no content or estimates / Yalnız isteğe bağlı etiketler ve sağlayıcı sayıları|
+|args/results/errors/stacks/prompts/headers/authentication tokens/properties/PII|Forbidden, never copied. Public exporter boundaries reject extra fields|
 
 TR: Teknik isimlerin içerik taşımaması uygulamanın sorumluluğundadır. Sentineller testlerle olay, HTTP, JSONL, diagnostics ve CLI sınırında aranır. Sınırlı söz dizimi tek başına anonimleştirme değildir. İstemci ve kimlik açık seçimdir; eksik veri eksik kalır.
 

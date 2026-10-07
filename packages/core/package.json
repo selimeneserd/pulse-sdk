@@ -1,6 +1,6 @@
 {
   "name": "@reviseflow/pulse-core",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "license": "MIT",
   "type": "module",
   "engines": {
@@ -51,7 +51,9 @@
     "telemetry",
     "monitoring",
     "observability",
-    "typescript"
+    "typescript",
+    "token-usage",
+    "llm-usage"
   ],
   "publishConfig": {
     "access": "public",

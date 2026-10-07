@@ -33,13 +33,33 @@ export interface Completion {
   adapter?: { name: string; version: string };
 }
 
+/** Numeric usage returned by a provider for ONE model invocation. Caller attests
+ * the source; Pulse never estimates tokens from prompts/results or host traffic.
+ * Detail counters are subsets, not additional tokens. Missing stays unknown. */
+export interface UsageRecord {
+  provider: string;
+  model: string;
+  inputTokens?: number;
+  outputTokens?: number;
+  cachedInputTokens?: number;
+  reasoningOutputTokens?: number;
+  toolName?: string;
+}
+
+/** Application-declared tool scope; unrelated async scopes remain isolated. */
+export interface PulseToolContext {
+  toolName: string;
+  client?: Completion['client'];
+  adapter?: Completion['adapter'];
+}
+
 export interface PulseContext {
   actorId?: string | null;
   conversationId?: string | null;
 }
 
 import type { PulseEvent } from './event.generated.js';
-export type { PulseEvent } from './event.generated.js';
+export type { PulseEvent, PulseHandlerEvent, PulseUsageEvent } from './event.generated.js';
 
 export interface PulseDiagnostics {
   readonly status: 'disabled' | 'ready' | 'paused' | 'blocked' | 'closing' | 'shutdown';
@@ -50,6 +70,7 @@ export interface PulseDiagnostics {
   readonly droppedPaused: number;
   readonly droppedTimeout: number;
   readonly observed: number;
+  readonly observedUsage: number;
   readonly queued: number;
   readonly inFlight: number;
   readonly pendingBytes: number;
@@ -72,7 +93,11 @@ export interface PulseCore {
   readonly enabled: boolean;
   /** Best effort; never throws a telemetry error into the observed handler. */
   complete(completion: Completion): void;
+  /** Best effort. Every call reports a separate model invocation; call once. */
+  recordUsage(usage: UsageRecord): void;
   withContext<T>(context: PulseContext, fn: () => T): T;
+  /** Generates a local invocation UUID for usage/completion correlation. */
+  withToolContext<T>(context: PulseToolContext, fn: () => T): T;
   /** Waits at most timeoutMs; remaining export work stays bounded in this instance. */
   flush(options?: { timeoutMs?: number }): Promise<void>;
   pause(): void;

@@ -4,12 +4,12 @@ Open-source analytics for MCP tool handlers. Observe calls locally, then send th
 
 [**Türkçe**](README.tr.md) · [Local quickstart](#run-locally) · [Documentation](#documentation) · [Contributing](CONTRIBUTING.md)
 
-> **Version 0.2.2:** `@reviseflow/pulse`, `@reviseflow/pulse-core` and optional `@reviseflow/pulse-otel`. This patch keeps the 0.2 API; no migration is needed from 0.2.0. Upgrading from 0.1.0 requires an explicit exporter: read the [migration guide](docs/migration-release.md).
+> **Version 0.3.0:** Optional, explicitly reported model token usage alongside observed MCP handler completions. No Cloud account or key is needed. Existing construction APIs remain; custom exporters must handle the new event union. Read the [migration guide](docs/migration-release.md).
 
-0.2.2 improves the English/Turkish package guides, practical learning paths and npm discovery metadata. Runtime behavior, public APIs, wire contracts and dependencies are unchanged from 0.2.1, apart from the reported package version. See the [changelog](CHANGELOG.md).
+`recordUsage()` accepts numeric usage supplied by your application after a provider response. Pulse does not inspect prompts or results, call a model, estimate tokens, or discover the host's model consumption. See the [token usage guide](docs/token-usage.md).
 
 ```sh
-npm install --save-exact @reviseflow/pulse@0.2.2 @reviseflow/pulse-core@0.2.2 @modelcontextprotocol/server@2.0.0
+npm install --save-exact @reviseflow/pulse@0.3.0 @reviseflow/pulse-core@0.3.0 @modelcontextprotocol/server@2.0.0
 ```
 
 ## Run locally
@@ -96,6 +96,7 @@ Validate required configuration in your application and keep write keys out of t
 
 - **Observed handler completions**, not every MCP request or business success. Input validation before the handler and failures after it returns fall outside this boundary.
 - Handler duration in monotonic milliseconds, with a separate wall-clock completion timestamp.
+- Optional provider-reported numeric model usage, recorded separately through `recordUsage`; unknown counts stay unknown.
 - Optional project-scoped account pseudonyms. An account is not a person; self-reported client labels are not verified host identities.
 
 Pulse does not collect raw arguments, results, prompts, error messages, stacks, headers or arbitrary properties. Tool and release names can still reveal business information: map or exclude sensitive labels. Optional HMAC identity is pseudonymous and linkable, not anonymous.

@@ -3,7 +3,7 @@ import { CLIENT_INFO_META_KEY, type McpServer, type RegisteredTool, type ServerC
 import { createPulseCore, type PulseCoreOptions, type Outcome } from '@reviseflow/pulse-core';
 import { PACKAGE_VERSION } from './version.js';
 
-export type { PulseCoreOptions, Outcome } from '@reviseflow/pulse-core';
+export type { PulseCoreOptions, Outcome, UsageRecord, PulseToolContext, PulseEvent, PulseHandlerEvent, PulseUsageEvent } from '@reviseflow/pulse-core';
 export const SUPPORTED_MCP_VERSION = '2.0.0';
 
 const messages = {
@@ -107,6 +107,7 @@ export function createPulse(options: PulseOptions) {
         // Upstream invokes no-schema handlers with (ctx), schema handlers with (args,ctx).
         const ctx = args[args.length - 1] as ServerContext | undefined;
         const client = clientHint(ctx);
+        return core.withToolContext({ toolName, adapter: { name: 'mcp-typescript-2', version: PACKAGE_VERSION }, ...(client ? { client } : {}) }, () => {
         const started = performance.now();
         const finish = (outcome: Outcome) => {
           // Only the request's public signal can establish cancellation. Exporter
@@ -143,6 +144,7 @@ export function createPulse(options: PulseOptions) {
         }
         finish(outcomeOf(result));
         return result;
+        });
       };
     }
 

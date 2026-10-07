@@ -1,24 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:pulse:contract:event:1",
-  "title": "Pulse handler completion event v1",
+  "title": "Pulse observed handler and reported model usage event v1",
   "type": "object",
-  "additionalProperties": false,
-  "required": [
-    "schema_version",
-    "event_id",
-    "kind",
-    "occurred_at",
-    "tool_name",
-    "duration_ms",
-    "outcome",
-    "identity_source",
-    "actor_id",
-    "client_name",
-    "client_source",
-    "environment",
-    "release"
-  ],
   "properties": {
     "schema_version": {
       "const": 1
@@ -28,17 +12,27 @@
       "format": "uuid"
     },
     "kind": {
-      "const": "tool_handler.completed"
+      "enum": [
+        "tool_handler.completed",
+        "model_usage.recorded"
+      ]
     },
     "occurred_at": {
       "type": "string",
       "format": "date-time"
     },
     "tool_name": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 128,
-      "pattern": "^[A-Za-z0-9_.:/-]+$"
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_.:/-]+$"
+        },
+        {
+          "type": "null"
+        }
+      ]
     },
     "duration_ms": {
       "type": "number",
@@ -183,71 +177,709 @@
       "type": "string",
       "maxLength": 40,
       "pattern": "^\\d+\\.\\d+\\.\\d+(?:[-+][A-Za-z0-9.-]{1,20})?$"
+    },
+    "invocation_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uuid"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "usage_source": {
+      "const": "provider_reported"
+    },
+    "provider": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "pattern": "^[A-Za-z0-9_.:/-]+$"
+    },
+    "model": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9_.:/-]+$"
+    },
+    "input_tokens": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "output_tokens": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "cached_input_tokens": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "reasoning_output_tokens": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        {
+          "type": "null"
+        }
+      ]
     }
   },
-  "allOf": [
+  "oneOf": [
     {
-      "if": {
-        "properties": {
-          "identity_source": {
-            "const": "none"
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "event_id",
+        "kind",
+        "occurred_at",
+        "tool_name",
+        "duration_ms",
+        "outcome",
+        "identity_source",
+        "actor_id",
+        "client_name",
+        "client_source",
+        "environment",
+        "release"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "kind": {
+          "const": "tool_handler.completed"
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "tool_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_.:/-]+$"
+        },
+        "duration_ms": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 86400000
+        },
+        "outcome": {
+          "enum": [
+            "tool_success",
+            "tool_error",
+            "handler_exception",
+            "input_required",
+            "cancelled",
+            "unknown"
+          ]
+        },
+        "identity_source": {
+          "enum": [
+            "none",
+            "app_account",
+            "host_subject"
+          ]
+        },
+        "identity_epoch": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 32,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "actor_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^h1_[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "conversation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^h1_[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "client_name": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "client_version": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 40
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "client_source": {
+          "enum": [
+            "unknown",
+            "handshake",
+            "reported_metadata",
+            "configured"
+          ]
+        },
+        "environment": {
+          "enum": [
+            "production",
+            "staging",
+            "development",
+            "test"
+          ]
+        },
+        "release": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error_code": {
+          "anyOf": [
+            {
+              "enum": [
+                "TOOL_ERROR",
+                "HANDLER_EXCEPTION",
+                "CANCELLED",
+                "UNSUPPORTED_RESULT"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sdk_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "sdk_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "adapter": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "adapter_version": {
+          "type": "string",
+          "maxLength": 40,
+          "pattern": "^\\d+\\.\\d+\\.\\d+(?:[-+][A-Za-z0-9.-]{1,20})?$"
+        },
+        "invocation_id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "identity_source": {
+                "const": "none"
+              }
+            },
+            "required": [
+              "identity_source"
+            ]
+          },
+          "then": {
+            "properties": {
+              "actor_id": {
+                "type": "null"
+              },
+              "identity_epoch": {
+                "type": "null"
+              },
+              "conversation_id": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "required": [
+              "identity_epoch"
+            ],
+            "properties": {
+              "actor_id": {
+                "type": "string",
+                "pattern": "^h1_[0-9a-f]{64}$"
+              },
+              "identity_epoch": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 32
+              }
+            }
           }
         },
-        "required": [
-          "identity_source"
-        ]
-      },
-      "then": {
-        "properties": {
-          "actor_id": {
-            "type": "null"
+        {
+          "if": {
+            "properties": {
+              "client_source": {
+                "const": "unknown"
+              }
+            },
+            "required": [
+              "client_source"
+            ]
           },
-          "identity_epoch": {
-            "type": "null"
-          },
-          "conversation_id": {
-            "type": "null"
+          "then": {
+            "properties": {
+              "client_name": {
+                "type": "null"
+              },
+              "client_version": {
+                "type": "null"
+              }
+            }
           }
         }
-      },
-      "else": {
-        "required": [
-          "identity_epoch"
-        ],
-        "properties": {
-          "actor_id": {
-            "type": "string",
-            "pattern": "^h1_[0-9a-f]{64}$"
-          },
-          "identity_epoch": {
-            "type": "string",
-            "minLength": 1,
-            "maxLength": 32
-          }
-        }
-      }
+      ]
     },
     {
-      "if": {
-        "properties": {
-          "client_source": {
-            "const": "unknown"
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "event_id",
+        "kind",
+        "occurred_at",
+        "identity_source",
+        "actor_id",
+        "client_name",
+        "client_source",
+        "environment",
+        "release",
+        "tool_name",
+        "invocation_id",
+        "usage_source",
+        "provider",
+        "model",
+        "input_tokens",
+        "output_tokens",
+        "cached_input_tokens",
+        "reasoning_output_tokens"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": 1
+        },
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "kind": {
+          "const": "model_usage.recorded"
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "identity_source": {
+          "enum": [
+            "none",
+            "app_account",
+            "host_subject"
+          ]
+        },
+        "identity_epoch": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 32,
+              "pattern": "^[A-Za-z0-9_-]+$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "actor_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^h1_[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "conversation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^h1_[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "client_name": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "client_version": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 40
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "client_source": {
+          "enum": [
+            "unknown",
+            "handshake",
+            "reported_metadata",
+            "configured"
+          ]
+        },
+        "environment": {
+          "enum": [
+            "production",
+            "staging",
+            "development",
+            "test"
+          ]
+        },
+        "release": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 80
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sdk_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "sdk_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "adapter": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "adapter_version": {
+          "type": "string",
+          "maxLength": 40,
+          "pattern": "^\\d+\\.\\d+\\.\\d+(?:[-+][A-Za-z0-9.-]{1,20})?$"
+        },
+        "tool_name": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128,
+              "pattern": "^[A-Za-z0-9_.:/-]+$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "invocation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "usage_source": {
+          "const": "provider_reported"
+        },
+        "provider": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "pattern": "^[A-Za-z0-9_.:/-]+$"
+        },
+        "model": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[A-Za-z0-9_.:/-]+$"
+        },
+        "input_tokens": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "output_tokens": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "cached_input_tokens": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reasoning_output_tokens": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "identity_source": {
+                "const": "none"
+              }
+            },
+            "required": [
+              "identity_source"
+            ]
+          },
+          "then": {
+            "properties": {
+              "actor_id": {
+                "type": "null"
+              },
+              "identity_epoch": {
+                "type": "null"
+              },
+              "conversation_id": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "required": [
+              "identity_epoch"
+            ],
+            "properties": {
+              "actor_id": {
+                "type": "string",
+                "pattern": "^h1_[0-9a-f]{64}$"
+              },
+              "identity_epoch": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 32
+              }
+            }
           }
         },
-        "required": [
-          "client_source"
-        ]
-      },
-      "then": {
-        "properties": {
-          "client_name": {
-            "type": "null"
+        {
+          "if": {
+            "properties": {
+              "client_source": {
+                "const": "unknown"
+              }
+            },
+            "required": [
+              "client_source"
+            ]
           },
-          "client_version": {
-            "type": "null"
+          "then": {
+            "properties": {
+              "client_name": {
+                "type": "null"
+              },
+              "client_version": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "anyOf": [
+            {
+              "properties": {
+                "input_tokens": {
+                  "type": "integer"
+                }
+              }
+            },
+            {
+              "properties": {
+                "output_tokens": {
+                  "type": "integer"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "if": {
+            "properties": {
+              "cached_input_tokens": {
+                "type": "integer"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "input_tokens": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "reasoning_output_tokens": {
+                "type": "integer"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "output_tokens": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "invocation_id": {
+                "type": "string"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "tool_name": {
+                "type": "string"
+              }
+            }
           }
         }
-      }
+      ]
     }
   ]
 }

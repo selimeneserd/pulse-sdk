@@ -1,5 +1,43 @@
 # SDK delivery status / SDK teslim durumu
 
+## 0.3.0 reported model usage — 2026-10-07 / Bildirilen model kullanımı
+
+**Local final matrix passed; npm publication and registry verification pending.** The owner
+explicitly requested independent SDK implementation and npm publication, followed
+by a separate Cloud update. SDK LICENSE is MIT; Cloud LICENSE was reviewed and
+no Cloud source, credential, DB query, UI or proprietary package is included.
+
+- `recordUsage` accepts explicitly reported numeric usage; missing stays null,
+  cache/reasoning remain subsets, and one usage record represents one model call.
+- Handler observation/count/outcome/percentiles stay separate. Async tool scopes
+  correlate local usage without reading args/results/prompts or host usage.
+- Independent memory/JSONL/generic HTTP and optional OTel paths remain available;
+  no Cloud account, key, default collector, provider SDK or new runtime dependency.
+- Exact installed dependency baseline and planned fixtures:
+  `docs/evidence/token-usage-baseline-20261007.json`.
+- Custom exporters must narrow the new event union. Independent collectors need
+  the updated schema and sibling comparisons before enabling usage; older
+  handler records remain valid. `docs/token-usage.md` and migration guidance are EN/TR.
+
+Final local checks: **216 tests and 106 packed-consumer commands per runtime**
+on Node 24.11.1 and 24.20.0 passed, including build/types/contracts/conformance,
+12 identity vectors, source boundaries, typed public API, offline standalone
+usage through memory/JSONL, real MCP, generic loopback HTTP, OTel, CLI and bundling.
+All three archives have identical hashes across the matrix. Receipts:
+`docs/evidence/token-usage-check-node*.txt` and `token-usage-packed-node*.json`.
+The first packed run failed because the new JSONL fixture file was reused by the
+normal/bundled runs; the harness now resets that test-owned file. The first
+failure is preserved; both final full runs passed.
+
+Release blockers at this checkpoint: publication, exact registry integrity and
+clean registry consumers. No npm or Cloud deployment success is
+claimed by this preparation record. Cloud remains a separate private consumer.
+
+**TR:** Bağımsız MIT SDK iki runtime üzerinde 216 test ve 106 paket tüketim
+komutunu geçti; arşiv hash’leri aynı. npm yayını ve registry doğrulaması bekliyor. Yeni kullanım isteğe bağlıdır; eksik sayılar null, handler ölçümleri
+ayrıdır. Ham içerik ve Cloud bağımlılığı eklenmedi. Yayın/registry kanıtı henüz
+iddia edilmiyor; Cloud ayrı ve özeldir.
+
 
 ## 0.2.2 published and verified — 2026-09-17 / Yayımlandı ve doğrulandı
 

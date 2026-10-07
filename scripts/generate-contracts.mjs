@@ -13,12 +13,13 @@ function type(schema) {
   if (schema.anyOf) return schema.anyOf.map(type).join(' | ');
   if (schema.type === 'array') return `readonly (${type(schema.items)})[]`;
   if (schema.type === 'object') return '{\n' + Object.entries(schema.properties).map(([key, value]) => `  readonly ${key}${schema.required?.includes(key) ? '' : '?'}: ${type(value)};`).join('\n') + '\n}';
+  if (schema.type === 'integer') return 'number';
   if (['string','number','boolean','null'].includes(schema.type)) return schema.type;
   throw new Error('UNSUPPORTED_SCHEMA_TYPE');
 }
 const event = await read('contracts/event-v1.schema.json');
 // JSON Schema owns required fields and unions. Cross-field constraints remain schema validation.
-await output('packages/core/src/event.generated.ts', '// Generated from contracts/event-v1.schema.json; do not edit.\nexport type PulseEvent = '+type(event)+';\n');
+await output('packages/core/src/event.generated.ts', '// Generated from contracts/event-v1.schema.json; do not edit.\nexport type PulseHandlerEvent = '+type(event.oneOf[0])+';\nexport type PulseUsageEvent = '+type(event.oneOf[1])+';\nexport type PulseEvent = PulseHandlerEvent | PulseUsageEvent;\n');
 for (const filename of ['event-v1.schema.json','batch-v1.schema.json','ack-v1.schema.json']) {
   await output('packages/core/contracts/'+filename, JSON.stringify(await read('contracts/'+filename),null,2)+'\n');
 }

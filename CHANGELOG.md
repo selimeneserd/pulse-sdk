@@ -1,5 +1,15 @@
 # Changelog / Değişiklik günlüğü
 
+## 0.3.0 — 2026-10-07
+
+- Add optional `recordUsage()` to standalone core and MCP instances, with strict content-free `model_usage.recorded` events and async tool-invocation correlation.
+- Missing counts remain null; cached/reasoning counts are subsets of their reported parent. Tokens are never inferred from prompts, results, host identity or `maxTokens`.
+- Existing handler observations remain independent. Memory, JSONL, generic HTTP, CLI and optional OTel handle reported usage with bounded best-effort delivery.
+- `PulseEvent` is now a discriminated union. Existing handler events remain valid; custom consumers/exporters must branch on `kind`, and independent collectors need the updated contract before usage is enabled.
+- All three MIT packages align at 0.3.0. No new runtime dependencies, implicit Cloud destination, model provider dependency, credential, or subscription.
+
+TR: Bağımsız core ve MCP'ye isteğe bağlı `recordUsage()` eklendi. Ham içerik toplanmaz; eksik sayılar null kalır, cache/reasoning toplamın alt kümesidir. Handler ve model ölçümleri ayrıdır. Özel tüketiciler `kind` ile olayları ayırmalı; usage göndermeden önce collector sözleşmesi güncellenmelidir. Üç MIT paket 0.3.0, Cloud zorunlu değildir.
+
 ## 0.2.2 — 2026-09-17
 
 - Improve English/Turkish package guides, practical MCP learning links and the optional Cloud handoff.

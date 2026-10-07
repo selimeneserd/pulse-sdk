@@ -24,7 +24,7 @@ const texts = {
     INIT_UNCHANGED: 'The integration file already matches. No changes.',
     INIT_CONFLICT: 'The integration file already exists with different content. No files overwritten.',
     DOCTOR: 'Static checks do not prove handler observation, queueing or collector acceptance. Optional JSONL is historical local-export evidence only.',
-    DEV: 'Observed handler completions in this local file; duration is not full MCP request latency. This summary is bounded and may cover only a prefix.',
+    DEV: 'Observed handler completions and explicitly reported model usage in this local file. Duration is handler-only; missing usage stays unknown. This bounded summary may cover only a prefix.',
     FILE_UNAVAILABLE: 'Cannot safely inspect the selected regular JSONL file.',
     FAILED: 'Local tool operation failed. No external request was made.',
   },
@@ -43,7 +43,7 @@ const texts = {
     INIT_UNCHANGED: 'Entegrasyon dosyası zaten aynı. Değişiklik yok.',
     INIT_CONFLICT: 'Entegrasyon dosyası farklı içerikle mevcut. Üzerine yazılmadı.',
     DOCTOR: 'Statik kontroller handler gözlemini, kuyruklamayı veya collector kabulünü kanıtlamaz. Seçilen JSONL yalnızca geçmiş yerel dışa aktarım kanıtıdır.',
-    DEV: 'Yerel dosyadaki gözlemlenen handler tamamlanmaları; süre tam MCP isteği gecikmesi değildir. Sınırlı özet dosyanın yalnızca başını kapsayabilir.',
+    DEV: 'Yerel dosyadaki gözlemlenen handler tamamlanmaları ve açıkça bildirilen model kullanımı. Süre yalnızca handler içindir; eksik kullanım bilinmiyor olarak kalır. Sınırlı özet dosyanın yalnızca başını kapsayabilir.',
     FILE_UNAVAILABLE: 'Seçilen normal JSONL dosyası güvenle incelenemedi.',
     FAILED: 'Yerel araç işlemi başarısız. Dış istek yapılmadı.',
   },
@@ -139,8 +139,10 @@ async function summarize(path: string) {
   let truncated = source.truncated || lines.length > 10_000;
   lines = lines.slice(0, 10_000);
   let events = 0, invalid = 0, duplicates = 0, omittedToolRecords = 0;
+  let usageEvents = 0, omittedUsageRecords = 0;
   const seen = new Set<string>();
   const tools = new Map<string, { count: number; durations: number[]; outcomes: Record<string, number> }>();
+  const usage = new Map<string, { provider: string; model: string; calls: number; inputKnown: number; outputKnown: number; complete: number; cachedKnown: number; reasoningKnown: number; input: number; output: number; total: number; cached: number; reasoning: number }>();
   for (const line of lines) {
     if (!line.trim()) continue;
     if (Buffer.byteLength(line) > 16_384) { invalid++; continue; }
@@ -149,13 +151,29 @@ async function summarize(path: string) {
     if (!validatePulseEvent(event)) { invalid++; continue; }
     if (seen.has(event.event_id)) { duplicates++; continue; }
     seen.add(event.event_id);
+    if (event.kind === 'model_usage.recorded') {
+      const key = JSON.stringify([event.provider, event.model]);
+      if (!usage.has(key) && usage.size >= 200) { omittedUsageRecords++; truncated = true; continue; }
+      const row = usage.get(key) ?? { provider: event.provider, model: event.model, calls: 0, inputKnown: 0, outputKnown: 0, complete: 0, cachedKnown: 0, reasoningKnown: 0, input: 0, output: 0, total: 0, cached: 0, reasoning: 0 };
+      row.calls++;
+      if (event.input_tokens !== null) { row.inputKnown++; row.input += event.input_tokens; }
+      if (event.output_tokens !== null) { row.outputKnown++; row.output += event.output_tokens; }
+      if (event.input_tokens !== null && event.output_tokens !== null) { row.complete++; row.total += event.input_tokens + event.output_tokens; }
+      if (event.cached_input_tokens !== null) { row.cachedKnown++; row.cached += event.cached_input_tokens; }
+      if (event.reasoning_output_tokens !== null) { row.reasoningKnown++; row.reasoning += event.reasoning_output_tokens; }
+      usage.set(key, row); usageEvents++; continue;
+    }
     if (!tools.has(event.tool_name) && tools.size >= 200) { omittedToolRecords++; truncated = true; continue; }
     const tool = tools.get(event.tool_name) ?? { count: 0, durations: [], outcomes: Object.create(null) as Record<string, number> };
     tool.count++; tool.durations.push(event.duration_ms);
     tool.outcomes[event.outcome] = (tool.outcomes[event.outcome] ?? 0) + 1;
     tools.set(event.tool_name, tool); events++;
   }
-  return { events, invalid, duplicates, omittedToolRecords, truncated, tools: [...tools].map(([tool_name, tool]) => {
+  return { events, usageEvents, invalid, duplicates, omittedToolRecords, omittedUsageRecords, truncated, usage: [...usage.values()].map(row => ({
+    provider: row.provider, model: row.model, calls: row.calls, input_known_calls: row.inputKnown, output_known_calls: row.outputKnown, complete_calls: row.complete,
+    input_tokens: row.inputKnown ? row.input : null, output_tokens: row.outputKnown ? row.output : null, complete_total_tokens: row.complete ? row.total : null,
+    cached_input_tokens: row.cachedKnown ? row.cached : null, reasoning_output_tokens: row.reasoningKnown ? row.reasoning : null,
+  })), tools: [...tools].map(([tool_name, tool]) => {
     tool.durations.sort((a, b) => a - b);
     const percentile = (p: number) => tool.durations[Math.max(0, Math.ceil(tool.count * p) - 1)]!;
     return { tool_name, count: tool.count, p50_ms: percentile(.5), p95_ms: percentile(.95), p99_ms: percentile(.99), outcomes: tool.outcomes };

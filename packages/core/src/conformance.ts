@@ -3,14 +3,16 @@ import type { PulseEvent } from './event.generated.js';
 import type { PulseExporter } from './types.js';
 import { snapshotExportResult } from './export-result.js';
 
-type Schema = { const?: unknown; enum?: unknown[]; anyOf?: Schema[]; allOf?: Schema[]; if?: Schema; then?: Schema; else?: Schema; type?: string; required?: string[]; properties?: Record<string, Schema>; additionalProperties?: boolean; pattern?: string; format?: string; minLength?: number; maxLength?: number; minimum?: number; maximum?: number };
+type Schema = { const?: unknown; enum?: unknown[]; anyOf?: Schema[]; oneOf?: Schema[]; allOf?: Schema[]; if?: Schema; then?: Schema; else?: Schema; type?: string; required?: string[]; properties?: Record<string, Schema>; additionalProperties?: boolean; pattern?: string; format?: string; minLength?: number; maxLength?: number; minimum?: number; maximum?: number };
 function matches(value: unknown, rule: Schema): boolean {
   if ('const' in rule && value !== rule.const) return false;
   if (rule.enum && !rule.enum.includes(value)) return false;
+  if (rule.oneOf && rule.oneOf.filter(child => matches(value, child)).length !== 1) return false;
   if (rule.anyOf && !rule.anyOf.some(child => matches(value, child))) return false;
   if (rule.allOf && !rule.allOf.every(child => matches(value, child))) return false;
   if (rule.if && !matches(value, (matches(value, rule.if) ? rule.then : rule.else) ?? {})) return false;
   if (rule.type === 'null' && value !== null) return false;
+  if (rule.type === 'integer' && (typeof value !== 'number' || !Number.isSafeInteger(value))) return false;
   if (rule.type === 'number' && (typeof value !== 'number' || !Number.isFinite(value))) return false;
   if (rule.type === 'string' && typeof value !== 'string') return false;
   if (typeof value === 'number' && ((rule.minimum !== undefined && value < rule.minimum) || (rule.maximum !== undefined && value > rule.maximum))) return false;
@@ -32,7 +34,11 @@ function matches(value: unknown, rule: Schema): boolean {
 }
 /** Strict validator for the published event schema subset; no raw failure details. */
 export function validatePulseEvent(value: unknown): value is PulseEvent {
-  try { return matches(value, schema as Schema); } catch { return false; }
+  try {
+    if (!matches(value, schema as Schema)) return false;
+    const event = value as PulseEvent;
+    return event.kind !== 'model_usage.recorded' || ((event.cached_input_tokens === null || (event.input_tokens !== null && event.cached_input_tokens <= event.input_tokens)) && (event.reasoning_output_tokens === null || (event.output_tokens !== null && event.reasoning_output_tokens <= event.output_tokens)));
+  } catch { return false; }
 }
 
 /** RFC3339 calendar/time validation; does not silently normalize impossible dates. */

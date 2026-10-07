@@ -9,7 +9,7 @@ function epochTime(milliseconds: number): HrTime {
   return nanos === 1_000_000_000 ? [seconds + 1,0] : [seconds,nanos];
 }
 
-/** Emits a local INTERNAL span per handler completion. Acceptance means handed
+/** Emits a local INTERNAL span per handler completion or explicit model usage. Acceptance means handed
  * to the supplied tracer, not durable OTLP delivery. Configure/flush the OTel
  * provider independently. No inbound span processing or global provider setup. */
 export function createOtelExporter(options: { tracer: Tracer; deduplicationMaxEvents?: number }): PulseExporter {
@@ -48,6 +48,26 @@ export function createOtelExporter(options: { tracer: Tracer; deduplicationMaxEv
         const receipt = {fingerprint,accepted:false};
         seen.set(id,receipt); if (seen.size > maximum) seen.delete(seen.keys().next().value!);
         try {
+          if (event.kind === 'model_usage.recorded') {
+            // An instantaneous report: no model duration/request span is inferred.
+            const span = options.tracer.startSpan('pulse.model_usage', {
+              kind: SpanKind.INTERNAL, startTime: epochTime(end),
+              attributes: {
+                'pulse.origin': 'pulse-exporter', 'pulse.measurement.scope': 'model_usage',
+                'pulse.coverage': 'unknown', 'pulse.event.id': event.event_id,
+                'pulse.schema.version': event.schema_version, 'pulse.usage.source': event.usage_source,
+                'gen_ai.provider.name': event.provider, 'gen_ai.response.model': event.model,
+                'deployment.environment.name': event.environment,
+                ...(event.tool_name === null ? {} : { 'gen_ai.tool.name': event.tool_name }),
+                ...(event.input_tokens === null ? {} : { 'gen_ai.usage.input_tokens': event.input_tokens }),
+                ...(event.output_tokens === null ? {} : { 'gen_ai.usage.output_tokens': event.output_tokens }),
+                ...(event.cached_input_tokens === null ? {} : { 'pulse.usage.cached_input_tokens': event.cached_input_tokens }),
+                ...(event.reasoning_output_tokens === null ? {} : { 'pulse.usage.reasoning_output_tokens': event.reasoning_output_tokens }),
+              },
+            }, ROOT_CONTEXT);
+            span.end(epochTime(end)); receipt.accepted = true; accepted.push(event.event_id);
+            continue;
+          }
           const span = options.tracer.startSpan('pulse.tool_handler', {
             kind: SpanKind.INTERNAL,
             // HrTime is unambiguously epoch-based; numeric inputs can be treated

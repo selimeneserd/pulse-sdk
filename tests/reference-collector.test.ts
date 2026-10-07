@@ -3,11 +3,11 @@ import { startReferenceCollector } from '../examples/reference-collector.js';
 import { createHttpExporter } from '../packages/core/src/http.js';
 import { runExporterConformance } from '../packages/core/src/conformance.js';
 import fixtures from '../contracts/fixtures/events.json' with {type:'json'};
-import type { PulseEvent } from '../packages/core/src/types.js';
+import type { PulseHandlerEvent } from '../packages/core/src/types.js';
 it('external reference collector from public JSON Schema supports replay, partial and conflict without Cloud',async()=>{
  const collector=await startReferenceCollector();
  try {
-  const event=fixtures.events[0] as PulseEvent;
+  const event=fixtures.events[0] as PulseHandlerEvent;
   expect(await runExporterConformance(createHttpExporter({endpoint:collector.endpoint}),event)).toEqual({passed:true,checks:2});
   const post=(events:unknown[])=>fetch(collector.endpoint,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({schema_version:1,events})});
   const body=await (await post([{...event,duration_ms:event.duration_ms+1},{...event,event_id:'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',properties:{secret:'PRIVATE_SENTINEL'}}])).json();

@@ -4,12 +4,12 @@ MCP araç handler'ları için açık kaynak analiz altyapısı. Çağrıları ye
 
 [**English**](README.md) · [Yerel başlangıç](#yerelde-çalıştırın) · [Belgeler](#belgeler) · [Katkı](CONTRIBUTING.md)
 
-> **Sürüm 0.2.2:** `@reviseflow/pulse`, `@reviseflow/pulse-core` ve isteğe bağlı `@reviseflow/pulse-otel`. Bu yama 0.2 API'sini korur; 0.2.0'dan geçişte migration gerekmez. 0.1.0'dan güncelleme açık exporter seçimi gerektirir: [geçiş rehberini](docs/migration-release.md) okuyun.
+> **Sürüm 0.3.0:** Gözlemlenen MCP handler çağrılarına ek olarak isteğe bağlı, açıkça bildirilen model token kullanımı. Cloud hesabı veya anahtarı gerekmez. Mevcut kurucu API'leri korunur; özel exporter'lar yeni olay birleşimini işlemelidir. [Geçiş rehberini](docs/migration-release.md) okuyun.
 
-0.2.2, İngilizce/Türkçe paket rehberlerini, uygulamalı öğrenme bağlantılarını ve npm keşif bilgilerini geliştirir. Bildirilen paket sürümü dışında çalışma zamanı davranışı, açık API, wire sözleşmesi ve bağımlılıklar 0.2.1 ile aynıdır. Ayrıntılar [değişiklik günlüğündedir](CHANGELOG.md).
+`recordUsage()`, sağlayıcı yanıtından sonra uygulamanızın verdiği sayısal kullanımı kabul eder. Pulse prompt/sonuç incelemez, model çağırmaz, token tahmin etmez ve istemcinin model tüketimini keşfetmez. [Token kullanım rehberi](docs/token-usage.md).
 
 ```sh
-npm install --save-exact @reviseflow/pulse@0.2.2 @reviseflow/pulse-core@0.2.2 @modelcontextprotocol/server@2.0.0
+npm install --save-exact @reviseflow/pulse@0.3.0 @reviseflow/pulse-core@0.3.0 @modelcontextprotocol/server@2.0.0
 ```
 
 ## Yerelde çalıştırın

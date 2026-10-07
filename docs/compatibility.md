@@ -1,5 +1,20 @@
 # Compatibility evidence / Uyumluluk kanıtı
 
+## 0.3.0 baseline / Başlangıç noktası
+
+Installed official MCP core/server/client/node packages are exactly **2.0.0**,
+implementing protocol **2026-07-28** per the installed server README. Node
+**24.11.1** and **24.20.0**, pnpm **11.22.0**, Zod **4.6.1**, OTel API **1.9.1**
+and SDK trace base **2.11.0** remain the declared fixture pins. No broad MCP or
+provider-SDK compatibility is added. Numeric usage is supplied explicitly; no
+provider SDK is installed or instrumented by this feature. Final executed
+checks and archive evidence are recorded in BUILD_STATUS.md; historical counts
+below belong to their dated releases.
+
+**TR:** Kurulu resmî MCP paketleri tam 2.0.0 ve protokol 2026-07-28'dir. Node,
+pnpm, Zod ve OTel pinleri değişmez. Kullanım açıkça verilir; sağlayıcı SDK'sı
+kurulmaz veya otomatik ölçümlenmez. Son doğrulamalar BUILD_STATUS.md içindedir.
+
 0.2.1 retains the Node 24.11.1/24.20.0, MCP 2.0.0 and ESM support matrix. The final exact release passed **205/205** tests and clean packed consumers locally on both runtimes. [GitHub CI 34676226310](https://github.com/selimeneserd/pulse-sdk/actions/runs/34676226310) passed both Node versions on Ubuntu. After npm publication, exact archive integrity and **106 clean registry consumer commands per runtime** passed. [BUILD_STATUS.md](../BUILD_STATUS.md) links the source and publication ledger.
 
 Final release receipts use `evidence/release-0.2.1-check-node24.11.1.txt`, `release-0.2.1-check-node24.20.0.txt`, `release-0.2.1-packed-node*.json` and `release-0.2.1-registry-node*.json`. Earlier `correctness-check-node*.txt` and `correctness-packed-node*.json` describe 0.2.0-labelled development archives before the version bump; they are historical evidence.

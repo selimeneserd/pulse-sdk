@@ -2,17 +2,17 @@
 
 An optional MIT-licensed exporter that sends Pulse handler observations to **your OpenTelemetry tracer**. Core and the MCP adapter do not import this package.
 
-**Version 0.2.2 · MIT · Node.js 24 ESM.** The API requires an explicit exporter. [Migrate from 0.1.0](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/migration-release.md) before upgrading an existing integration.
+**Version 0.3.0 · MIT · Node.js 24 ESM.** The API requires an explicit exporter. [Migrate from 0.1.0](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/migration-release.md) before upgrading an existing integration.
 
-**TR:** **0.2.2 · MIT · Node.js 24 ESM.** API açık bir exporter gerektirir; mevcut 0.1.0 kurulumu için önce geçiş rehberini okuyun.
+**TR:** **0.3.0 · MIT · Node.js 24 ESM.** API açık bir exporter gerektirir; mevcut 0.1.0 kurulumu için önce geçiş rehberini okuyun.
 
 ## Install / Kurulum
 
 ```sh
-npm install --save-exact @reviseflow/pulse-otel@0.2.2 @reviseflow/pulse-core@0.2.2 @opentelemetry/api@1.9.1
+npm install --save-exact @reviseflow/pulse-otel@0.3.0 @reviseflow/pulse-core@0.3.0 @opentelemetry/api@1.9.1
 ```
 
-0.2.2 aligns with Pulse Core 0.2.2; OTel mapping and tracer ownership are unchanged. No migration is needed from 0.2.0.
+0.3.0 aligns with Pulse Core 0.3.0; OTel also exports reported numeric model usage; tracer ownership remains with your application. Custom exporters must narrow the new event union by `kind`; existing handler construction APIs remain.
 
 Pass your configured tracer to the exporter, then inject it into Pulse:
 
@@ -33,7 +33,7 @@ The same exporter can be passed to the MCP adapter's `createPulse`. A full examp
 
 ## Semantics and limits
 
-- Emits one INTERNAL `pulse.tool_handler` span per event with allowlisted metadata. Handler duration is **not** full MCP request latency.
+- Emits one INTERNAL `pulse.tool_handler` span per handler event with allowlisted metadata. Handler duration is **not** full MCP request latency.
 - Does not copy identities, arguments, results, exceptions or prompts. Sampling and coverage remain unknown.
 - Acceptance means local tracer handoff, not remote receipt. Your application owns provider configuration, flush and shutdown; Pulse does not mutate the global provider.
 - Replay protection keeps 1,000 recent IDs by default. Same ID/body returns duplicate; a changed body returns `EVENT_ID_CONFLICT`. A failed tracer handoff does not become success on replay.
@@ -42,9 +42,13 @@ The same exporter can be passed to the MCP adapter's `createPulse`. A full examp
 
 This is a Node.js integration. Reverse ingestion from existing spans is not implemented. See the [OTel mapping and scope](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/otel-mapping.md) and [privacy guide](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/privacy-lifecycle.md).
 
+Reported usage is a separate metadata-only span with no model-latency claim. Input/output and cached/reasoning subset counts stay separate; sampling is not a billing source.
+
+TR: Usage ayrı bir metaveri span’idir; model gecikmesi iddia edilmez. Input/output ve cache/reasoning alt kümeleri ayrıdır; örnekleme faturalama kaynağı değildir.
+
 ## Türkçe
 
-0.2.2, Pulse Core 0.2.2 ile hizalanır; OTel eşlemesi ve tracer sorumluluğu değişmez. 0.2.0’dan geçişte migration gerekmez.
+0.3.0, Pulse Core 0.3.0 ile hizalanır; OTel sayısal model kullanımını da aktarır; tracer sorumluluğu uygulamanızdadır. Özel exporter yeni olay birleşimini `kind` ile ayırmalıdır; mevcut handler kurucu API’leri korunur.
 
 Kendi OTel tracer'ınızı verin ve exporter'ı `createPulseCore` veya MCP adaptörünün `createPulse` fonksiyonuna aktarın. Yukarıdaki npm komutuyla tam sürümleri kurun. Tam gerçek MCP örneği için depoda `pnpm example:otel` çalıştırın.
 
@@ -61,3 +65,9 @@ JavaScript'in temsil edemediği zamanlar, artık saniye dahil, `INVALID_EVENT` d
 The MIT SDK works independently of the proprietary Cloud service. Explore the [labelled Cloud demo](https://pulse.reviseflow.io/en/demo) when shared views and managed retention become useful; package installation does not create a subscription.
 
 MIT SDK, kapalı kaynak Cloud servisinden bağımsızdır. Ortak görünümler ve yönetilen saklama gerektiğinde [etiketlenmiş Cloud demosunu](https://pulse.reviseflow.io/tr/demo) inceleyin; paket kurulumu abonelik oluşturmaz.
+
+## Optional reported token usage / İsteğe bağlı bildirilen token kullanımı
+
+Use `recordUsage({provider, model, inputTokens?, outputTokens?})` on core or MCP to record one provider-reported model invocation. Local memory/JSONL works without a Cloud account or key. Missing values remain null, and handler call counts stay separate. See the [EN/TR usage guide](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/token-usage.md) for scopes, subset counts and collector migration.
+
+TR: Bir sağlayıcı çağrısının sayısal kullanımını core veya MCP üzerinde `recordUsage` ile kaydedin. Yerel memory/JSONL için Cloud hesabı veya anahtarı gerekmez. Eksik değer null kalır; handler çağrı sayısı ayrıdır. Kapsam, alt kümeler ve collector geçişi için rehberi okuyun.

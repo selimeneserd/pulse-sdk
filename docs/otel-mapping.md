@@ -1,5 +1,21 @@
 # OTel mapping and Python gate / OTel eşleme ve Python kararı
 
+## 0.3.0 reported model usage / Bildirilen model kullanımı
+
+Usage records emit a separate instantaneous INTERNAL `pulse.model_usage` span at
+`occurred_at`; no model duration is observed or claimed. Allowlisted provider/model
+labels and known numeric counts are emitted. The reported model maps to `gen_ai.response.model`, as defined by the [official attribute registry](https://opentelemetry.io/docs/specs/semconv/registry/attributes/gen-ai/). Missing token attributes are omitted.
+Input/output use `gen_ai.usage.input_tokens` / `gen_ai.usage.output_tokens`;
+cache/reasoning details use Pulse attributes and remain subsets. Handler spans
+retain the original duration and outcome mapping. No prompt/content capture,
+provider instrumentation, reverse span ingestion or global provider setup is added.
+
+**TR:** Usage kayıtları `occurred_at` anında ayrı INTERNAL `pulse.model_usage`
+span'i üretir; model süresi gözlemlenmez. Yalnız izinli provider/model etiketleri ve
+bilinen sayılar aktarılır. Eksik sayılar attribute olmaz. Cache/reasoning alt
+kümeleri tekrar toplanmaz. Handler span'leri aynı anlamı korur; ham içerik,
+sağlayıcı ölçümleme veya global provider kurulumu eklenmez.
+
 Research date2026-09-11. Installed/registry verified: `@opentelemetry/api1.9.1`, `@opentelemetry/sdk-trace-base2.11.0`; the latter is test/example-only. Its public BasicTracerProvider/SimpleSpanProcessor APIs are read from installed declarations and exercised with a real in-memory provider.
 
 The official [MCP semantic conventions](https://github.com/open-telemetry/semantic-conventions-genai/blob/main/docs/gen-ai/mcp.md) are marked **Development**; the [old documentation URL](https://opentelemetry.io/docs/specs/semconv/gen-ai/mcp/) points to the new GenAI repository. It distinguishes client/server operation spans and operation/session duration metrics, and defines `gen_ai.tool.name` for tool metadata. Do not treat developing conventions as a universal stable contract. This package deliberately emits a narrower INTERNAL handler observation, not an MCP request span or MCP operation-duration metric.

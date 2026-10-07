@@ -44,7 +44,7 @@ const server = createServer(async (request, response) => {
         next_retry_after_ms: 40,
       }, { 'retry-after': '0.25' });
     } else {
-      assert.ok(['/outage', '/partial'].includes(request.url));
+      assert.ok(['/outage', '/partial', '/usage'].includes(request.url));
       ack(response, body.events);
     }
   } catch {
@@ -83,6 +83,18 @@ try {
       await sleep(2);
     }
   };
+
+  const usage = core('/usage', 1_000);
+  usage.recordUsage({ provider: 'test-fixture', model: 'fixture-model', inputTokens: 120, outputTokens: 30, cachedInputTokens: 80 });
+  await usage.flush();
+  const usageAttempts = attemptsFor('/usage');
+  assert.equal(usageAttempts.length, 1);
+  assert.equal(usageAttempts[0].events[0].kind, 'model_usage.recorded');
+  assert.equal(usageAttempts[0].events[0].input_tokens, 120);
+  assert.equal(usageAttempts[0].events[0].cached_input_tokens, 80);
+  assert.equal(usage.getDiagnostics().observed, 0);
+  assert.equal(usage.getDiagnostics().observedUsage, 1);
+  assert.equal(usage.getDiagnostics().accepted, 1);
 
   const overBudget = core('/over-budget', 60_000);
   complete(overBudget, 'packed.over_budget');

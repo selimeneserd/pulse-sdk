@@ -1,5 +1,33 @@
 # Migration and release preparation / Geçiş ve yayın hazırlığı
 
+## 0.3.0 reported usage / Bildirilen kullanım — 2026-10-07
+
+Owner-authorized npm release in preparation; publication evidence belongs to
+BUILD_STATUS.md. All three packages align at 0.3.0; pinned third-party dependency
+and Node/MCP compatibility baselines remain unchanged. This is a new event kind
+and public type-union change, not an automatic update to any managed collector.
+
+Existing `createPulse`/`createPulseCore`, handlers and exporter configuration stay
+available. `recordUsage` is optional. Custom exporters must branch on `event.kind`
+before accessing handler-only `duration_ms`/`outcome` or usage-only token fields.
+Use `PulseHandlerEvent` for handler-specific APIs and `PulseUsageEvent` for usage.
+Adopt the new schema **and** cached/reasoning sibling comparisons in your own
+collector before enabling usage. Existing events remain valid; disabling usage
+or pinning 0.2.2 is a client rollback without rewriting or deleting history.
+
+Publish independently verified archives in core → MCP → optional OTel order.
+Verify each exact registry archive and clean consumer after publication. Cloud
+is a separate private consumer, updated after SDK publication in this task; this
+SDK release does not silently change Cloud or any other collector.
+
+**TR:** npm yayını sahibi tarafından yetkilendirildi; gerçek yayın durumu
+BUILD_STATUS.md içindedir. Üç paket 0.3.0 olarak hizalanır. Kurucu API'leri korunur,
+usage isteğe bağlıdır. Özel exporter handler alanlarına erişmeden önce `kind` ile
+ayırmalıdır. Collector yeni şemayı ve cache/reasoning alt küme karşılaştırmasını
+uygulamalıdır. Eski olaylar geçerlidir. 0.2.2 pinlemek veya usage bildirimini
+kapatmak geçmişi silmeden istemciyi geri alır. SDK Cloud'dan bağımsız yayımlanır;
+bu görevde ayrı Cloud tüketicisi SDK yayını sonrasında güncellenir.
+
 ## 0.2.2 documentation release / 0.2.2 belge yayını
 
 **Published and registry-verified on both supported Node versions.** See the
