@@ -1,5 +1,32 @@
 # Migration and release preparation / Geçiş ve yayın hazırlığı
 
+## 0.3.1 Node.js security baseline — 2026-10-22 / Node.js güvenlik tabanı
+
+- Require **Node.js >=24.22.1 <25** in all package engines and use **24.22.1** for development, CI and independent packed/registry fixtures, following the [October 2026 Node.js security release](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases).
+- Align core, MCP and optional OTel at **0.3.1**. Existing APIs, event schema and third-party dependency versions are unchanged.
+- Update and restart the host Node.js runtime as well as installing the packages. npm does not bundle or replace Node.js.
+
+**TR:** Üç paket **0.3.1**, Node.js koşulu **>=24.22.1 <25** ve doğrulanan taban **24.22.1** oldu. API, olay şeması ve üçüncü taraf sürümleri değişmedi. npm paket kurulumu Node.js’i yükseltmez; sunucu runtime’ını ayrıca güncelleyip uygulamayı yeniden başlatın.
+
+Install aligned packages on the patched runtime:
+
+```sh
+npm install --save-exact @reviseflow/pulse@0.3.1 @reviseflow/pulse-core@0.3.1 @modelcontextprotocol/server@2.0.0
+# Optional / İsteğe bağlı
+npm install --save-exact @reviseflow/pulse-otel@0.3.1 @opentelemetry/api@1.9.1
+```
+
+Publish the exact verified archives in core → MCP → optional OTel order, then
+compare registry integrity and run clean consumers on Node 24.22.1. Owner-authorized
+publication status and exact evidence belong to BUILD_STATUS.md. Historical release
+sections below retain their original runtime receipts. A runtime rollback must keep
+a patched Node 24 release; do not restore 24.11.1/24.20.0 to work around a package issue.
+
+**TR:** Doğrulanmış arşivleri core → MCP → isteğe bağlı OTel sırasıyla yayımlayın;
+Node 24.22.1 üzerinde exact registry bütünlüğünü ve temiz tüketicileri kontrol edin.
+Yayın durumu BUILD_STATUS.md içindedir. Runtime geri alma da yamalı Node 24’te
+kalmalıdır; paket sorunu için savunmasız 24.11.1/24.20.0 sürümlerine dönmeyin.
+
 ## 0.3.0 reported usage / Bildirilen kullanım — 2026-10-07
 
 Published and registry-verified on both supported Node versions; exact publication

@@ -1,0 +1,86 @@
+{
+  "advisories": {
+    "1242647": {
+      "findings": [
+        {
+          "version": "2.0.0",
+          "paths": [
+            "packages__mcp>@modelcontextprotocol/server"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1242647,
+      "title": "MCP  TypeScript server SDK: Shared transport or server instances delivered one HTTP client's messages to another",
+      "module_name": "@modelcontextprotocol/server",
+      "vulnerable_versions": ">=2.0.0 <2.3.0",
+      "patched_versions": ">=2.3.0",
+      "severity": "high",
+      "cwe": "CWE-362",
+      "github_advisory_id": "GHSA-jm63-cq47-j5jp",
+      "url": "https://github.com/advisories/GHSA-jm63-cq47-j5jp"
+    },
+    "1242648": {
+      "findings": [
+        {
+          "version": "2.0.0",
+          "paths": [
+            "packages__mcp>@modelcontextprotocol/server"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1242648,
+      "title": "MCP TypeScript SDK: One HTTP request within the default size limit could exhaust server memory during validation",
+      "module_name": "@modelcontextprotocol/server",
+      "vulnerable_versions": ">=2.0.0 <2.3.0",
+      "patched_versions": ">=2.3.0",
+      "severity": "high",
+      "cwe": "CWE-770",
+      "github_advisory_id": "GHSA-46jr-4wx8-v453",
+      "url": "https://github.com/advisories/GHSA-46jr-4wx8-v453"
+    },
+    "1242666": {
+      "findings": [
+        {
+          "version": "2.0.0",
+          "paths": [
+            "packages__mcp>@modelcontextprotocol/server"
+          ],
+          "dev": false,
+          "optional": false,
+          "bundled": false
+        }
+      ],
+      "id": 1242666,
+      "title": "MCP TypeScript SDK: Server bearer authentication accepted tokens issued for another service",
+      "module_name": "@modelcontextprotocol/server",
+      "vulnerable_versions": ">=2.0.0 <2.3.0",
+      "patched_versions": ">=2.3.0",
+      "severity": "moderate",
+      "cwe": "CWE-863",
+      "github_advisory_id": "GHSA-rvq5-wwqv-78pq",
+      "url": "https://github.com/advisories/GHSA-rvq5-wwqv-78pq"
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 1,
+      "high": 2,
+      "critical": 0
+    },
+    "dependencies": 4,
+    "devDependencies": 0,
+    "optionalDependencies": 0,
+    "totalDependencies": 4
+  },
+  "scope": "PREEXISTING_MCP_FINDINGS_OUTSIDE_NODE_RUNTIME_PATCH",
+  "nodeRuntimeFixedBy": "24.22.1",
+  "findingsIntroducedByThisPatch": false
+}

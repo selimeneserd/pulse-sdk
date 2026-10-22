@@ -2,17 +2,19 @@
 
 An optional MIT-licensed exporter that sends Pulse handler observations to **your OpenTelemetry tracer**. Core and the MCP adapter do not import this package.
 
-**Version 0.3.0 · MIT · Node.js 24 ESM.** The API requires an explicit exporter. [Migrate from 0.1.0](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/migration-release.md) before upgrading an existing integration.
+**Version 0.3.1 · MIT · Node.js 24 ESM.** The API requires an explicit exporter. [Migrate from 0.1.0](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/migration-release.md) before upgrading an existing integration.
 
-**TR:** **0.3.0 · MIT · Node.js 24 ESM.** API açık bir exporter gerektirir; mevcut 0.1.0 kurulumu için önce geçiş rehberini okuyun.
+**TR:** **0.3.1 · MIT · Node.js 24 ESM.** API açık bir exporter gerektirir; mevcut 0.1.0 kurulumu için önce geçiş rehberini okuyun.
+
+**Security / Güvenlik:** Node.js **24.22.1** or a newer patched 24.x is required. Installing this package does not update Node.js; update the host runtime and restart the application. Node.js **24.22.1** veya daha yeni yamalı 24.x gerekir. Paket kurulumu Node.js’i güncellemez; sunucu runtime’ını güncelleyip uygulamayı yeniden başlatın.
 
 ## Install / Kurulum
 
 ```sh
-npm install --save-exact @reviseflow/pulse-otel@0.3.0 @reviseflow/pulse-core@0.3.0 @opentelemetry/api@1.9.1
+npm install --save-exact @reviseflow/pulse-otel@0.3.1 @reviseflow/pulse-core@0.3.1 @opentelemetry/api@1.9.1
 ```
 
-0.3.0 aligns with Pulse Core 0.3.0; OTel also exports reported numeric model usage; tracer ownership remains with your application. Custom exporters must narrow the new event union by `kind`; existing handler construction APIs remain.
+0.3.1 aligns with Pulse Core 0.3.1; OTel also exports reported numeric model usage; tracer ownership remains with your application. Custom exporters must narrow the new event union by `kind`; existing handler construction APIs remain.
 
 Pass your configured tracer to the exporter, then inject it into Pulse:
 
@@ -48,7 +50,7 @@ TR: Usage ayrı bir metaveri span’idir; model gecikmesi iddia edilmez. Input/o
 
 ## Türkçe
 
-0.3.0, Pulse Core 0.3.0 ile hizalanır; OTel sayısal model kullanımını da aktarır; tracer sorumluluğu uygulamanızdadır. Özel exporter yeni olay birleşimini `kind` ile ayırmalıdır; mevcut handler kurucu API’leri korunur.
+0.3.1, Pulse Core 0.3.1 ile hizalanır; OTel sayısal model kullanımını da aktarır; tracer sorumluluğu uygulamanızdadır. Özel exporter yeni olay birleşimini `kind` ile ayırmalıdır; mevcut handler kurucu API’leri korunur.
 
 Kendi OTel tracer'ınızı verin ve exporter'ı `createPulseCore` veya MCP adaptörünün `createPulse` fonksiyonuna aktarın. Yukarıdaki npm komutuyla tam sürümleri kurun. Tam gerçek MCP örneği için depoda `pnpm example:otel` çalıştırın.
 

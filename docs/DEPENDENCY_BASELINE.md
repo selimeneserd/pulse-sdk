@@ -1,5 +1,21 @@
 # Dependency baseline / Bağımlılık temeli
 
+## 0.3.1 security baseline — 2026-10-22 / Güvenlik tabanı
+
+Node.js **24.22.1**, pnpm **11.22.0**. All three Pulse packages align at **0.3.1**
+with engines **>=24.22.1 <25**; earlier runtime fixtures are historical. The
+[official Node security release](https://nodejs.org/en/blog/release/v24.22.1)
+provides the fix in the runtime. No third-party package versions change. The
+installed manifest/README baseline and lock hashes are recorded in
+`evidence/security-baseline-20261022.json`; executed gates are in BUILD_STATUS.md.
+
+**TR:** Node.js **24.22.1**, pnpm **11.22.0**, üç Pulse paket **0.3.1** ve engine
+**>=24.22.1 <25**. Eski runtime kanıtları tarihsel olarak korunur. Düzeltme Node
+runtime’ındadır; diğer bağımlılık sürümleri değişmez. Kurulu manifest/README ve
+lock özeti kanıt dosyasında, gerçek test sonuçları BUILD_STATUS.md içindedir.
+
+## Historical 0.2.1 baseline / Geçmiş 0.2.1 temeli
+
 0.2.1 published release, 2026-09-12: third-party dependency versions and the support matrix remain unchanged. Pulse core/MCP/optional OTel versions align at 0.2.1; package manifests and generated version metadata are the release metadata changes. The workspace-link lockfile remains byte-identical and passed frozen offline installation. The pre-release installed versions, engines, starting SHA and then-current lock SHA-256 are recorded in `evidence/correctness-baseline-20260912.json`; the same lock SHA-256 applies to the final 0.2.1 release: `08a981acaa104f278d62279fc1510e491a305cf3b3ae181cbf59c9ac699b4b82`. Final release validation and exact evidence are tracked in [BUILD_STATUS.md](../BUILD_STATUS.md).
 
 The declared CI matrix remains Node 24.11.1/24.20.0, MCP 2.0.0 and pnpm 11.22.0. CLI uses built-in Node `findPackageJSON`, default ESM `import.meta.resolve` and `import.meta.main`, exercised by the correctness regressions on both declared runtimes; no new dependency is added. Historical 0.2.0 CI results below do not establish 0.2.1 release validation.

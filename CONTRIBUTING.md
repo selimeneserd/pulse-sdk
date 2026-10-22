@@ -6,7 +6,7 @@ Pulse SDK is MIT licensed. The separate proprietary Cloud repository is not requ
 
 ## Development setup
 
-Use Node.js **24.20.0**, pnpm **11.22.0**, and Python 3 for the cross-language identity fixtures. Node.js 24.11.1 is also in the tested matrix.
+Use Node.js **24.22.1**, pnpm **11.22.0**, and Python 3 for the cross-language identity fixtures. Earlier Node 24 versions are below the security baseline.
 
 ```sh
 pnpm install --frozen-lockfile
@@ -56,7 +56,7 @@ Report ordinary bugs in [GitHub issues](https://github.com/selimeneserd/pulse-sd
 
 Pulse SDK MIT lisanslıdır. Katkı için ayrı Cloud deposu gerekmez; özel Cloud kodunu bu depoya kopyalamayın. Düzenleme öncesinde LICENSE ve AGENTS.md dosyalarını okuyun.
 
-Geliştirme için Node.js **24.20.0**, pnpm **11.22.0** ve diller arası kimlik vektörleri için Python 3 kullanın. Node.js 24.11.1 de test matrisindedir. Önce `pnpm install --frozen-lockfile`, ardından `pnpm check` ve `pnpm verify:pack` çalıştırın. Paketleme npm'e yayın yapmaz. Entegrasyon veya performans değiştiyse ilgili yerel örnekleri ve benchmark'ı da doğrulayın.
+Geliştirme için Node.js **24.22.1**, pnpm **11.22.0** ve diller arası kimlik vektörleri için Python 3 kullanın. Önceki Node 24 sürümleri güvenlik tabanının altındadır. Önce `pnpm install --frozen-lockfile`, ardından `pnpm check` ve `pnpm verify:pack` çalıştırın. Paketleme npm'e yayın yapmaz. Entegrasyon veya performans değiştiyse ilgili yerel örnekleri ve benchmark'ı da doğrulayın.
 
 Core'un Cloud'dan bağımsızlığını, sınırlı kuyruk/retry davranışını ve gizlilik sınırlarını koruyun. Gerçek bir sınırı doğrulayan regresyon testi ekleyin. Yeni olay alanlarını kanonik şema, üretilen tipler, gizlilik kuralları ve uyumluluk testleriyle birlikte güncelleyin. Yeni sürüm desteğini gerçek kurulumla kanıtlayın; EN/TR metinleri birlikte tutun.
 

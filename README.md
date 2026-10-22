@@ -4,17 +4,19 @@ Open-source analytics for MCP tool handlers. Observe calls locally, then send th
 
 [**Türkçe**](README.tr.md) · [Local quickstart](#run-locally) · [Documentation](#documentation) · [Contributing](CONTRIBUTING.md)
 
-> **Version 0.3.0:** Optional, explicitly reported model token usage alongside observed MCP handler completions. No Cloud account or key is needed. Existing construction APIs remain; custom exporters must handle the new event union. Read the [migration guide](docs/migration-release.md).
+> **Version 0.3.1:** Optional, explicitly reported model token usage alongside observed MCP handler completions. No Cloud account or key is needed. Existing construction APIs remain; custom exporters must handle the new event union. Read the [migration guide](docs/migration-release.md).
+
+> **Security baseline:** Update your host Node.js to **24.22.1** (or a newer patched 24.x) and restart the application. Updating the npm package does not replace Node.js. [October 2026 security release](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases).
 
 `recordUsage()` accepts numeric usage supplied by your application after a provider response. Pulse does not inspect prompts or results, call a model, estimate tokens, or discover the host's model consumption. See the [token usage guide](docs/token-usage.md).
 
 ```sh
-npm install --save-exact @reviseflow/pulse@0.3.0 @reviseflow/pulse-core@0.3.0 @modelcontextprotocol/server@2.0.0
+npm install --save-exact @reviseflow/pulse@0.3.1 @reviseflow/pulse-core@0.3.1 @modelcontextprotocol/server@2.0.0
 ```
 
 ## Run locally
 
-Use **Node.js 24.20.0** and **pnpm 11.22.0**. Node.js 24.11.1 is also tested; the adapter targets the official MCP TypeScript SDK **2.0.0**. See the [compatibility matrix](docs/compatibility.md) for the exact evidence and limitations.
+Use **Node.js 24.22.1** and **pnpm 11.22.0**. Earlier Node 24 releases are below the security baseline; the adapter targets the official MCP TypeScript SDK **2.0.0**. See the [compatibility matrix](docs/compatibility.md) for the exact evidence and limitations.
 
 ```sh
 git clone https://github.com/selimeneserd/pulse-sdk.git

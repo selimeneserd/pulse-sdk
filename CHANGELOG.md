@@ -1,5 +1,13 @@
 # Changelog / Değişiklik günlüğü
 
+## 0.3.1 Node.js security baseline — 2026-10-22 / Node.js güvenlik tabanı
+
+- Require **Node.js >=24.22.1 <25** in all package engines and use **24.22.1** for development, CI and independent packed/registry fixtures, following the [October 2026 Node.js security release](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases).
+- Align core, MCP and optional OTel at **0.3.1**. Existing APIs, event schema and third-party dependency versions are unchanged.
+- Update and restart the host Node.js runtime as well as installing the packages. npm does not bundle or replace Node.js.
+
+**TR:** Üç paket **0.3.1**, Node.js koşulu **>=24.22.1 <25** ve doğrulanan taban **24.22.1** oldu. API, olay şeması ve üçüncü taraf sürümleri değişmedi. npm paket kurulumu Node.js’i yükseltmez; sunucu runtime’ını ayrıca güncelleyip uygulamayı yeniden başlatın.
+
 ## 0.3.0 — 2026-10-07
 
 - Add optional `recordUsage()` to standalone core and MCP instances, with strict content-free `model_usage.recorded` events and async tool-invocation correlation.

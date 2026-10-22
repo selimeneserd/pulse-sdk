@@ -1,5 +1,48 @@
 # SDK delivery status / SDK teslim durumu
 
+## 0.3.1 Node.js security patch prepared — 2026-10-22 / Güvenlik yaması hazır
+
+**Local checks passed; npm publication and registry verification are pending.**
+The owner authorized the Node security upgrade, tests and publication. All three
+MIT packages align at **0.3.1** with engines **>=24.22.1 <25**. Development,
+CI and packed/registry gates now select **Node.js 24.22.1**, the patched 24.x
+release in the [official October advisory](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases).
+Consumers must update and restart their host Node runtime; npm installation does
+not replace Node.js. SDK APIs, wire contracts and third-party versions are unchanged.
+
+- Node **24.22.1** / pnpm **11.22.0**, macOS arm64: frozen offline installation,
+  `pnpm check` (**216/216 tests**, 15 files), package builds/types, canonical
+  contracts, import boundaries, conformance and **12 identity vectors** passed.
+  [Source gate](docs/evidence/security-check-node24.22.1-20261022.txt).
+- `pnpm verify:pack` passed **106 commands**, all three final archives, public
+  types/bin/metadata and allowlists, offline real MCP, explicit HTTP, EN/TR CLI,
+  normal/hoisted/nested resolution, OTel, ESM bundles and duplicate copies.
+  [Packed receipt](docs/evidence/security-packed-node24.22.1-20261022.json).
+- Exact installed package/README hashes, runtime components and the unchanged lock
+  hash are recorded in [baseline](docs/evidence/security-baseline-20261022.json).
+  Runtime reports OpenSSL **3.5.9**, c-ares **1.34.9**, Undici **7.30.1**.
+- **Existing separate audit findings:** `pnpm audit --prod` returns two high and
+  one moderate finding for the retained MCP **2.0.0** peer (GHSA-jm63-cq47-j5jp,
+  GHSA-46jr-4wx8-v453, GHSA-rvq5-wwqv-78pq). The Node patch neither introduces
+  nor resolves them. A patched MCP release requires a separate compatibility
+  upgrade and application configuration. No clean global audit or passing remote
+  CI is claimed. [Audit receipt](docs/evidence/security-audit-20261022.json).
+- **Publication blocker:** Existing npm authentication returned **E401** on
+  `npm whoami`; an owner web/passkey renewal is required. No credential or npm
+  security setting was changed. [Prepared release ledger](docs/evidence/npm-release-0.3.1-20261022.json).
+
+Historical release records below retain their original runtimes and evidence.
+No private Cloud source, credentials or proprietary packages enter these archives.
+
+**TR:** Üç MIT paket **0.3.1**, Node güvenlik tabanı **24.22.1** ve engine koşulu
+**>=24.22.1 <25** olarak hazırlandı. Yerelde **216 test**, **106 paket tüketim
+komutu**, build/tip/sözleşme ve 12 kimlik vektörü geçti. npm yayını ile registry
+kontrolü henüz yapılmadı; mevcut oturum **E401**, sahip web/passkey yenilemesi
+bekleniyor. MCP 2.0.0’ın ayrı iki yüksek ve bir orta audit bulgusu sürüyor; bu Node
+yaması bunları çözmez ve audit/uzak CI temiz gösterilmez. npm kurulumu Node.js’i
+güncellemez; sunucu runtime’ını yükseltip uygulamayı yeniden başlatın.
+
+
 ## 0.3.0 published and verified — 2026-10-07 / Yayımlandı ve doğrulandı
 
 **All three MIT packages are published as 0.3.0 (`latest`).** Artifact source

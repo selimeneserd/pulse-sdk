@@ -1,0 +1,61 @@
+{
+  "date": "2026-10-22",
+  "status": "PREPARED_AND_LOCAL_CONSUMERS_VERIFIED_NOT_PUBLISHED",
+  "ownerAuthorizedPublication": true,
+  "node": "24.22.1",
+  "packageManager": "11.22.0",
+  "runtimeRequirement": ">=24.22.1 <25",
+  "scope": "NODE_OCTOBER_2026_SECURITY_BASELINE",
+  "sourceCommit": null,
+  "releaseOrder": [
+    "@reviseflow/pulse-core",
+    "@reviseflow/pulse",
+    "@reviseflow/pulse-otel"
+  ],
+  "packages": [
+    {
+      "name": "@reviseflow/pulse-core",
+      "version": "0.3.1",
+      "archive": "artifacts/packed-Y8vX4u/reviseflow-pulse-core-0.3.1.tgz",
+      "sha256": "093cf796f2bfa848f7c1eb5c2b202e74b47f166946038fd6ab3e93e751576735",
+      "integrity": "sha512-9PoN7vxvX3acuX1iRHHOhWGEyK8+gvU4lklAR6ugPCapNYuZYl7RyB8239fPRdtOmsf5lklxmcz+JwR/onepEQ==",
+      "status": "LOCAL_VERIFIED_NOT_PUBLISHED"
+    },
+    {
+      "name": "@reviseflow/pulse",
+      "version": "0.3.1",
+      "archive": "artifacts/packed-Y8vX4u/reviseflow-pulse-0.3.1.tgz",
+      "sha256": "8279d96f69831a13da4616aff30ceca46d509cf7a5a664e9eed4a50164b8a66a",
+      "integrity": "sha512-yZyK7v7uH0l9tH6LosVXPnzgD43522bSfGmhAhfLB7LYByBUI1vMdRcYUFtKCz/ELAYT8FZt4TQlhSt73SGT8g==",
+      "status": "LOCAL_VERIFIED_NOT_PUBLISHED"
+    },
+    {
+      "name": "@reviseflow/pulse-otel",
+      "version": "0.3.1",
+      "archive": "artifacts/packed-Y8vX4u/reviseflow-pulse-otel-0.3.1.tgz",
+      "sha256": "5a5805dfce541be1d3366c40084759cf4570c3ac8070881b4e3ff7b3956f0b94",
+      "integrity": "sha512-uu2t6JhzP9Xw8SijKUM+LFMtT5w3uLs0dLv1WzKBpfOjzSd/3lmq9/5Zf+tpvtpootC6ySo4+45CmOrrqoN8pQ==",
+      "status": "LOCAL_VERIFIED_NOT_PUBLISHED"
+    }
+  ],
+  "sourceChecks": {
+    "status": "PASSED",
+    "tests": 216,
+    "receipt": "docs/evidence/security-check-node24.22.1-20261022.txt"
+  },
+  "packedConsumer": {
+    "status": "PASSED",
+    "commands": 106,
+    "receipt": "docs/evidence/security-packed-node24.22.1-20261022.json"
+  },
+  "existingAuditFindings": {
+    "high": 2,
+    "moderate": 1,
+    "package": "@modelcontextprotocol/server@2.0.0",
+    "introducedByThisPatch": false,
+    "receipt": "docs/evidence/security-audit-20261022.json"
+  },
+  "publicationBlocker": "NPM_AUTHENTICATION_REQUIRED_E401",
+  "privateCloudPublished": false,
+  "thirdPartyDependenciesChanged": false
+}

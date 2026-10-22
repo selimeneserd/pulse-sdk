@@ -1,25 +1,43 @@
 # Compatibility evidence / Uyumluluk kanıtı
 
-## 0.3.0 baseline / Başlangıç noktası
+## 0.3.1 security baseline / Güvenlik tabanı — 2026-10-22
 
-Installed official MCP core/server/client/node packages are exactly **2.0.0**,
-implementing protocol **2026-07-28** per the installed server README. Node
-**24.11.1** and **24.20.0**, pnpm **11.22.0**, Zod **4.6.1**, OTel API **1.9.1**
-and SDK trace base **2.11.0** remain the declared fixture pins. No broad MCP or
-provider-SDK compatibility is added. Numeric usage is supplied explicitly; no
-provider SDK is installed or instrumented by this feature. Final executed
-checks and archive evidence are recorded in BUILD_STATUS.md; historical counts
-below belong to their dated releases.
+The active Node.js baseline is **24.22.1**; package engines require **>=24.22.1 <25**.
+The [official October security release](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases)
+fixes affected Node 24 runtimes. The previous 24.11.1/24.20.0 fixtures below are
+historical and no longer the supported security baseline. Consumers must update
+and restart their host runtime; an npm package cannot replace Node.js.
 
-**TR:** Kurulu resmî MCP paketleri tam 2.0.0 ve protokol 2026-07-28'dir. Node,
-pnpm, Zod ve OTel pinleri değişmez. Kullanım açıkça verilir; sağlayıcı SDK'sı
-kurulmaz veya otomatik ölçümlenmez. Son doğrulamalar BUILD_STATUS.md içindedir.
+Installed official MCP core/server/client/node packages remain exactly **2.0.0**,
+protocol **2026-07-28** per the installed server README. pnpm **11.22.0**,
+TypeScript **7.0.2**, Vitest **5.0.0**, Zod **4.6.1**, OTel API **1.9.1** and
+trace base **2.11.0** are unchanged. No API, event schema, provider SDK or runtime
+dependency is added. Executed source, packed and registry fixture results belong
+to [BUILD_STATUS.md](../BUILD_STATUS.md).
+
+**TR:** Güncel Node.js güvenlik tabanı **24.22.1**, paket koşulu **>=24.22.1 <25**.
+Eski 24.11.1/24.20.0 kayıtları tarihsel kanıttır. npm kurulumu Node.js’i değiştirmez;
+sunucu runtime’ını yükseltip uygulamayı yeniden başlatın. MCP **2.0.0** ve protokol
+**2026-07-28** korunur. Diğer bağımlılıklar, API ve olay şeması değişmez; gerçek
+kaynak/paket/registry test sonuçları BUILD_STATUS.md içindedir.
+
+The retained MCP 2.0.0 peer has two high and one moderate upstream audit findings
+([sharing](https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-jm63-cq47-j5jp),
+[validation](https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-46jr-4wx8-v453),
+[audience](https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-rvq5-wwqv-78pq)).
+The Node patch does not resolve them; `pnpm audit --prod` is not a clean gate.
+MCP 2.3.0 and required application configuration need a separate compatibility
+upgrade. **TR:** Korunan MCP peer’inde iki yüksek, bir orta upstream bulgu vardır;
+Node yaması bunları çözmez. MCP yükseltmesi ve gereken sunucu ayarları ayrıca
+doğrulanmalıdır; audit temiz olarak gösterilmez.
+
+## Historical 0.2.1 baseline / Geçmiş 0.2.1 temeli
 
 0.2.1 retains the Node 24.11.1/24.20.0, MCP 2.0.0 and ESM support matrix. The final exact release passed **205/205** tests and clean packed consumers locally on both runtimes. [GitHub CI 34676226310](https://github.com/selimeneserd/pulse-sdk/actions/runs/34676226310) passed both Node versions on Ubuntu. After npm publication, exact archive integrity and **106 clean registry consumer commands per runtime** passed. [BUILD_STATUS.md](../BUILD_STATUS.md) links the source and publication ledger.
 
 Final release receipts use `evidence/release-0.2.1-check-node24.11.1.txt`, `release-0.2.1-check-node24.20.0.txt`, `release-0.2.1-packed-node*.json` and `release-0.2.1-registry-node*.json`. Earlier `correctness-check-node*.txt` and `correctness-packed-node*.json` describe 0.2.0-labelled development archives before the version bump; they are historical evidence.
 
-The CLI's default Node ESM resolution is tested with real installed MCP 2.0.0, hoisted workspace consumers and synthetic package/symlink fixtures. Custom loaders, bundler aliases and pnpm end-to-end support are not claimed. No support range changed.
+The CLI's default Node ESM resolution is tested with real installed MCP 2.0.0, hoisted workspace consumers and synthetic package/symlink fixtures. Custom loaders, bundler aliases and pnpm end-to-end support are not claimed. That historical release did not change its support range.
 
 TR: Son 0.2.1 sürümü Node 24.11.1/24.20.0, MCP 2.0.0 ve ESM destek matrisini korur. İki runtime'da 205 kaynak testi ve temiz tarball tüketicileri, Ubuntu üzerinde iki Node sürümlü CI ve npm yayını sonrasında her runtime'da 106 registry tüketici komutu geçti. Exact arşiv bütünlükleri eşleşir. Önceki 0.2.0 etiketli geliştirme arşivlerinin kanıtları tarihsel olarak korunur. Hoisted kurulumlar test edilir; custom loader, bundler alias veya pnpm uçtan uca desteği iddia edilmez.
 

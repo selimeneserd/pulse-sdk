@@ -497,7 +497,7 @@ await client.close(); await server.close(); await one.shutdown(); await two.shut
 }
 
 try {
-  assert.ok(['v24.11.1', 'v24.20.0'].includes(process.version), 'RUN_WITH_VERIFIED_NODE_MATRIX');
+  assert.equal(process.version, 'v24.22.1', 'RUN_WITH_PATCHED_NODE_BASELINE');
   report.package_manager = run('pnpm', ['--version']).trim();
   assert.equal(report.package_manager, '11.22.0', 'RUN_WITH_PINNED_PNPM');
   report.npm = run('npm', ['--version']).trim();

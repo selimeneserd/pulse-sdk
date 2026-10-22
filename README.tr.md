@@ -4,17 +4,19 @@ MCP araç handler'ları için açık kaynak analiz altyapısı. Çağrıları ye
 
 [**English**](README.md) · [Yerel başlangıç](#yerelde-çalıştırın) · [Belgeler](#belgeler) · [Katkı](CONTRIBUTING.md)
 
-> **Sürüm 0.3.0:** Gözlemlenen MCP handler çağrılarına ek olarak isteğe bağlı, açıkça bildirilen model token kullanımı. Cloud hesabı veya anahtarı gerekmez. Mevcut kurucu API'leri korunur; özel exporter'lar yeni olay birleşimini işlemelidir. [Geçiş rehberini](docs/migration-release.md) okuyun.
+> **Sürüm 0.3.1:** Gözlemlenen MCP handler çağrılarına ek olarak isteğe bağlı, açıkça bildirilen model token kullanımı. Cloud hesabı veya anahtarı gerekmez. Mevcut kurucu API'leri korunur; özel exporter'lar yeni olay birleşimini işlemelidir. [Geçiş rehberini](docs/migration-release.md) okuyun.
+
+> **Güvenlik tabanı:** Sunucunuzdaki Node.js’i **24.22.1** (veya daha yeni yamalı 24.x) sürümüne yükseltip uygulamayı yeniden başlatın. npm paketini güncellemek Node.js’i değiştirmez. [Ekim 2026 güvenlik yayını](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases).
 
 `recordUsage()`, sağlayıcı yanıtından sonra uygulamanızın verdiği sayısal kullanımı kabul eder. Pulse prompt/sonuç incelemez, model çağırmaz, token tahmin etmez ve istemcinin model tüketimini keşfetmez. [Token kullanım rehberi](docs/token-usage.md).
 
 ```sh
-npm install --save-exact @reviseflow/pulse@0.3.0 @reviseflow/pulse-core@0.3.0 @modelcontextprotocol/server@2.0.0
+npm install --save-exact @reviseflow/pulse@0.3.1 @reviseflow/pulse-core@0.3.1 @modelcontextprotocol/server@2.0.0
 ```
 
 ## Yerelde çalıştırın
 
-**Node.js 24.20.0** ve **pnpm 11.22.0** kullanın. Node.js 24.11.1 de test edilmiştir; adaptör, resmi MCP TypeScript SDK **2.0.0** sürümünü hedefler. Doğrulanan kapsam ve sınırlar [uyumluluk tablosunda](docs/compatibility.md) bulunur.
+**Node.js 24.22.1** ve **pnpm 11.22.0** kullanın. Önceki Node 24 sürümleri güvenlik tabanının altındadır; adaptör, resmi MCP TypeScript SDK **2.0.0** sürümünü hedefler. Doğrulanan kapsam ve sınırlar [uyumluluk tablosunda](docs/compatibility.md) bulunur.
 
 ```sh
 git clone https://github.com/selimeneserd/pulse-sdk.git

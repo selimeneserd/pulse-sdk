@@ -1,0 +1,163 @@
+{
+  "date": "2026-10-22",
+  "scope": "MIT public SDK only",
+  "node": "v24.22.1",
+  "platform": "darwin",
+  "arch": "arm64",
+  "runtimeComponents": {
+    "openssl": "3.5.9",
+    "ares": "1.34.9",
+    "undici": "7.30.1",
+    "brotli": "1.2.0"
+  },
+  "targetPackageVersion": "0.3.1",
+  "engines": ">=24.22.1 <25",
+  "packageManager": "pnpm@11.22.0",
+  "thirdPartyVersionsChanged": false,
+  "lockSha256": "08a981acaa104f278d62279fc1510e491a305cf3b3ae181cbf59c9ac699b4b82",
+  "advisory": "https://nodejs.org/en/blog/vulnerability/october-2026-security-releases",
+  "runtimeRelease": "https://nodejs.org/en/blog/release/v24.22.1",
+  "dependencies": [
+    {
+      "name": "@modelcontextprotocol/server",
+      "declared": "2.0.0",
+      "installed": "2.0.0",
+      "engines": {
+        "node": ">=20"
+      },
+      "manifestSha256": "ff7f23c4a4a3162a34a2cb21087e1844bb8631724d8e43aa14aaa86d3f7e07c2",
+      "readmeSha256": "4d4d0e422447441add2842d2304b9b225e781a2917617804ad489a0206beef2a"
+    },
+    {
+      "name": "@modelcontextprotocol/client",
+      "declared": "2.0.0",
+      "installed": "2.0.0",
+      "engines": {
+        "node": ">=20"
+      },
+      "manifestSha256": "e82352cb01cda68e239b73ba7ca2065b3078fa9bb8d762e7cff04fcc5a141ccb",
+      "readmeSha256": "6283b3fc5878b1b4bd03f0377a7ba4345e71a9023fe2aafb83a44ac7c5fd3e4d"
+    },
+    {
+      "name": "@modelcontextprotocol/node",
+      "declared": "2.0.0",
+      "installed": "2.0.0",
+      "engines": {
+        "node": ">=20"
+      },
+      "manifestSha256": "5f14c5fc755be0d0c97f2581f0c79fb812137015adff811fb620ee43db671e40",
+      "readmeSha256": "f56de5e1c58a99f5ef6a27fe47d0a44cef0ebeba9002b620d59b3f7492d2adac"
+    },
+    {
+      "name": "@modelcontextprotocol/core",
+      "declared": "2.0.0",
+      "installed": "2.0.0",
+      "engines": {
+        "node": ">=20"
+      },
+      "manifestSha256": "dc2e8e1fc31878b0b537b0ea034d4a11284cce20fe81f4c6ea823dd6db7e7ad5",
+      "readmeSha256": "4530de68d289e00cdacc27478b501b47fd9ea5c878af95c6d809c455a9c1de9a"
+    },
+    {
+      "name": "typescript",
+      "declared": "7.0.2",
+      "installed": "7.0.2",
+      "engines": {
+        "node": ">=16.20.0"
+      },
+      "manifestSha256": "3722b30210616a13a3213ded11575ba6b2dbab10c32a5ef67afca8513e27017e",
+      "readmeSha256": "2b0c6b9a289d72ce11bce498cc7b21c9dad32e8f7d3a28211225d433f2686d89"
+    },
+    {
+      "name": "vitest",
+      "declared": "5.0.0",
+      "installed": "5.0.0",
+      "engines": {
+        "node": "^22.12.0 || ^24.0.0 || >=26.0.0"
+      },
+      "manifestSha256": "a4f269c689b346c33446feaa8adea6bc1c1bd35a21e12c9ffac74198687b0fbc",
+      "readmeSha256": "1e870589f0aa14b261587531486354c4a87f78e8d3170c29b0fa3b74ccbe190e"
+    },
+    {
+      "name": "zod",
+      "declared": "4.6.1",
+      "installed": "4.6.1",
+      "engines": null,
+      "manifestSha256": "33913eb1aeb7d4438526ce43b8933316c3da9f3e60904f2ffa234c0135042fde",
+      "readmeSha256": "b4bf9d5c867bd860d58c63b2979f655049e7872c41d15dea572da529c32a7dc9"
+    },
+    {
+      "name": "ajv",
+      "declared": "8.20.0",
+      "installed": "8.20.0",
+      "engines": null,
+      "manifestSha256": "1f9033ee5a6515e7d76938b7072941862d1ed228a6879cc7fe10cdeb75107989",
+      "readmeSha256": "38d924524762b917dd9dd341ac28837df51a474bf198ac4c26ba69d8f59a27c3"
+    },
+    {
+      "name": "ajv-formats",
+      "declared": "3.0.1",
+      "installed": "3.0.1",
+      "engines": null,
+      "manifestSha256": "402fb4bcfa457f0226813f3976ac42839dd619907c075c108efba8600d7edb69",
+      "readmeSha256": "bfb4ce0b6f3f34ffdc42be1a6549926aaa13854aae0d1827287d50c2c293097f"
+    },
+    {
+      "name": "@types/node",
+      "declared": "24.13.4",
+      "installed": "24.13.4",
+      "engines": null,
+      "manifestSha256": "5cb83de4ba6065603bf54706024d8506983ea29e4db41853274209c614e526f1",
+      "readmeSha256": "318207d136f20d68a8a8aa9f6006f44ef472afad3db0de390d45720939d182eb"
+    },
+    {
+      "name": "@opentelemetry/api",
+      "declared": "1.9.1",
+      "installed": "1.9.1",
+      "engines": {
+        "node": ">=8.0.0"
+      },
+      "manifestSha256": "c0d7c72331bc8cd456dd791f2f429ddafa1d0b5b8abeb4104e6deb12f18b4a86",
+      "readmeSha256": "d1494b8da0a6226e2d6ba8f0bc6b16abf20765a625faa1cdaffff71be38978e6"
+    },
+    {
+      "name": "@opentelemetry/sdk-trace-base",
+      "declared": "2.11.0",
+      "installed": "2.11.0",
+      "engines": {
+        "node": "^18.19.0 || >=20.6.0"
+      },
+      "manifestSha256": "d2df2e5417a6325b52492c72dbf8c41d120d34ff0dcea76cf01b76cdccff340a",
+      "readmeSha256": "63926ece889c6b8090c6c6bc95d7f68cb23260797fa56cd0031d317b89a8dc20"
+    },
+    {
+      "name": "tsx",
+      "declared": "4.23.13",
+      "installed": "4.23.13",
+      "engines": {
+        "node": ">=18.0.0"
+      },
+      "manifestSha256": "3ace2493a0acd26fc72a8433a38113ee04d5a1976910a3f40815f9e779d5c426",
+      "readmeSha256": "44e63909767a6f7b21d4103df9417e3ab88bae17a3bc77b93fdcfb94176e3211"
+    },
+    {
+      "name": "esbuild",
+      "declared": "0.28.2",
+      "installed": "0.28.2",
+      "engines": {
+        "node": ">=18"
+      },
+      "manifestSha256": "9d0bc453f4e791553c4cc2298ba023b409241fd9801e494741666eb0f6051490",
+      "readmeSha256": "6d481cd60ec3c679e5e395f547ab4221147f35642894f6b95a8df38fd25c87bd"
+    }
+  ],
+  "sourceFixtures": [
+    "tests/adapter.test.ts",
+    "tests/mcp-http.test.ts",
+    "tests/usage-mcp.test.ts",
+    "tests/core.test.ts",
+    "tests/cli-resolution.test.ts",
+    "scripts/verify-packed.mjs"
+  ],
+  "consumerRuntimeUpdateRequired": true
+}
