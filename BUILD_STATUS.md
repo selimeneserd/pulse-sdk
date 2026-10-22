@@ -1,47 +1,61 @@
 # SDK delivery status / SDK teslim durumu
 
-## 0.3.1 Node.js security patch prepared — 2026-10-22 / Güvenlik yaması hazır
+## 0.3.1 published and verified — 2026-10-22 / Yayımlandı ve doğrulandı
 
-**Local checks passed; npm publication and registry verification are pending.**
-The owner authorized the Node security upgrade, tests and publication. All three
-MIT packages align at **0.3.1** with engines **>=24.22.1 <25**. Development,
-CI and packed/registry gates now select **Node.js 24.22.1**, the patched 24.x
-release in the [official October advisory](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases).
+**All three MIT packages are published as 0.3.1 (`latest`).** The owner authorized
+the Node security upgrade, testing and publication. Exact registry integrity,
+engine metadata and clean registry consumers passed on **Node.js 24.22.1**.
+[Publication ledger](docs/evidence/npm-release-0.3.1-20261022.json).
+Artifact source is `2dd68785f6e6f26f6973d3c210225c4caed4e4ec`.
+
+All package engines now require **>=24.22.1 <25**; development, CI and independent
+packed/registry fixtures use the patched **24.22.1** baseline from the
+[official October advisory](https://nodejs.org/en/blog/vulnerability/october-2026-security-releases).
 Consumers must update and restart their host Node runtime; npm installation does
-not replace Node.js. SDK APIs, wire contracts and third-party versions are unchanged.
+not replace Node.js. APIs, wire contracts and third-party versions are unchanged.
 
 - Node **24.22.1** / pnpm **11.22.0**, macOS arm64: frozen offline installation,
   `pnpm check` (**216/216 tests**, 15 files), package builds/types, canonical
   contracts, import boundaries, conformance and **12 identity vectors** passed.
   [Source gate](docs/evidence/security-check-node24.22.1-20261022.txt).
-- `pnpm verify:pack` passed **106 commands**, all three final archives, public
-  types/bin/metadata and allowlists, offline real MCP, explicit HTTP, EN/TR CLI,
-  normal/hoisted/nested resolution, OTel, ESM bundles and duplicate copies.
-  [Packed receipt](docs/evidence/security-packed-node24.22.1-20261022.json).
+- `pnpm verify:pack` and post-publication `pnpm verify:registry` each passed
+  **106 commands**: all three exact archives, public types/bin/metadata and
+  allowlists, offline real MCP, explicit HTTP, EN/TR CLI, normal/hoisted/nested
+  resolution, OTel, ESM bundles and duplicate copies.
+  [Packed receipt](docs/evidence/security-packed-node24.22.1-20261022.json),
+  [registry receipt](docs/evidence/security-registry-node24.22.1-20261022.json).
+- **59 source/original-archive fingerprints remained unchanged** across registry
+  verification. Repacked archive hashes match both reviewed publication archives
+  and npm integrity. [Integrity receipt](docs/evidence/security-source-archive-integrity-20261022.json).
 - Exact installed package/README hashes, runtime components and the unchanged lock
   hash are recorded in [baseline](docs/evidence/security-baseline-20261022.json).
   Runtime reports OpenSSL **3.5.9**, c-ares **1.34.9**, Undici **7.30.1**.
-- **Existing separate audit findings:** `pnpm audit --prod` returns two high and
-  one moderate finding for the retained MCP **2.0.0** peer (GHSA-jm63-cq47-j5jp,
-  GHSA-46jr-4wx8-v453, GHSA-rvq5-wwqv-78pq). The Node patch neither introduces
-  nor resolves them. A patched MCP release requires a separate compatibility
-  upgrade and application configuration. No clean global audit or passing remote
-  CI is claimed. [Audit receipt](docs/evidence/security-audit-20261022.json).
-- **Publication blocker:** Existing npm authentication returned **E401** on
-  `npm whoami`; an owner web/passkey renewal is required. No credential or npm
-  security setting was changed. [Prepared release ledger](docs/evidence/npm-release-0.3.1-20261022.json).
+- **Separate unresolved audit findings:** retained MCP **2.0.0** has two high and
+  one moderate upstream finding (GHSA-jm63-cq47-j5jp, GHSA-46jr-4wx8-v453,
+  GHSA-rvq5-wwqv-78pq). This Node patch does not introduce or resolve them.
+  A patched MCP compatibility upgrade and applicable application configuration
+  remain separate work. No clean global audit is claimed.
+  [CI 39766578704](https://github.com/selimeneserd/pulse-sdk/actions/runs/39766578704)
+  passed all source/packed gates; only the unchanged audit step failed on those
+  same findings. [CI receipt](docs/evidence/security-ci-20261022.json),
+  [audit receipt](docs/evidence/security-audit-20261022.json).
+- Existing owner web authentication and MFA completed publication; no npm security
+  setting changed. Initial registry-read and dist-tag propagation runner issues
+  were corrected without republishing the already verified core archive.
 
-Historical release records below retain their original runtimes and evidence.
-No private Cloud source, credentials or proprietary packages enter these archives.
+Historical records below retain their original runtimes and dated evidence.
+No private Cloud source, credentials or proprietary package enters these archives;
+this receipt does not claim the separate Cloud production rollout.
 
-**TR:** Üç MIT paket **0.3.1**, Node güvenlik tabanı **24.22.1** ve engine koşulu
-**>=24.22.1 <25** olarak hazırlandı. Yerelde **216 test**, **106 paket tüketim
-komutu**, build/tip/sözleşme ve 12 kimlik vektörü geçti. npm yayını ile registry
-kontrolü henüz yapılmadı; mevcut oturum **E401**, sahip web/passkey yenilemesi
-bekleniyor. MCP 2.0.0’ın ayrı iki yüksek ve bir orta audit bulgusu sürüyor; bu Node
-yaması bunları çözmez ve audit/uzak CI temiz gösterilmez. npm kurulumu Node.js’i
-güncellemez; sunucu runtime’ını yükseltip uygulamayı yeniden başlatın.
-
+**TR:** Üç MIT paket npm’de **0.3.1 / latest** olarak yayımlandı. Node güvenlik
+tabanı **24.22.1**, engine koşulu **>=24.22.1 <25** oldu. **216 test**, **106 paket**
+ve **106 gerçek registry tüketim komutu**, build/tip/sözleşme ve 12 kimlik vektörü
+geçti. 59 kaynak/arşiv özeti değişmedi; paketler npm bütünlükleriyle eşleşti.
+MCP 2.0.0’ın ayrı iki yüksek ve bir orta audit bulgusu sürüyor; Node yaması bunları
+çözmez. Uzak CI kaynak/paket adımlarını geçti, yalnız audit bu bulgularla başarısız
+oldu ve bastırılmadı. Sahip mevcut web hesabı ve MFA ile yayını tamamladı; npm
+güvenlik ayarı değiştirilmedi. npm kurulumu Node.js’i güncellemez; sunucu runtime’ını
+ayrıca yükseltip uygulamayı yeniden başlatın. Cloud üretim yayını ayrı doğrulanır.
 
 ## 0.3.0 published and verified — 2026-10-07 / Yayımlandı ve doğrulandı
 

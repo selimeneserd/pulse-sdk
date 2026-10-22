@@ -1,0 +1,26 @@
+{
+  "sourceCommit": "2dd68785f6e6f26f6973d3c210225c4caed4e4ec",
+  "runId": 39766578704,
+  "url": "https://github.com/selimeneserd/pulse-sdk/actions/runs/39766578704",
+  "node": "24.22.1",
+  "status": "COMPLETED",
+  "conclusion": "FAILURE",
+  "sourceCheck": "PASSED",
+  "contracts": "PASSED",
+  "conformance": "PASSED",
+  "identityVectors": "PASSED",
+  "packedConsumers": "PASSED",
+  "audit": "FAILED",
+  "auditFindings": {
+    "high": 2,
+    "moderate": 1,
+    "package": "@modelcontextprotocol/server@2.0.0",
+    "advisories": [
+      "GHSA-46jr-4wx8-v453",
+      "GHSA-jm63-cq47-j5jp",
+      "GHSA-rvq5-wwqv-78pq"
+    ],
+    "introducedByThisPatch": false
+  },
+  "suppressionApplied": false
+}

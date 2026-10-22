@@ -1,0 +1,2 @@
+$ node scripts/verify-packed.mjs --evidence docs/evidence/security-packed-node24.22.1-20261022.json
+Packed SDK consumer verification passed. / Paketlenmiş SDK tüketici doğrulaması başarılı.
