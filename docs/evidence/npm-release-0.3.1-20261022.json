@@ -85,5 +85,7 @@
     "existingOwnerSessionRenewed": true,
     "ownerMfaCompleted": true,
     "securitySettingsChanged": false
-  }
+  },
+  "githubRelease": "https://github.com/selimeneserd/pulse-sdk/releases/tag/v0.3.1",
+  "tag": "v0.3.1"
 }

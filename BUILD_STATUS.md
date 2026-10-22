@@ -5,7 +5,7 @@
 **All three MIT packages are published as 0.3.1 (`latest`).** The owner authorized
 the Node security upgrade, testing and publication. Exact registry integrity,
 engine metadata and clean registry consumers passed on **Node.js 24.22.1**.
-[Publication ledger](docs/evidence/npm-release-0.3.1-20261022.json).
+[Publication ledger](docs/evidence/npm-release-0.3.1-20261022.json), [v0.3.1 release](https://github.com/selimeneserd/pulse-sdk/releases/tag/v0.3.1).
 Artifact source is `2dd68785f6e6f26f6973d3c210225c4caed4e4ec`.
 
 All package engines now require **>=24.22.1 <25**; development, CI and independent
