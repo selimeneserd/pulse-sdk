@@ -1,3 +1,30 @@
+# SDK 0.4.0 published and verified · 2026-11-12
+
+All three MIT npm packages (`@reviseflow/pulse-core`, `@reviseflow/pulse`,
+`@reviseflow/pulse-otel`) are published as **0.4.0/latest**. Artifact source:
+`c490f93`. Node **24.22.3**, MCP server/client/core **2.3.0**, Node adapter
+**2.1.1**, Zod **4.6.6**. Exact server peer upgrade is an explicit consumer
+migration; Pulse APIs/wire contracts are unchanged. npm does not replace Node.
+
+- Both source CI runs passed: [push](https://github.com/selimeneserd/pulse-sdk/actions/runs/43170991415)
+  and [PR](https://github.com/selimeneserd/pulse-sdk/actions/runs/43170997892).
+- **216 source tests**, contract/type/build/boundary/conformance checks,
+  **12 identity vectors**, **106 packed** and **106 registry-consumer commands** pass.
+- Production audit has **zero findings**. Exact published archive bytes and
+  SHA-512 integrity match reviewed artifacts; all three `latest` tags are 0.4.0.
+- Strict artifact allowlists exclude private Cloud code and credentials. Owner
+  npm web authentication/publication verification completed; no security settings
+  changed. Initial registry visibility lag was resolved without republishing.
+- [Publication ledger](docs/evidence/npm-release-0.4.0-20261112.json),
+  [registry gate](docs/evidence/security-registry-0.4.0-20261112.json),
+  [packed gate](docs/evidence/security-packed-0.4.0-20261112.json).
+
+**TR:** Üç MIT paket npm'de 0.4.0/latest olarak yayımlandı. 216 kaynak testi,
+106 paket ve 106 registry tüketim kontrolü geçti; audit sıfır. MCP server 2.3.0
+ve Node 24.22.3 yükseltmesi gerekir. Bu kayıt ayrı Cloud/site yayını iddiası değildir.
+
+---
+
 # SDK 0.4.0 security update in progress · 2026-11-12
 
 Three public MIT packages are being prepared for 0.4.0; not yet published.
