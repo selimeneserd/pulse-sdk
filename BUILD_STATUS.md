@@ -1,3 +1,16 @@
+# SDK 0.4.1 security correction in progress · 2026-11-12
+
+Both MCP 2.3.0 and 2.4.0 peers are supported. Default HTTP verification uses
+MCP 2.4.0 and Node adapter 2.1.2. Full workspace audit now includes development
+fixtures and is zero after compatible Vitest/Vite/URI/source-map/Hono updates.
+217 source tests, types/build/contracts, conformance and 12 identity vectors pass.
+Packed dual-peer verification passed 114 commands: exact archives, current 2.4 HTTP,
+retained 2.3 memory/stdio/types/doctor. Fresh HTTP consumer resolves Hono 4.13.18 and
+node-server 2.1.7 without Hono overrides; both consumer audits are zero.
+CI and publication remain pending. Evidence: docs/evidence/security-packed-0.4.1-20261112.json.
+Previous 0.4.0 production-only audit did not cover optional HTTP fixture risks;
+see the explicit correction in CHANGELOG and migration guidance.
+
 # SDK 0.4.0 published and verified · 2026-11-12
 
 All three MIT npm packages (`@reviseflow/pulse-core`, `@reviseflow/pulse`,

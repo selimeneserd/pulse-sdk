@@ -60,6 +60,12 @@ describe('CLI dependency resolution from the target application', () => {
     expect(result.output).not.toContain('PRIVATE_');
   });
 
+  it('also accepts the verified 2.4.0 HTTP-compatible peer without dropping 2.3.0', async () => {
+    const root = await workspace(), cwd = await application(root, 'service', '2.4.0');
+    await installed(cwd, '2.4.0');
+    expect((await cli(cwd)).lines[0].static).toMatchObject({mcpInstalled: '2.4.0', compatible: true});
+  });
+
   it('accepts the hoisted package that Node ESM resolves from each workspace application', async () => {
     const root = await workspace();
     await installed(root);
