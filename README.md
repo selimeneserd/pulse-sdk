@@ -1,22 +1,43 @@
 # Pulse SDK — MCP analytics for TypeScript
 
+## 0.4.1 HTTP dependency security correction · 2026-11-12
+
+The supported MCP peer is now **2.3.0 or 2.4.0**, preserving existing 0.4.0
+memory/stdio consumers. New HTTP integrations should use MCP server/client/core
+**2.4.0** and `@modelcontextprotocol/node` **2.1.2**. This maintainer-supported
+adapter permits patched `@hono/node-server` 2.1.3+; Hono must be 4.13.11+.
+Use a fresh lockfile/install and verify the resolved HTTP graph with `npm audit`.
+No unsupported transitive major override is required. Public Pulse APIs and wire
+contracts are unchanged; Node >=24.22.3 <25 remains required.
+
+Correction to 0.4.0: Pulse's libraries did not depend on the optional Node HTTP
+adapter, and production-only audit was clean. The recommended 2.1.1 HTTP fixture
+could nevertheless resolve two moderate Hono advisories. That graph was not a
+clean full audit. Do not use adapter 2.1.1 as the new HTTP baseline.
+
+**TR:** 0.4.1 mevcut MCP 2.3.0 tüketicilerini korur, 2.4.0 desteği ekler. HTTP için
+MCP 2.4.0 ve Node adaptörü 2.1.2 kullanın; çözülmüş Hono bağımlılıklarını audit ile
+doğrulayın. 0.4.0'ın isteğe bağlı eski HTTP önerisi iki orta seviye açık içerebiliyordu.
+Pulse API/olay sözleşmesi ve Node koşulu değişmez.
+
+
 Open-source analytics for MCP tool handlers. Observe calls locally, then send the same metadata to your own collector or an optional managed backend.
 
 [**Türkçe**](README.tr.md) · [Local quickstart](#run-locally) · [Documentation](#documentation) · [Contributing](CONTRIBUTING.md)
 
-> **Version 0.4.0:** Optional, explicitly reported model token usage alongside observed MCP handler completions. No Cloud account or key is needed. Existing construction APIs remain; custom exporters must handle the new event union. Read the [migration guide](docs/migration-release.md).
+> **Version 0.4.1:** Optional, explicitly reported model token usage alongside observed MCP handler completions. No Cloud account or key is needed. Existing construction APIs remain; custom exporters must handle the new event union. Read the [migration guide](docs/migration-release.md).
 
 > **Security baseline:** Update your host Node.js to **24.22.3** (or a newer patched 24.x) and restart the application. Updating the npm package does not replace Node.js. [November 2026 security release](https://nodejs.org/en/blog/vulnerability/november-2026-security-releases).
 
 `recordUsage()` accepts numeric usage supplied by your application after a provider response. Pulse does not inspect prompts or results, call a model, estimate tokens, or discover the host's model consumption. See the [token usage guide](docs/token-usage.md).
 
 ```sh
-npm install --save-exact @reviseflow/pulse@0.4.0 @reviseflow/pulse-core@0.4.0 @modelcontextprotocol/server@2.3.0
+npm install --save-exact @reviseflow/pulse@0.4.1 @reviseflow/pulse-core@0.4.1 @modelcontextprotocol/server@2.4.0
 ```
 
 ## Run locally
 
-Use **Node.js 24.22.3** and **pnpm 11.22.0**. Earlier Node 24 releases are below the security baseline; the adapter targets the official MCP TypeScript SDK **2.3.0**. See the [compatibility matrix](docs/compatibility.md) for the exact evidence and limitations.
+Use **Node.js 24.22.3** and **pnpm 11.22.0**. Earlier Node 24 releases are below the security baseline; the adapter targets the official MCP TypeScript SDK **2.4.0**. See the [compatibility matrix](docs/compatibility.md) for the exact evidence and limitations.
 
 ```sh
 git clone https://github.com/selimeneserd/pulse-sdk.git

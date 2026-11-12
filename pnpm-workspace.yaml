@@ -5,6 +5,11 @@ minimumReleaseAgeExclude:
   - '@types/node@24.13.4'
   - zod@4.6.6
 overrides:
+  vite: '8.2.4'
+  'fast-uri@>=3.0.0 <3.1.9': '3.1.9'
+  'source-map-js@1.2.1': '1.2.2'
+  hono: '4.13.11'
+  '@modelcontextprotocol/node@2.1.2>@hono/node-server': '2.1.3'
   zod: '4.6.6'
 
 allowBuilds:

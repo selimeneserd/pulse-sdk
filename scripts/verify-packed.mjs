@@ -329,9 +329,9 @@ async function verifyPackedCli() {
   assert.equal(invoke(['help'])[0].code, 'HELP');
   const layouts = [];
   for (const [layout, project, declared, locale] of [
-    ['normal', consumerDirectory, '2.3.0', 'en'],
-    ['hoisted', join(consumerDirectory, 'packages', 'service'), '^2.3.0', 'tr'],
-    ['nested_workspace', join(consumerDirectory, 'packages', 'other', 'service'), '~2.3.0', 'en'],
+    ['normal', consumerDirectory, '2.4.0', 'en'],
+    ['hoisted', join(consumerDirectory, 'packages', 'service'), '^2.4.0', 'tr'],
+    ['nested_workspace', join(consumerDirectory, 'packages', 'other', 'service'), '~2.4.0', 'en'],
   ]) {
     if (project !== consumerDirectory) {
       await mkdir(project, { recursive: true });
@@ -346,7 +346,7 @@ async function verifyPackedCli() {
     const doctor = invoke(['doctor', '--locale', locale], project)[0];
     assert.equal(doctor.code, 'DOCTOR');
     assert.equal(doctor.static.mcpDeclared, declared);
-    assert.equal(doctor.static.mcpInstalled, '2.3.0');
+    assert.equal(doctor.static.mcpInstalled, '2.4.0');
     assert.equal(doctor.static.compatible, true);
     assert.deepEqual(Object.values(doctor.runtime), ['unknown', 'unknown', 'unknown', 'unknown']);
     const preview = invoke(['init', '--dry-run', '--cwd', project, '--locale', locale]);
@@ -376,9 +376,9 @@ async function verifyConsumer(archives) {
       '@reviseflow/pulse-otel': registryMode ? report.packages[2].version : `file:./artifacts/${archives[2].filename}`,
       '@opentelemetry/api': '1.9.1',
       esbuild: '0.28.2',
-      '@modelcontextprotocol/server': '2.3.0',
-      '@modelcontextprotocol/client': '2.3.0',
-      '@modelcontextprotocol/node': '2.1.1',
+      '@modelcontextprotocol/server': '2.4.0',
+      '@modelcontextprotocol/client': '2.4.0',
+      '@modelcontextprotocol/node': '2.1.2',
       zod: '4.6.6',
       typescript: '7.0.2',
       '@types/node': '24.13.4',
@@ -387,6 +387,11 @@ async function verifyConsumer(archives) {
   };
   await writeFile(join(consumerDirectory, 'package.json'), `${JSON.stringify(manifest, null, 2)}\n`);
   run('npm', ['install', '--ignore-scripts', '--no-audit', '--no-fund'], consumerDirectory, { timeout: 300_000 });
+  const freshAudit = JSON.parse(run('npm', ['audit', '--json'], consumerDirectory));
+  assert.equal(freshAudit.metadata.vulnerabilities.total, 0, 'FRESH_HTTP_CONSUMER_AUDIT_REQUIRED');
+  const adapter = JSON.parse(await readFile(join(consumerDirectory, 'node_modules/@hono/node-server/package.json'), 'utf8'));
+  const hono = JSON.parse(await readFile(join(consumerDirectory, 'node_modules/hono/package.json'), 'utf8'));
+  report.fresh_http_graph = { node_adapter: '2.1.2', hono_node_server: adapter.version, hono: hono.version, audit: freshAudit.metadata.vulnerabilities, hono_overrides: false };
   const dependencyTree = JSON.parse(run('npm', ['ls', '--json', '--depth=0'], consumerDirectory));
   report.consumer.dependencies = Object.fromEntries(Object.entries(dependencyTree.dependencies).map(([name, dependency]) => [name, dependency.version]));
   for (const [name, version] of Object.entries(manifest.dependencies)) {
@@ -496,6 +501,44 @@ await client.close(); await server.close(); await one.shutdown(); await two.shut
   };
 }
 
+
+async function verifyRetainedPeer23(archives) {
+  const directory = join(consumerDirectory, 'peer23');
+  await mkdir(directory);
+  await writeFile(join(directory, 'package.json'), JSON.stringify({name:'pulse-peer23-consumer',private:true,type:'module',dependencies:{
+    '@reviseflow/pulse-core':registryMode?report.packages[0].version:`file:../artifacts/${archives[0].filename}`,
+    '@reviseflow/pulse':registryMode?report.packages[1].version:`file:../artifacts/${archives[1].filename}`,
+    '@modelcontextprotocol/server':'2.3.0','@modelcontextprotocol/client':'2.3.0',zod:'4.6.6','@types/node':'24.13.4',typescript:'7.0.2'
+  },overrides:{zod:'4.6.6'}},null,2)+'\n');
+  run('npm',['install','--ignore-scripts','--no-audit','--no-fund'],directory,{timeout:300000});
+  const tree=JSON.parse(run('npm',['ls','--json','--depth=0'],directory));
+  assert.equal(tree.dependencies['@modelcontextprotocol/server'].version,'2.3.0');
+  await cp(join(root,'examples/local.ts'),join(directory,'local.ts'));
+  await writeFile(join(directory,'memory.mjs'), `import assert from 'node:assert/strict';
+import {runLocalExample} from './local.ts';
+const result=await runLocalExample();assert.equal(result.diagnostics.observed,1);assert.equal(result.diagnostics.accepted,1);
+`);
+  run(process.execPath,[join(consumerDirectory,'node_modules/typescript/bin/tsc'),'--ignoreConfig','--noEmit','--strict','--skipLibCheck','--target','ES2023','--module','NodeNext','--moduleResolution','NodeNext','--types','node','local.ts'],directory);
+  run(process.execPath,['memory.mjs'],directory);
+  await writeFile(join(directory,'stdio-server.mjs'), `import {McpServer} from '@modelcontextprotocol/server';
+import {serveStdio} from '@modelcontextprotocol/server/stdio';
+import {createPulse} from '@reviseflow/pulse';
+import {createJsonlExporter} from '@reviseflow/pulse-core/jsonl';
+const pulse=createPulse({environment:'test',exporter:createJsonlExporter({path:'stdio-events.jsonl'})});
+const connection=serveStdio(()=>{const server=pulse.wrapServer(new McpServer({name:'retained-peer',version:'1'}));server.registerTool('probe',{},()=>({content:[{type:'text',text:'unchanged'}]}));return server;},{legacy:'reject'});
+process.stdin.once('end',()=>{void connection.close().then(()=>pulse.shutdown({timeoutMs:2000}));});
+`);
+  await writeFile(join(directory,'stdio-client.mjs'), `import assert from 'node:assert/strict';
+import {Client} from '@modelcontextprotocol/client';import {StdioClientTransport} from '@modelcontextprotocol/client/stdio';
+const client=new Client({name:'retained-peer-client',version:'1'},{versionNegotiation:{mode:{pin:'2026-07-28'}}});try{await client.connect(new StdioClientTransport({command:process.execPath,args:['stdio-server.mjs'],stderr:'pipe'}));assert.deepEqual((await client.callTool({name:'probe',arguments:{}})).content,[{type:'text',text:'unchanged'}]);}finally{await client.close();}
+`);
+  run(process.execPath,['stdio-client.mjs'],directory,{timeout:30000});
+  const doctor=JSON.parse(run(process.execPath,['node_modules/@reviseflow/pulse/dist/cli.js','doctor'],directory,{capture:'stdio'}).stderr.trim().split('\n')[0]);
+  assert.equal(doctor.static.mcpInstalled,'2.3.0');assert.equal(doctor.static.compatible,true);
+  const audit=JSON.parse(run('npm',['audit','--json'],directory));assert.equal(audit.metadata.vulnerabilities.total,0);
+  report.retained_peer23={installed:'2.3.0',memory_passed:true,stdio_passed:true,doctor_passed:true,audit:audit.metadata.vulnerabilities};
+}
+
 try {
   assert.equal(process.version, 'v24.22.3', 'RUN_WITH_PATCHED_NODE_BASELINE');
   report.package_manager = run('pnpm', ['--version']).trim();
@@ -511,6 +554,7 @@ try {
   const mcp = await auditPackage('@reviseflow/pulse');
   const otel = await auditPackage('@reviseflow/pulse-otel');
   await verifyConsumer([core, mcp, otel]);
+  await verifyRetainedPeer23([core, mcp, otel]);
   report.status = 'PASSED';
   console.log('Packed SDK consumer verification passed. / Paketlenmiş SDK tüketici doğrulaması başarılı.');
 } catch (error) {

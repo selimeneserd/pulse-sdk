@@ -13,12 +13,12 @@ const texts = {
     HELP: 'pulse init [--dry-run|--yes] [--cwd DIR]; pulse doctor [--file JSONL]; pulse dev --file JSONL [--locale en|tr]. Output uses stderr.',
     INVALID_OPTIONS: 'Unsupported command or options.',
     PROJECT_UNAVAILABLE: 'Cannot safely inspect the project package manifest.',
-    COMPATIBILITY_UNKNOWN: 'MCP server 2.3.0 has not been verified in this project. No files changed and no versions upgraded.',
+    COMPATIBILITY_UNKNOWN: 'MCP server 2.3.0 or 2.4.0 has not been verified in this project. No files changed and no versions upgraded.',
     MCP_VERIFIED: 'Installed MCP server version and Node ESM entry were verified.',
     MCP_NOT_FOUND: 'MCP server was not found from the target project.',
     MCP_UNRESOLVABLE: 'Installed metadata was read, but the Node ESM entry could not be resolved.',
     MCP_METADATA_UNVERIFIED: 'Installed MCP metadata could not be safely verified.',
-    MCP_UNSUPPORTED: 'The installed MCP server version is outside the tested version: 2.3.0.',
+    MCP_UNSUPPORTED: 'The installed MCP server version is outside the tested versions: 2.3.0 and 2.4.0.',
     INIT_PREVIEW: 'Preview: add pulse.integration.ts. Wrap before registering tools; call shutdown from the application lifecycle. Re-run with --yes to write.',
     INIT_CREATED: 'Created pulse.integration.ts. Connect it to the server before registering tools and flush during shutdown.',
     INIT_UNCHANGED: 'The integration file already matches. No changes.',
@@ -32,12 +32,12 @@ const texts = {
     HELP: 'pulse init [--dry-run|--yes] [--cwd DIR]; pulse doctor [--file JSONL]; pulse dev --file JSONL [--locale en|tr]. Çıktı stderr kullanır.',
     INVALID_OPTIONS: 'Komut veya seçenekler desteklenmiyor.',
     PROJECT_UNAVAILABLE: 'Proje paket bildirimi güvenle incelenemedi.',
-    COMPATIBILITY_UNKNOWN: 'Bu projede MCP server 2.3.0 doğrulanamadı. Dosyalar ve sürümler değiştirilmedi.',
+    COMPATIBILITY_UNKNOWN: 'Bu projede MCP server 2.3.0 veya 2.4.0 doğrulanamadı. Dosyalar ve sürümler değiştirilmedi.',
     MCP_VERIFIED: 'Kurulu MCP server sürümü ve Node ESM girişi doğrulandı.',
     MCP_NOT_FOUND: 'Hedef projeden MCP server paketi bulunamadı.',
     MCP_UNRESOLVABLE: 'Kurulu paket bilgisi okundu ancak Node ESM girişi çözümlenemedi.',
     MCP_METADATA_UNVERIFIED: 'Kurulu MCP paket bilgisi güvenle doğrulanamadı.',
-    MCP_UNSUPPORTED: 'Kurulu MCP server sürümü test edilen 2.3.0 sürümünün dışında.',
+    MCP_UNSUPPORTED: 'Kurulu MCP server sürümü test edilen 2.3.0 ve 2.4.0 sürümlerinin dışında.',
     INIT_PREVIEW: 'Önizleme: pulse.integration.ts eklenecek. Araç kaydından önce sarmalayın; uygulama kapanışında shutdown çağırın. Yazmak için --yes ile yeniden çalıştırın.',
     INIT_CREATED: 'pulse.integration.ts oluşturuldu. Araç kaydından önce sunucuya bağlayın ve kapanışta flush çağırın.',
     INIT_UNCHANGED: 'Entegrasyon dosyası zaten aynı. Değişiklik yok.',
@@ -114,7 +114,7 @@ async function installedMcp(cwd: string): Promise<{ version: string | null; stat
     ], { cwd, env, timeout: 2_000, maxBuffer: 4_096, windowsHide: true });
     if (stdout !== 'resolved') return { version, status: 'unresolvable' };
   } catch { return { version, status: 'unresolvable' }; }
-  return { version, status: version === '2.3.0' ? 'verified' : 'unsupported' };
+  return { version, status: (version === '2.3.0' || version === '2.4.0') ? 'verified' : 'unsupported' };
 }
 
 async function projectInfo(cwd: string, locale: Locale) {

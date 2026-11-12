@@ -1,6 +1,6 @@
 {
   "name": "@reviseflow/pulse",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "license": "MIT",
   "type": "module",
   "engines": {
@@ -25,9 +25,9 @@
     "@reviseflow/pulse-core": "workspace:*"
   },
   "peerDependencies": {
-    "@modelcontextprotocol/server": "2.3.0"
+    "@modelcontextprotocol/server": "2.3.0 || 2.4.0"
   },
-  "description": "MIT TypeScript SDK for content-free MCP tool analytics and monitoring. / İçerik toplamayan MCP araç analitiği ve izleme SDK’sı.",
+  "description": "MIT TypeScript SDK for content-free MCP tool analytics and monitoring. / \u0130\u00e7erik toplamayan MCP ara\u00e7 analiti\u011fi ve izleme SDK\u2019s\u0131.",
   "homepage": "https://github.com/selimeneserd/pulse-sdk#readme",
   "keywords": [
     "mcp",
@@ -55,5 +55,8 @@
   },
   "bin": {
     "pulse": "./dist/cli.js"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/server": "2.4.0"
   }
 }
