@@ -1,28 +1,28 @@
 # @reviseflow/pulse
 
-The MIT-licensed MCP adapter for Pulse. Observe tool handlers through the official MCP **2.0.0** public registration API, with a local or explicitly selected exporter.
+The MIT-licensed MCP adapter for Pulse. Observe tool handlers through the official MCP **2.3.0** public registration API, with a local or explicitly selected exporter.
 
-**Version 0.3.1 · MIT · Node.js 24 ESM.** The API requires an explicit exporter. [Migrate from 0.1.0](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/migration-release.md) before upgrading an existing integration.
+**Version 0.4.0 · MIT · Node.js 24 ESM.** The API requires an explicit exporter. [Migrate from 0.1.0](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/migration-release.md) before upgrading an existing integration.
 
-**TR:** **0.3.1 · MIT · Node.js 24 ESM.** API açık bir exporter gerektirir; mevcut 0.1.0 kurulumu için önce geçiş rehberini okuyun.
+**TR:** **0.4.0 · MIT · Node.js 24 ESM.** API açık bir exporter gerektirir; mevcut 0.1.0 kurulumu için önce geçiş rehberini okuyun.
 
-**Security / Güvenlik:** Node.js **24.22.1** or a newer patched 24.x is required. Installing this package does not update Node.js; update the host runtime and restart the application. Node.js **24.22.1** veya daha yeni yamalı 24.x gerekir. Paket kurulumu Node.js’i güncellemez; sunucu runtime’ını güncelleyip uygulamayı yeniden başlatın.
+**Security / Güvenlik:** Node.js **24.22.3** or a newer patched 24.x is required. Installing this package does not update Node.js; update the host runtime and restart the application. Node.js **24.22.3** veya daha yeni yamalı 24.x gerekir. Paket kurulumu Node.js’i güncellemez; sunucu runtime’ını güncelleyip uygulamayı yeniden başlatın.
 
-The MCP peer remains the tested **2.0.0**. Its separate upstream advisories
+The MCP peer remains the tested **2.3.0**. Its separate upstream advisories
 [GHSA-jm63-cq47-j5jp](https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-jm63-cq47-j5jp),
 [GHSA-46jr-4wx8-v453](https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-46jr-4wx8-v453)
 and [GHSA-rvq5-wwqv-78pq](https://github.com/modelcontextprotocol/typescript-sdk/security/advisories/GHSA-rvq5-wwqv-78pq)
 are not resolved by this Node.js baseline patch. Review their applicability and
 required server configuration; a patched MCP compatibility release is separate.
 
-**TR:** Test edilen MCP peer’i **2.0.0** olarak kalır. Yukarıdaki ayrı upstream
+**TR:** Test edilen MCP peer’i **2.3.0** olarak kalır. Yukarıdaki ayrı upstream
 açıkları bu Node.js taban yamasıyla çözülmez. Etkilenen sunucu yapılandırmalarını
 inceleyin; yamalı MCP uyumluluk yayını ayrı bir çalışmadır.
 
 ## Install / Kurulum
 
 ```sh
-npm install --save-exact @reviseflow/pulse@0.3.1 @reviseflow/pulse-core@0.3.1 @modelcontextprotocol/server@2.0.0
+npm install --save-exact @reviseflow/pulse@0.4.0 @reviseflow/pulse-core@0.4.0 @modelcontextprotocol/server@2.3.0
 ```
 
 Check the [compatibility guide](https://github.com/selimeneserd/pulse-sdk/blob/main/docs/compatibility.md) before changing an existing project's MCP version. Pulse does not upgrade it for you.
@@ -47,15 +47,15 @@ server.registerTool('health', {}, () => ({
 
 Wrap **before registration**, then connect through your existing transport. At application shutdown, call `await pulse.shutdown({ timeoutMs: 2_000 })`. For a complete, runnable client/server example with JSONL output, use the [local quickstart](https://github.com/selimeneserd/pulse-sdk#run-locally).
 
-Node.js 24 ESM and MCP 2.0.0 are the tested scope. The adapter preserves handler values, rejection identity, `this`, cancellation and registration updates. Setup failures default to fail-open diagnostics; `strict: true` opts into setup exceptions. `enabled: false` returns the original server without instrumentation. Default double wrapping observes one event. See the compatibility guide for PromiseLike edge cases and unsupported environments.
+Node.js 24 ESM and MCP 2.3.0 are the tested scope. The adapter preserves handler values, rejection identity, `this`, cancellation and registration updates. Setup failures default to fail-open diagnostics; `strict: true` opts into setup exceptions. `enabled: false` returns the original server without instrumentation. Default double wrapping observes one event. See the compatibility guide for PromiseLike edge cases and unsupported environments.
 
 Events describe observed **handler completions**, not full MCP request outcomes or business success. Memory/JSONL need no Cloud account or key. HTTP requires an explicit collector URL. Core does not depend on Cloud.
 
 ## Local CLI
 
-Version 0.3.1 provides the `pulse` executable through npm's installed bin symlink. MCP checks use the target project's default Node ESM resolution, including hoisted installations and import-only exports. A broken or unsupported nearest package stays visible as a diagnostic; Pulse does not silently select another version.
+Version 0.4.0 provides the `pulse` executable through npm's installed bin symlink. MCP checks use the target project's default Node ESM resolution, including hoisted installations and import-only exports. A broken or unsupported nearest package stays visible as a diagnostic; Pulse does not silently select another version.
 
-TR: 0.3.1, npm'nin kurduğu komut symlink'i üzerinden `pulse` komutunu çalıştırır. MCP kontrolü, hoisted kurulumlar ve yalnız import export'ları dahil hedef projenin varsayılan Node ESM çözümlemesini kullanır. En yakın paket bozuksa veya desteklenmiyorsa bu durum diagnostics'te gösterilir; başka sürüm sessizce seçilmez.
+TR: 0.4.0, npm'nin kurduğu komut symlink'i üzerinden `pulse` komutunu çalıştırır. MCP kontrolü, hoisted kurulumlar ve yalnız import export'ları dahil hedef projenin varsayılan Node ESM çözümlemesini kullanır. En yakın paket bozuksa veya desteklenmiyorsa bu durum diagnostics'te gösterilir; başka sürüm sessizce seçilmez.
 
 ```sh
 npx --no-install pulse init --dry-run
@@ -67,7 +67,7 @@ npx --no-install pulse dev --file pulse-events.jsonl
 
 ## Türkçe
 
-MCP 2.0.0 için ince bir adaptördür. Yukarıdaki npm komutuyla tam sürümleri kurun. Mevcut MCP sürümünü değiştirmeden önce uyumluluk rehberini okuyun.
+MCP 2.3.0 için ince bir adaptördür. Yukarıdaki npm komutuyla tam sürümleri kurun. Mevcut MCP sürümünü değiştirmeden önce uyumluluk rehberini okuyun.
 
 Sunucuyu araç kaydından **önce** sarmalayın; mevcut transport ile bağlayın ve uygulama kapanışında sınırlı `shutdown` çağrısını kullanın. Yerel bellek/JSONL için hesap veya anahtar gerekmez. Cloud isteğe bağlıdır.
 

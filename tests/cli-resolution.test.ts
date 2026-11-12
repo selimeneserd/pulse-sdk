@@ -15,14 +15,14 @@ async function workspace() {
   const root = await mkdtemp(join(tmpdir(), 'pulse-cli-resolution-')); dirs.push(root);
   return root;
 }
-async function application(root: string, name = 'service', declared = '^2.0.0') {
+async function application(root: string, name = 'service', declared = '^2.3.0') {
   const cwd = join(root, 'packages', name);
   await mkdir(cwd, { recursive: true });
   await writeFile(join(cwd, 'package.json'), JSON.stringify({ type: 'module', dependencies: { [packageName]: declared }, scripts: { prepare: 'throw PRIVATE_LIFECYCLE' } }));
   await writeFile(join(cwd, 'index.mjs'), "throw new Error('PRIVATE_APPLICATION_EXECUTED');");
   return cwd;
 }
-async function installed(root: string, version = '2.0.0', overrides: Record<string, unknown> = {}) {
+async function installed(root: string, version = '2.3.0', overrides: Record<string, unknown> = {}) {
   const path = join(root, 'node_modules', packageName);
   await mkdir(join(path, 'dist', 'nested'), { recursive: true });
   // Synthetic import-only package, deliberately hiding package.json and deeply nesting its entry.
@@ -56,7 +56,7 @@ describe('CLI dependency resolution from the target application', () => {
     await installed(cwd);
     expect(await esmResolution(cwd)).toContain('/dist/nested/index.mjs');
     const result = await cli(cwd);
-    expect(result.lines[0].static).toMatchObject({ mcpDeclared: '^2.0.0', mcpInstalled: '2.0.0', compatible: true });
+    expect(result.lines[0].static).toMatchObject({ mcpDeclared: '^2.3.0', mcpInstalled: '2.3.0', compatible: true });
     expect(result.output).not.toContain('PRIVATE_');
   });
 
@@ -66,18 +66,18 @@ describe('CLI dependency resolution from the target application', () => {
     for (const name of ['service', 'other']) {
       const cwd = await application(root, name);
       expect(await esmResolution(cwd)).toContain('/node_modules/@modelcontextprotocol/server/dist/nested/index.mjs');
-      expect((await cli(cwd)).lines[0].static).toMatchObject({ mcpDeclared: '^2.0.0', mcpInstalled: '2.0.0', compatible: true });
+      expect((await cli(cwd)).lines[0].static).toMatchObject({ mcpDeclared: '^2.3.0', mcpInstalled: '2.3.0', compatible: true });
     }
   });
 
   it('follows a synthetic pnpm-style package symlink, without claiming package-manager integration', async () => {
     const root = await workspace(), cwd = await application(root);
-    const store = join(root, '.pnpm', '@modelcontextprotocol+server@2.0.0');
+    const store = join(root, '.pnpm', '@modelcontextprotocol+server@2.3.0');
     const path = await installed(store);
     await mkdir(join(root, 'node_modules', '@modelcontextprotocol'), { recursive: true });
     await symlink(path, join(root, 'node_modules', packageName), 'dir');
     expect(await esmResolution(cwd)).toContain('/.pnpm/');
-    expect((await cli(cwd)).lines[0].static).toMatchObject({ mcpInstalled: '2.0.0', compatible: true });
+    expect((await cli(cwd)).lines[0].static).toMatchObject({ mcpInstalled: '2.3.0', compatible: true });
   });
 
   it('reports the nearest application version instead of the supported CLI or workspace version', async () => {
@@ -85,7 +85,7 @@ describe('CLI dependency resolution from the target application', () => {
     await installed(root);
     await installed(cwd, '2.1.0');
     expect(await esmResolution(cwd)).toContain('/packages/service/node_modules/');
-    expect((await cli(cwd)).lines[0].static).toMatchObject({ mcpDeclared: '^2.0.0', mcpInstalled: '2.1.0', compatible: false, mcpStatus: 'unsupported' });
+    expect((await cli(cwd)).lines[0].static).toMatchObject({ mcpDeclared: '^2.3.0', mcpInstalled: '2.1.0', compatible: false, mcpStatus: 'unsupported' });
     expect((await cli(cwd, 'init', '--yes')).exit).toBe(1);
     await expect(readFile(join(cwd, 'pulse.integration.ts'))).rejects.toMatchObject({ code: 'ENOENT' });
   });
@@ -93,7 +93,7 @@ describe('CLI dependency resolution from the target application', () => {
   it('accepts a supported local version even when the workspace version is unsupported', async () => {
     const root = await workspace(), cwd = await application(root);
     await installed(root, '2.1.0'); await installed(cwd);
-    expect((await cli(cwd)).lines[0].static).toMatchObject({ mcpInstalled: '2.0.0', compatible: true });
+    expect((await cli(cwd)).lines[0].static).toMatchObject({ mcpInstalled: '2.3.0', compatible: true });
   });
 
   it('preserves hoisted init dry-run, creation, repeated-run and doctor behavior in EN/TR', async () => {
@@ -121,16 +121,16 @@ describe('CLI dependency resolution from the target application', () => {
     ['directory entry', { exports: { '.': { import: './dist/nested' } } }],
   ])('keeps %s separate from unsupported version and does not fall through to a hoisted copy', async (_name, overrides) => {
     const root = await workspace(), cwd = await application(root);
-    await installed(root); await installed(cwd, '2.0.0', overrides);
-    expect((await cli(cwd)).lines[0].static).toMatchObject({ mcpInstalled: '2.0.0', compatible: false, mcpStatus: 'unresolvable' });
+    await installed(root); await installed(cwd, '2.3.0', overrides);
+    expect((await cli(cwd)).lines[0].static).toMatchObject({ mcpInstalled: '2.3.0', compatible: false, mcpStatus: 'unresolvable' });
   });
 
   it.each([
     ['malformed JSON', '{PRIVATE_MALFORMED'],
-    ['unexpected package', JSON.stringify({ name: 'PRIVATE_WRONG_PACKAGE', version: '2.0.0' })],
+    ['unexpected package', JSON.stringify({ name: 'PRIVATE_WRONG_PACKAGE', version: '2.3.0' })],
     ['non-object metadata', 'null'],
     ['invalid version', JSON.stringify({ name: packageName, version: 'PRIVATE_BAD_VERSION' })],
-    ['oversized metadata', JSON.stringify({ name: packageName, version: '2.0.0', padding: 'x'.repeat(1_048_576) })],
+    ['oversized metadata', JSON.stringify({ name: packageName, version: '2.3.0', padding: 'x'.repeat(1_048_576) })],
   ])('reports %s as unverified metadata without echoing private data', async (_name, metadata) => {
     const root = await workspace(), cwd = await application(root);
     await installed(root); const path = await installed(cwd);

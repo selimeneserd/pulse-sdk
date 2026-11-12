@@ -39,7 +39,7 @@ async function pair(register: (server: McpServer) => void, pulse: ReturnType<typ
   return { plain: await plain.connect(), wrapped: await wrapped.connect() };
 }
 
-describe('official MCP 2.0.0: real Streamable HTTP, protocol 2026-07-28', () => {
+describe('official MCP 2.3.0: real Streamable HTTP, protocol 2026-07-28', () => {
   it('preserves caller results and listing metadata; emits one strict sanitized event for each handler', async () => {
     const { collector, pulse } = await collectorAndPulse();
     const originalError = new Error('PRIVATE_ERROR_CANARY');

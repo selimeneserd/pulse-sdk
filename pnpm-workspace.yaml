@@ -3,9 +3,9 @@ packages:
   - 'apps/*'
 minimumReleaseAgeExclude:
   - '@types/node@24.13.4'
-  - zod@4.6.1
+  - zod@4.6.6
 overrides:
-  zod: '4.6.1'
+  zod: '4.6.6'
 
 allowBuilds:
   esbuild: true

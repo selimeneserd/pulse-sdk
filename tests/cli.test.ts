@@ -11,7 +11,7 @@ import { runLocalExample } from '../examples/local.js';
 
 const dirs: string[] = [];
 afterEach(async () => { for (const dir of dirs.splice(0)) await rm(dir, { recursive: true, force: true }); });
-async function project(version = '2.0.0') {
+async function project(version = '2.3.0') {
   const dir = await mkdtemp(join(tmpdir(), 'pulse-cli-test-')); dirs.push(dir);
   await mkdir(join(dir, 'node_modules/@modelcontextprotocol/server'), { recursive: true });
   await writeFile(join(dir, 'package.json'), JSON.stringify({ dependencies: { '@modelcontextprotocol/server': version } }));

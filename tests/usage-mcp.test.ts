@@ -9,7 +9,7 @@ it('offline core example requires no MCP server, Cloud key or network destinatio
   expect(result.events).toHaveLength(2); expect(result.diagnostics).toMatchObject({ observed: 1, observedUsage: 1, accepted: 2 });
   expect(result.events[0]!.invocation_id).toBe(result.events[1]!.invocation_id);
 });
-it('real MCP 2.0.0 handler associates multiple model invocations and preserves result/error through exporter failure', async () => {
+it('real MCP 2.3.0 handler associates multiple model invocations and preserves result/error through exporter failure', async () => {
   const sink = createMemoryExporter();
   const pulse = createPulse({ environment: 'test', exporter: sink, captureClient: true, mapToolName: name => 'safe.' + name });
   const fixture = await startMcpFixture(server => {

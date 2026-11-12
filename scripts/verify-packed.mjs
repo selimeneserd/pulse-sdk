@@ -329,9 +329,9 @@ async function verifyPackedCli() {
   assert.equal(invoke(['help'])[0].code, 'HELP');
   const layouts = [];
   for (const [layout, project, declared, locale] of [
-    ['normal', consumerDirectory, '2.0.0', 'en'],
-    ['hoisted', join(consumerDirectory, 'packages', 'service'), '^2.0.0', 'tr'],
-    ['nested_workspace', join(consumerDirectory, 'packages', 'other', 'service'), '~2.0.0', 'en'],
+    ['normal', consumerDirectory, '2.3.0', 'en'],
+    ['hoisted', join(consumerDirectory, 'packages', 'service'), '^2.3.0', 'tr'],
+    ['nested_workspace', join(consumerDirectory, 'packages', 'other', 'service'), '~2.3.0', 'en'],
   ]) {
     if (project !== consumerDirectory) {
       await mkdir(project, { recursive: true });
@@ -346,7 +346,7 @@ async function verifyPackedCli() {
     const doctor = invoke(['doctor', '--locale', locale], project)[0];
     assert.equal(doctor.code, 'DOCTOR');
     assert.equal(doctor.static.mcpDeclared, declared);
-    assert.equal(doctor.static.mcpInstalled, '2.0.0');
+    assert.equal(doctor.static.mcpInstalled, '2.3.0');
     assert.equal(doctor.static.compatible, true);
     assert.deepEqual(Object.values(doctor.runtime), ['unknown', 'unknown', 'unknown', 'unknown']);
     const preview = invoke(['init', '--dry-run', '--cwd', project, '--locale', locale]);
@@ -376,14 +376,14 @@ async function verifyConsumer(archives) {
       '@reviseflow/pulse-otel': registryMode ? report.packages[2].version : `file:./artifacts/${archives[2].filename}`,
       '@opentelemetry/api': '1.9.1',
       esbuild: '0.28.2',
-      '@modelcontextprotocol/server': '2.0.0',
-      '@modelcontextprotocol/client': '2.0.0',
-      '@modelcontextprotocol/node': '2.0.0',
-      zod: '4.6.1',
+      '@modelcontextprotocol/server': '2.3.0',
+      '@modelcontextprotocol/client': '2.3.0',
+      '@modelcontextprotocol/node': '2.1.1',
+      zod: '4.6.6',
       typescript: '7.0.2',
       '@types/node': '24.13.4',
     },
-    overrides: { zod: '4.6.1' },
+    overrides: { zod: '4.6.6' },
   };
   await writeFile(join(consumerDirectory, 'package.json'), `${JSON.stringify(manifest, null, 2)}\n`);
   run('npm', ['install', '--ignore-scripts', '--no-audit', '--no-fund'], consumerDirectory, { timeout: 300_000 });
@@ -497,7 +497,7 @@ await client.close(); await server.close(); await one.shutdown(); await two.shut
 }
 
 try {
-  assert.equal(process.version, 'v24.22.1', 'RUN_WITH_PATCHED_NODE_BASELINE');
+  assert.equal(process.version, 'v24.22.3', 'RUN_WITH_PATCHED_NODE_BASELINE');
   report.package_manager = run('pnpm', ['--version']).trim();
   assert.equal(report.package_manager, '11.22.0', 'RUN_WITH_PINNED_PNPM');
   report.npm = run('npm', ['--version']).trim();
