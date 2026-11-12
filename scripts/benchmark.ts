@@ -68,7 +68,7 @@ async function measure(test: Case) {
   const pulse = test.mode === 'absent' ? undefined : createPulse({ environment: 'test', enabled: test.mode !== 'disabled', exporter, queue, ...(test.identity ? { identity } : {}) });
   const original = new McpServer({ name: 'pulse-benchmark-only', version: '1' });
   const server = pulse ? pulse.wrapServer(original) : original;
-  // handler is an exported RegisteredTool public property in installed MCP2.0.0;
+  // handler is an exported RegisteredTool public property in installed MCP2.3.0;
   // hidden executor and registries are never inspected. Full MCP requests are measured separately.
   const handle = server.registerTool('benchmark_tool', {}, callback);
   const invoke = () => Reflect.apply(handle.handler, undefined, [ctx]);

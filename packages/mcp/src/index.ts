@@ -4,7 +4,7 @@ import { createPulseCore, type PulseCoreOptions, type Outcome } from '@reviseflo
 import { PACKAGE_VERSION } from './version.js';
 
 export type { PulseCoreOptions, Outcome, UsageRecord, PulseToolContext, PulseEvent, PulseHandlerEvent, PulseUsageEvent } from '@reviseflow/pulse-core';
-export const SUPPORTED_MCP_VERSION = '2.0.0';
+export const SUPPORTED_MCP_VERSION = '2.3.0';
 
 const messages = {
   en: {
@@ -82,7 +82,7 @@ export function createPulse(options: PulseOptions) {
       if (!options.captureClient) return undefined;
       try {
         const envelope = ctx?.mcpReq?.envelope;
-        // 2.0.0's generated RequestMetaEnvelope type is empty; validate the
+        // 2.3.0's generated RequestMetaEnvelope type is empty; validate the
         // documented public wire key at runtime rather than trusting a type cast.
         const reported: unknown = envelope ? (envelope as Record<string, unknown>)[CLIENT_INFO_META_KEY] : undefined;
         const candidate: unknown = reported ?? target.server.getClientVersion();

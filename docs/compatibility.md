@@ -1,5 +1,20 @@
 # Compatibility evidence / Uyumluluk kanıtı
 
+## 0.4.0 security compatibility update · 2026-11-12
+
+Node.js **>=24.22.3 <25** and MCP server **2.3.0** are now required. This is a
+minor release because the exact supported MCP peer changes from 2.0.0 to 2.3.0;
+upgrade the host MCP dependency explicitly rather than silently overriding it.
+The verified fixture uses MCP client/core 2.3.0 and Node HTTP adapter 2.1.1.
+Zod is pinned to 4.6.6 in development/verification. Public Pulse construction APIs,
+wire contracts, content-free telemetry and optional exporter behavior are unchanged.
+Updating npm packages does not install or restart the host Node runtime.
+
+**TR:** Üç Pulse paketi 0.4.0 olarak hizalanır. Node.js >=24.22.3 <25 ve MCP server
+2.3.0 gerekir; mevcut 2.0.0 tüketicileri MCP bağımlılığını açıkça yükseltmelidir.
+Pulse API ve olay sözleşmesi değişmez; npm kurulumu Node.js'i güncellemez.
+
+
 ## 0.3.1 security baseline / Güvenlik tabanı — 2026-10-22
 
 The active Node.js baseline is **24.22.1**; package engines require **>=24.22.1 <25**.

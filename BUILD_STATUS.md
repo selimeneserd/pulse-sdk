@@ -1,3 +1,15 @@
+# SDK 0.4.0 security update in progress · 2026-11-12
+
+Three public MIT packages are being prepared for 0.4.0; not yet published.
+Existing published baseline is 0.3.1. Node 24.22.3, MCP server/client/core 2.3.0,
+Node adapter 2.1.1 and Zod 4.6.6 pass 216 source tests, build/type/boundary checks,
+canonical contracts, conformance and 12 identity vectors. Production audit: zero
+findings. Packed artifacts passed 106 clean-consumer commands with strict file allowlists,
+archive integrity and offline publish dry-runs. CI and npm authentication/publication
+remain pending. See docs/evidence/security-packed-0.4.0-20261112.json. No private Cloud code or new
+API features are included. The exact MCP peer upgrade is a required consumer
+migration and is documented as a minor release, not a transparent patch.
+
 # SDK delivery status / SDK teslim durumu
 
 ## 0.3.1 published and verified — 2026-10-22 / Yayımlandı ve doğrulandı
